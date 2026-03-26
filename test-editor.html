@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<meta charset="UTF-8">
+<link rel="icon" href="/icons/mcbcode.png">
+<title>mcbCode - mcfunction editor for bedrock</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #171717;
+    font-family: monospace;
+    color: #fff;
+  }
+
+  .editor {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    align-items: flex-start;
+  }
+
+  .navi {
+    font-size: 14px;
+    padding: 3 3px;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-left, .nav-right {
+    display: flex;
+    gap: 0px;
+    align-items: center;
+    padding-top: 1px
+
+  }
+
+  .nav-left img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding-top: 1px
+  }
+
+  img {
+    padding-top: 0px;
+    padding-left: 0px;
+
+  }
+  button {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    user-select: none;
+    margin: 0;
+  }
+
+  button:hover {
+    border: none;
+    color: #ffffff;
+    user-select: none;
+  }
+
+  .line-numbers {
+    background-color: transparent;
+    padding: 0 7px;
+    user-select: none;
+    overflow: hidden;
+    text-align: right;
+    line-height: 1.2em;
+    font-size: 12px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .code-area {
+    flex: 1;
+    padding: 0 2px;
+    background-color: #0c0c0c;
+    color: #f0f0f0;
+    outline: none;
+    border: none;
+    resize: none;
+    font-family: monospace;
+    overflows: hidden;
+    line-height: 1.2em;
+    white-space: pre;
+    margin: 0;
+    font-size: 12px;
+    height: 100%;
+  }
+
+  .fade {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+  }
+
+  .nav-item {
+    position: relative;
+    display: inline-block;
+    padding-top: 0;
+  }
+
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #212425;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 5px 0;
+    min-width: 100px;
+    z-index: 100;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    flex-direction: column;
+  }
+
+  .nav-dropdown div {
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .nav-dropdown div:hover {
+    background-color: #323738;
+  }
+
+  .nav-item:hover .nav-dropdown {
+    display: flex;
+  }
+
+  .sub-dropdown {
+    display: none;
+    flex-direction: column;
+    background-color: #323738;
+    margin-left: 10px;
+    border-radius: 5px;
+    padding: 5px 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    font-size: 8px;
+  }
+
+  #colorFormat:hover .sub-dropdown {
+    display: flex;
+    border-radius: 5px;
+  }
+
+  .sub-dropdown div {
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .sub-dropdown div:hover {
+    background-color: #323738;
+  }
+
+  #exportCode {
+    color: #00b2ff;
+  }
+
+  .delete {
+    color: #ff4d4d;
+  }
+</style>
+</head>
+<body>
+  <div class="navi">
+    <div class="nav-left">
+      <div class="nav-item">
+        <a href="https://xyztoast.github.io"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon"></a>
+      </div>
+      <div class="nav-item">
+        <button>File</button>
+        <div class="nav-dropdown">
+          <div id="exportCode">export as .mcfunction</div>
+          <div id="copyCode">copy code</div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Edit</button>
+        <div class="nav-dropdown">
+          <div id="deleteCode" class="delete">delete code</div>
+          <div id="colorFormat">color format
+            <div class="sub-dropdown" id="colorMenu">
+              <div data-code="§0">§0 - black</div>
+              <div data-code="§1">§1 - dark blue</div>
+              <div data-code="§2">§2 - dark green</div>
+              <div data-code="§3">§3 - dark aqua</div>
+              <div data-code="§4">§4 - dark red</div>
+              <div data-code="§5">§5 - dark purple</div>
+              <div data-code="§6">§6 - gold</div>
+              <div data-code="§7">§7 - gray</div>
+              <div data-code="§8">§8 - dark gray</div>
+              <div data-code="§9">§9 - blue</div>
+              <div data-code="§a">§a - green</div>
+              <div data-code="§b">§b - aqua</div>
+              <div data-code="§c">§c - red</div>
+              <div data-code="§d">§d - light purple</div>
+              <div data-code="§e">§e - yellow</div>
+              <div data-code="§f">§f - white</div>
+              <div data-code="§g">§g - gold</div>
+              <div data-code="§k">§k - obfuscated</div>
+              <div data-code="§l">§l - bold</div>
+              <div data-code="§o">§o - italic</div>
+              <div data-code="§r">§r - reset</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editor" id="editor">
+    <pre class="line-numbers" id="lineNumbers">1</pre>
+    <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast"></textarea>
+  </div>
+
+  <script>
+    const codeArea = document.getElementById('codeArea');
+    const lineNumbers = document.getElementById('lineNumbers');
+
+    function updateLineNumbers() {
+      const lines = codeArea.value.split('\n').length;
+      let lineContent = '';
+      for (let i = 1; i <= lines; i++) {
+        lineContent += i + '\n';
+      }
+      lineNumbers.textContent = lineContent;
+    }
+
+    codeArea.addEventListener('input', () => {
+      updateLineNumbers();
+    });
+
+    codeArea.addEventListener('scroll', () => {
+      lineNumbers.scrollTop = codeArea.scrollTop;
+    });
+
+    document.getElementById('copyCode').addEventListener('click', () => {
+      const text = codeArea.value;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(()=>alert('Code copied'));
+    });
+
+    document.getElementById('deleteCode').addEventListener('click', () => {
+      if(confirm('Are you sure you want to delete all code?')) {
+        codeArea.value = '';
+        updateLineNumbers();
+      }
+    });
+
+    document.getElementById('exportCode').addEventListener('click', () => {
+      if(!codeArea.value) return alert('Nothing to export');
+      let fileName = prompt('Enter file name');
+      if (!fileName) return;
+      fileName = fileName.replace(/[^a-z0-9_\-]/gi, '_') + '-idktoast.mcfunction';
+      const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    const colorMenu = document.getElementById('colorMenu');
+    colorMenu.querySelectorAll('div').forEach(item => {
+      item.addEventListener('click', () => {
+        const code = item.getAttribute('data-code');
+        const start = codeArea.selectionStart;
+        const end = codeArea.selectionEnd;
+        codeArea.value = codeArea.value.slice(0, start) + code + codeArea.value.slice(end);
+        codeArea.selectionStart = codeArea.selectionEnd = start + code.length;
+        codeArea.focus();
+      });
+    });
+
+    updateLineNumbers();
+  </script>
+</body>
+</html>
