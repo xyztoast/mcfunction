@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -59,22 +60,37 @@
       border-radius: 12px;
       padding: 8px 12px;
       color: #ffffff;
-      transition: color 0.2s ease-in-out
+      transition: color 0.2s ease-in-out;
+      cursor: pointer;
   }
   
   button:hover {
       color: #05ee93;
+  }
+  
+  #tryitout {
+      color: #0c0c0c;
+      background-color: #05ee93;
+      box-shadow: 0 0 20px 10px #05ee934;
+      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+      border: 4px solid #00a459;
+  }
+  
+  #tryitout:hover {
+      color: #ffffff;
+      background-color: #00a95c;
   }
   </style>
 </head>
 <body>
 <h1>mcb<g>Code</g></h1>
 <p style="color: #fff;">The <g>first</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
+<div style="user-select: none;">
 <div class="top-navi">
-    <button href="https://xyztoast.github.io/mcfunction/editor">Try it out</button>
+    <a href="https://xyztoast.github.io/mcfunction/editor"><button id="tryitout">Try it out</button></a>
     <button>Documentation</button>
 </div>
-
+</div>
 <script data-goatcounter="https://idktoast.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
