@@ -1,0 +1,42 @@
+/* how to use this in other files */
+/* put <link rel="stylesheet" href="https://xyztoast.github.io/theme.css"> into the <head> of the html file */
+
+    @font-face {
+      font-family: 'mcfont';
+      src: url('https://xyztoast2.github.io/mcfunction/theme/font/mcfont.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'mcfontb';
+      src: url('https://xyztoast.github.io/mcfunction/theme/font/mcfontb.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    * {
+        font-family: 'mcfont':
+    }
+    h1 {
+        font-family: 'mcfontb';
+    }
+    h2 {
+        font-family: 'mcfontb';
+    }
+    h3 {
+        font-family: 'mcfontb';
+    }
+    h4 {
+        font-family: 'mcfont';
+    }
+    p {
+        font-family: 'mcfont';
+    }
+    input {
+        font-family: 'mcfont';
+    }
+    button {
+        font-family: 'mcfont';
+    }
+    textarea {
+        font-family: 'mcfont';
+    }
