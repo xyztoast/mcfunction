@@ -1,281 +1,319 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="https://xyztoast.github.io/mcfunction/theme/favicon.png">
-  <link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>mcbCode</title>
-  <style>
-    html,body{
-      min-height:100%;
-      margin:0;
-      font-family:'mcfont', sans-serif;
-      background:#0c0c0c;
-      font-weight: 0;
-      color:#bebebe;
-      justify-content: center;
-      margin: auto;
-      text-align: center;
-    }
-
-    h1{
-
-      font-family: "mcfontb", sans-serif;
-      font-size: 40px;
-      margin-top: 20vh;
-      color: #ffffff;
-      text-align: center;
-    }
-
-    h2 {
-     font-size: 25px; 
-     color: #ffffff;
-    }
-
-    a {
-        text-decoration: none;
-        color: #ffffff;
-        transition: color 0.2s ease-in-out;
-    }
-
-    a:hover {
-        text-decoration: none;
-        color: #05ee93;
-    }
-
-
-  .mcbc {
-    position: fixed;
-    left: 5px;
-    top: 10px;
-    height: 50px;
-    width: 50px;
+<link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
+<meta charset="UTF-8">
+<link rel="icon" href="/icons/mcbcode.png">
+<title>mcbCode editor</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #323232;
+    font-family: mcfont;
+    color: #fff;
   }
 
-  g {
-      color: #05ee93;
+  .editor {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    align-items: flex-start;
   }
 
-  c {
-      color: #e7007b;
+  .navi {
+    font-size: 14px;
+    padding: 3 3px;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
+  .nav-left, .nav-right {
+    display: flex;
+    gap: 0px;
+    align-items: center;
+    padding-top: 1px
+
+  }
+
+  .nav-left img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding-top: 1px
+  }
+
+  img {
+    padding-top: 0px;
+    padding-left: 0px;
+
+  }
   button {
-      text-align: center;
-      background-color: #313131;
-      border: none;
-      font-size: 18px;
-      border-radius: 12px;
-      padding: 8px 12px;
-      color: #ffffff;
-      transition: color 0.2s ease-in-out;
-      cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #f0f0f0;
+    user-select: none;
+    margin: 0;
   }
 
   button:hover {
+    border: none;
+    color: #f0f0f0;
+    user-select: none;
+  }
+
+  .line-numbers {
+    background-color: transparent;
+    padding: 0 7px;
+    font-family: mcfont;
+    user-select: none;
+    overflow: hidden;
+    text-align: right;
+    line-height: 1.2em;
+    font-size: 12px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .code-area {
+    flex: 1;
+    padding: 0 2px;
+    background-color: #0c0c0c;
+    color: #f0f0f0;
+    outline: none;
+    border: none;
+    resize: none;
+    font-family: monospace;
+    overflows: hidden;
+    line-height: 1.2em;
+    white-space: pre;
+    margin: 0;
+    font-size: 12px;
+    height: 100%;
+  }
+
+  .fade {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+  }
+
+  .nav-item {
+    position: relative;
+    display: inline-block;
+    padding-top: 0;
+  }
+
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #212425;
+    border: 1px solid #bebebe;
+    padding: 0px 0px;
+    min-width: 100px;
+    z-index: 100;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    flex-direction: column;
+  }
+
+  .nav-dropdown div {
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .nav-dropdown div:hover {
+    background-color: #323738;
+  }
+
+  .nav-item:hover .nav-dropdown {
+    display: flex;
+  }
+
+  .sub-dropdown {
+    display: none;
+    flex-direction: column;
+    background-color: #323738;
+    margin-left: 10px;
+    border-radius: 5px;
+    padding: 5px 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    font-size: 8px;
+  }
+
+  #colorFormat:hover .sub-dropdown {
+    display: flex;
+    border-radius: 5px;
+  }
+
+  .sub-dropdown div {
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .sub-dropdown div:hover {
+    background-color: #323738;
+  }
+
+  #exportCode {
+    color: #00b2ff;
+  }
+
+  .delete {
+    color: #ff4d4d;
+  }
+  
+  h2 {
+      font-family: mcfont;
+  }
+  
+  g {
       color: #05ee93;
   }
-
-  #tryitout {
-      color: #0c0c0c;
-      background-color: #05ee93;
-      box-shadow: 0 0 20px 10px #05ee934;
-      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-      border: 4px solid #00a459;
-  }
-
-  #tryitout:hover {
-      color: #ffffff;
-      background-color: #00a95c;
-  }
-
-.navi {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 75px;
-    background-color: rgba(45 45 45 0.6);
-    backdrop-filter: blur(6px);
-    display: flex;
-}
-
-.quick-links {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    max-width: 700px;
-    text-align: center;
-    margin: auto;
-}
-
-.divider {
-    border-top: 2px solid #bebebe;
-    width: 30%;
-    opacity: 0.5;
-    margin: auto;
-    margin-top: 50px;
-}
-
-.content-wrapper {
-    display: flex;
-    width: 90%;
-    margin: auto;
-}
-
-.content {
-    flex: 1;
-}
-
-#documentation {
-      border: 4px solid #3f3f3f;
-}
-
-
-code {
-    font-family: mcfont;
-    background-color: #1d1d1d;
-    padding: 16px 12px;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    width: 80%;
-    margin: auto;
-    flex: 1;
-    gap: 6px;
-    user-select: none;
-}
-
-
-aa {
-    color: #55ff55;
-}
-
-aao {
-    color: #55ff55;
-    opacity: 0.5;
-}
-
-cc {
-    color: #ff5555;
-}
-
-ee {
-    color: #ffff55;
-}
-
-rr {
-    color: #ffaa00;
-}
-
-bb {
-    color: #55ffff;
-}
-
-footer {
-    color: #343434;
-}
-footer g {
-    color: #008e4c;
-}
-  </style>
+</style>
 </head>
 <body>
-    <div class="navi">
-        <div style="text-align: left; padding-left: 20px;"><h2>mcb<g>Code</g></h2></div>
-    <div class="quick-links">
-        <a href="https://xyztoast.github.io/mcfunction/editor">Editor</a>
-        <div style="padding-left: 60%"></div>
-        <a href="https://github.com/xyztoast/mcfunction">Source</a>
-        <div style="padding-left: 60%"></div>
-        <a href="https://github.com/xyztoast/mcfunction/docs">Docs</a>
-        <a href="https://xyztoast.github.io/mcfunction/docs">Docs</a>
+    <div class="top-thing" style="display: flex; align-items: center;">
+        <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
+    <h3 style="padding: 0px 12px;">mcb<g>Code</g></h3>
 
+    </div>
+  <div class="navi">
+    <div class="nav-left">
+      <div class="nav-item">
+      </div>
+      <div class="nav-item" style="padding-left: 24px;">
+        <button>File</button>
+        <div class="nav-dropdown">
+          <div id="exportCode">export as .mcfunction</div>
+          <div id="copyCode">copy code</div>
         </div>
+      </div>
+      <div class="nav-item">
+        <button>Edit</button>
+        <div class="nav-dropdown">
+          <div id="deleteCode" class="delete">delete code</div>
+          <div id="colorFormat">color format
+            <div class="sub-dropdown" id="colorMenu">
+              <div data-code="§0">§0 - black</div>
+              <div data-code="§1">§1 - dark blue</div>
+              <div data-code="§2">§2 - dark green</div>
+              <div data-code="§3">§3 - dark aqua</div>
+              <div data-code="§4">§4 - dark red</div>
+              <div data-code="§5">§5 - dark purple</div>
+              <div data-code="§6">§6 - gold</div>
+              <div data-code="§7">§7 - gray</div>
+              <div data-code="§8">§8 - dark gray</div>
+              <div data-code="§9">§9 - blue</div>
+              <div data-code="§a">§a - green</div>
+              <div data-code="§b">§b - aqua</div>
+              <div data-code="§c">§c - red</div>
+              <div data-code="§d">§d - light purple</div>
+              <div data-code="§e">§e - yellow</div>
+              <div data-code="§f">§f - white</div>
+              <div data-code="§g">§g - gold</div>
+              <div data-code="§k">§k - obfuscated</div>
+              <div data-code="§l">§l - bold</div>
+              <div data-code="§o">§o - italic</div>
+              <div data-code="§r">§r - reset</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button>Shortcuts</button>
+        <div class="nav-dropdown">
+          <p style="padding: 0px 6px; width: 250px; font-size: 12px">Undo - Ctrl+Z<br><br>Redo - Ctrl+Y<br><br>Download - Ctrl+S<br><br>Redo - Ctrl+Y<br><br>Copy Code - Ctrl+A, Ctrl+C</p>
+        </div>
+      </div>
+
     </div>
-<h1>mcb<g>Code</g></h1>
-<p style="color: #fff;">The <g>first</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
-<div style="user-select: none;">
-<div class="top-navi">
-    <a href="https://xyztoast.github.io/mcfunction/editor"><button id="tryitout">Try it out</button></a>
-    <a href="https://xyztoast.github.io/mcfunction/docs"><button id="documentation">Documentation</button></a>
-</div>
-</div>
-<div style="margin-top: 50px"></div>
-<div class="content-wrapper">
-<div class="content">
-<h2><g>Easy</g> Coding</h2>
-<p>User-friendly interface for Minecraft commands</p>
-<div style="margin-top: 50px"></div>
-</div>
-<div class="content">
-<h2>Completely <g>Free</g> to Use</h2>
-<p>Because charging money is overrated</p>
-<div style="margin-top: 50px"></div>
-</div>
-<div class="content">
-<h2>Helpful <g>Tools</g></h2>
-<p>Documentation when you don't know how</p>
-</div>
-</div>
+  </div>
+  <div class="editor" id="editor">
+      <pre id="lineNumbers" class="line-numbers">1</pre>
+    <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast">give @a stick</textarea>
+  </div>
 
-<div class="divider"></div>
-<h2>A Quick <g>Preview</g></h2>
-<p>It highlights your MCFunction with colors to help you get correct syntax while writing code.</p>
-<br>
-<code>
-    <ee>tellraw</ee> <cc>@a</cc> <rr>{</rr><bb>"rawtext"<rr>:[{</rr>"text"<rr>:</rr>"<aao>§a</aao><aa>Welcome to mcbCode!</aa>"<rr>}]}</rr></bb>
-</code>
-<br><br>
-<code>
-    <ee>give</ee> <cc>@s</cc> <aa>diamond_sword</aa>
-</code>
-<br><br>
-<code>
-    <ee>tp</ee> <cc>@e[<rr>type</rr>=<aa>zombie</aa>]</cc> <bb>~ ~ ~</bb>
-</code>
-<p style="font-size: 12px; opacity: 0.1;">Note: not exact coloring</p>
-<br>
-<br>
-<br>
-<h2>The <g>First</g> MCFunction Code Editor</h2>
-<div class="wrapper" style="display: flex; width: 80%; text-align: right; margin: auto;">
-    <p style="font-size: 16px">No other tool similar to this has been made. <qqq style="color: #ffffff">mcb</qqq><g>Code</g> will give creators a simple, clean place to write and organize complex command chains without the mess of the in-game menus.</p>
-    <img src="https://xyztoast.github.io/mcfunction/img/diamond_pickaxe.png" style="width: 96px; height: 96px;">
-    </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<h2>An Editor that <g>Makes Sense</g></h2>
-<div class="wrapper" style="display: flex; width: 80%; text-align: left; margin: auto;">
-    <img src="https://xyztoast.github.io/mcfunction/img/bread.webp" style="width: 96px; height: 96px;">
-    <p style="font-size: 16px"><qqq style="color: #ffffff">mcb</qqq><g>Code</g> has a simle yet powerful user interface that transforms the boring notepad editor into a professional space.</p>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<footer>Not affiliated  with Microsoft or Mojang AB.<br><br>
-© Copyright 2026 mcb<g>Code</g></footer>
-<br><br>
+  <script>
+    const codeArea = document.getElementById('codeArea');
+    const lineNumbers = document.getElementById('lineNumbers');
+
+    function updateLineNumbers() {
+      const lines = codeArea.value.split('\n').length;
+      let lineContent = '';
+      for (let i = 1; i <= lines; i++) {
+        lineContent += i + '\n';
+      }
+      lineNumbers.textContent = lineContent;
+    }
+
+    codeArea.addEventListener('input', () => {
+      updateLineNumbers();
+    });
+
+    codeArea.addEventListener('scroll', () => {
+      lineNumbers.scrollTop = codeArea.scrollTop;
+    });
+
+    document.getElementById('copyCode').addEventListener('click', () => {
+      const text = codeArea.value;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(()=>alert('Code copied'));
+    });
+
+    document.getElementById('deleteCode').addEventListener('click', () => {
+      if(confirm('Are you sure you want to delete all code?')) {
+        codeArea.value = '';
+        updateLineNumbers();
+      }
+    });
+
+// 1. Wrap the export logic in a reusable function
+const handleExport = () => {
+  if (!codeArea.value) return alert('Nothing to export');
+  
+  let fileName = prompt('Enter file name');
+  if (!fileName) return;
+
+  fileName = fileName.replace(/[^a-z0-9_\-]/gi, '_') + '.mcfunction';
+  const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fileName;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+// 2. Click event for the button
+document.getElementById('exportCode').addEventListener('click', handleExport);
+
+// 3. Keydown event for Ctrl + S
+document.addEventListener('keydown', (e) => {
+  // Check if 's' is pressed while Ctrl (or Command on Mac) is held
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault(); // Prevent the browser's default save dialog
+    handleExport();
+  }
+});
 
 
+    const colorMenu = document.getElementById('colorMenu');
+    colorMenu.querySelectorAll('div').forEach(item => {
+      item.addEventListener('click', () => {
+        const code = item.getAttribute('data-code');
+        const start = codeArea.selectionStart;
+        const end = codeArea.selectionEnd;
+        codeArea.value = codeArea.value.slice(0, start) + code + codeArea.value.slice(end);
+        codeArea.selectionStart = codeArea.selectionEnd = start + code.length;
+        codeArea.focus();
+      });
+    });
 
-
-
-
-
-
-<script data-goatcounter="https://idktoast.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    updateLineNumbers();
+  </script>
 </body>
 </html>
