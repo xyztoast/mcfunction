@@ -221,10 +221,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one
     </div>
   </div>
 
-  <div class="editor" id="editor">
-      <pre id="lineNumbers" class="line-numbers">1</pre>
+<div class="editor" id="editor">
+  <pre id="lineNumbers" class="line-numbers">1</pre>
+  <div class="code-container">
+    <!-- This pre tag will show the highlighted code -->
+    <pre id="highlighting" aria-hidden="true"><code id="highlightingContent"></code></pre>
+    <!-- Your existing textarea -->
     <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast">give @a stick</textarea>
   </div>
+</div>
+
 
   <script>
     const codeArea = document.getElementById('codeArea');
