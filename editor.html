@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- highlight.js script here DO NOT TOUCH -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
-
+<link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
 <title>mcbCode editor</title>
@@ -16,7 +9,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one
   body {
     margin: 0;
     background-color: #323232;
-    font-family: monospace;
+    font-family: mcfont;
     color: #fff;
   }
 
@@ -73,6 +66,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one
   .line-numbers {
     background-color: transparent;
     padding: 0 7px;
+    font-family: mcfont;
     user-select: none;
     overflow: hidden;
     text-align: right;
@@ -172,15 +166,27 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one
   .delete {
     color: #ff4d4d;
   }
+  
+  h2 {
+      font-family: mcfont;
+  }
+  
+  g {
+      color: #05ee93;
+  }
 </style>
 </head>
 <body>
+    <div class="top-thing" style="display: flex; align-items: center;">
+        <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
+    <h3 style="padding: 0px 12px;">mcb<g>Code</g></h3>
+    
+    </div>
   <div class="navi">
     <div class="nav-left">
       <div class="nav-item">
-        <a href="https://xyztoast.github.io"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon"></a>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" style="padding-left: 24px;">
         <button>File</button>
         <div class="nav-dropdown">
           <div id="exportCode">export as .mcfunction</div>
@@ -220,7 +226,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one
       </div>
     </div>
   </div>
-
   <div class="editor" id="editor">
       <pre id="lineNumbers" class="line-numbers">1</pre>
     <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast">give @a stick</textarea>
