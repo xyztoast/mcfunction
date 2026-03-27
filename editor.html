@@ -1,8 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- highlight.js script here DO NOT TOUCH -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
 
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
@@ -10,10 +15,9 @@
 <style>
   body {
     margin: 0;
-    background-color: #323738;
+    background-color: #323232;
     font-family: monospace;
     color: #fff;
-
   }
 
   .editor {
@@ -53,7 +57,7 @@
 
   }
   button {
-    background-color: #323738;
+    background-color: transparent;
     border: none;
     color: #f0f0f0;
     user-select: none;
@@ -61,14 +65,13 @@
   }
 
   button:hover {
-    background-color: #505859;
     border: none;
     color: #f0f0f0;
     user-select: none;
   }
 
   .line-numbers {
-    background-color: #323738;
+    background-color: transparent;
     padding: 0 7px;
     user-select: none;
     overflow: hidden;
@@ -84,8 +87,8 @@
   .code-area {
     flex: 1;
     padding: 0 2px;
-    background-color: #212425;
-    color: #bebebe;
+    background-color: #0c0c0c;
+    color: #f0f0f0;
     outline: none;
     border: none;
     resize: none;
@@ -115,10 +118,8 @@
     top: 100%;
     left: 0;
     background-color: #212425;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-    padding: 5px 0;
+    border: 1px solid #bebebe;
+    padding: 0px 0px;
     min-width: 100px;
     z-index: 100;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -171,149 +172,13 @@
   .delete {
     color: #ff4d4d;
   }
-
-/* Match the textarea style so they align */
-#highlighted {
-  margin: 0;
-  padding: 0 2px; /* Match .code-area padding */
-  font-size: 12px;
-  line-height: 1.2em;
-  font-family: monospace;
-  background-color: #212425; /* Match .code-area bg */
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-/* Ensure both layers are identical in size and font */
-.code-area, #highlighted {
-    font-family: 'monospace';
-    font-size: 12px;
-    line-height: 1.2em;
-    padding: 0 2px;
-    margin: 0;
-    tab-size: 4;
-}
-
-/* Optional: To make it feel like a real editor, you can 
-   overlay the textarea on top of the highlighted text 
-   with 'color: transparent' and 'caret-color: white' */
-   
-/* Optional: If you want to overlay them later, you'd use absolute positioning. 
-   For now, this just ensures the colors look right. */
-.hljs {
-  background: transparent !important; /* Let your editor bg show through */
-}
-
-   
-  
-  .settings-panel {
-      display: none;
-      border-radius: 18px;
-      position: fixed;
-      background-color: #323738;
-      margin: auto;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      padding: 14px 14px;
-      width: 80%;
-      height: 80%;
-      opacity: 0.8;
-      z-index: 500;
-  }
-  
-  .settings-panel.open {
-      display: block;
-  }
-  
-  .settings-blur {
-      
-  }
-  
-  .settings-x {
-      color: #ffffff;
-      display: flex;
-      font-size: 16px;
-      justify-content: flex-end;
-      border-radius: 8px;
-      background-color: #8b281f;
-      padding: 8px 10px;
-  }
-  
-  .settings-x:hover {
-      background-color: #75100a;
-      color: #f98777;
-  }
-  
-  
-  .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);           
-    -webkit-backdrop-filter: blur(5px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    z-index: 499;
-}
-
-.backdrop.open {
-    opacity: 1;
-    visibility: visible;
-}
-
-
-/* Core alignment for both layers */
-.code-area, #highlight-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0 5px;
-  font-family: monospace;
-  font-size: 12px;
-  line-height: 1.2em;
-  white-space: pre; /* Essential for alignment */
-  overflow: hidden; /* We'll handle scroll via JS or the textarea */
-  border: none;
-  box-sizing: border-box;
-}
-
-/* The Textarea (Top Layer) */
-.code-area {
-  background: transparent; /* Show layer below */
-  color: transparent;      /* Hide raw text */
-  caret-color: #fff;       /* Keep cursor visible */
-  z-index: 2;
-  resize: none;
-  outline: none;
-}
-
-/* The Highlighted Code (Bottom Layer) */
-#highlight-layer {
-  background-color: #212425;
-  z-index: 1;
-  pointer-events: none; /* Let clicks pass through to textarea */
-}
-
-#highlighted {
-  padding: 0; /* Clear highlight.js default padding */
-}
-
 </style>
 </head>
 <body>
   <div class="navi">
     <div class="nav-left">
       <div class="nav-item">
-        <a href="https://xyztoast.github.io/mcfunction"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon"></a>
+        <a href="https://xyztoast.github.io"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon"></a>
       </div>
       <div class="nav-item">
         <button>File</button>
@@ -353,99 +218,35 @@
           </div>
         </div>
       </div>
-      <div class="nav-item">
-        <button id="opensettings">Settings</button>
-          </div>
-      </div>
     </div>
   </div>
 
-<div class="editor" id="editor">
-  <pre class="line-numbers" id="lineNumbers">1</pre>
-  
-  <div class="container" style="position: relative; flex: 1; height: 100%;">
-    <!-- The Highlighted Layer (Bottom) -->
-    <!-- pointer-events: none is key so you can click "through" it to the textarea -->
-    <pre id="highlight-layer" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 0 2px; box-sizing: border-box; pointer-events: none; background-color: #212425; overflow: hidden; white-space: pre; border: none;"><code id="highlighted" class="language-mcfunction" style="font-family: monospace; font-size: 12px; line-height: 1.2em; display: block; padding: 0;"></code></pre>
-    
-    <!-- The Input Layer (Top) -->
-    <!-- color: transparent hides the "raw" text so only the highlight layer shows -->
-    <textarea class="code-area" id="codeArea" spellcheck="false" 
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; color: transparent; caret-color: #fff; z-index: 2; padding: 0 2px; box-sizing: border-box; outline: none; border: none; resize: none; overflow: auto; white-space: pre; font-family: monospace; font-size: 12px; line-height: 1.2em;"
-      placeholder="title @a title mcbCode">tellraw @a {"rawtext":[{"text":"mcbCode by idktoast"}]}
-give @a bread 64</textarea>
+  <div class="editor" id="editor">
+    <pre class="line-numbers" id="lineNumbers">1</pre>
+    <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast">give @a stick</textarea>
   </div>
-</div>
-
-<!-- SCRIPTS -->
-<!-- 1. The custom language definition -->
-<script src="backend/highlight.js"></script>
-<!-- 2. The sync and scroll logic -->
-<script src="backend/sync.js"></script>
-
-
-
-
-<!--settings panel-->
-<div class="backdrop" id="settingsBackdrop"></div>
-
-<div class="settings-panel">
-<div class="wrapper" style="justify-content: space-between; align-items: center; display: flex; padding-left: 12px; padding-right: 12px;">
-    <h2>mcbCode Settings</h2>
-<button id="closebutton" class="settings-x">Close</button>
-</div>
-<br>
-<input type="checkbox" id="fontToggle">
-<label for="fontToggle">Use Mojangles Font</label>
-</div>
-
-
-
-<script>
-const openBtn = document.getElementById('opensettings');
-const closeBtn = document.getElementById('closebutton');
-const panel = document.querySelector('.settings-panel');
-const backdrop = document.getElementById('settingsBackdrop');
-
-openBtn.onclick = () => {
-    panel.classList.add('open');
-    backdrop.classList.add('open');
-};
-
-closeBtn.onclick = () => {
-    panel.classList.remove('open');
-    backdrop.classList.remove('open');
-};
-/* close when blurred area is clicked (thanks chatgpt) */
-backdrop.onclick = () => {
-    panel.classList.remove('open');
-    backdrop.classList.remove('open');
-};
-
-</script>
-
-<!--settings panel over-->
-
-
-
-
-
-
-
-
-
-<script>
-const editor = document.getElementById("codeArea");
-const highlighted = document.getElementById("highlighted");
-
-editor.addEventListener("input", () => {
-  highlighted.textContent = editor.value;
-  hljs.highlightElement(highlighted);
-});
-</script>
-
 
   <script>
+    const codeArea = document.getElementById('codeArea');
+    const lineNumbers = document.getElementById('lineNumbers');
+
+    function updateLineNumbers() {
+      const lines = codeArea.value.split('\n').length;
+      let lineContent = '';
+      for (let i = 1; i <= lines; i++) {
+        lineContent += i + '\n';
+      }
+      lineNumbers.textContent = lineContent;
+    }
+
+    codeArea.addEventListener('input', () => {
+      updateLineNumbers();
+    });
+
+    codeArea.addEventListener('scroll', () => {
+      lineNumbers.scrollTop = codeArea.scrollTop;
+    });
+
     document.getElementById('copyCode').addEventListener('click', () => {
       const text = codeArea.value;
       if (!text) return;
@@ -486,8 +287,5 @@ editor.addEventListener("input", () => {
 
     updateLineNumbers();
   </script>
-
-<script data-goatcounter="https://idktoast.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
