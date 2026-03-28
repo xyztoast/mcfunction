@@ -1,5 +1,8 @@
 const commandCache = {};
 
+/**
+ * Main entry point with logic to handle "word" wildcards
+ */
 async function applyHighlighting(text) {
     const lines = text.split('\n');
     let finalHtml = "";
@@ -30,7 +33,7 @@ async function processCommandSegments(segments) {
             commandData = await fetchCommandGrammar(segment.toLowerCase());
             processed += `<span class="${commandData ? 'hl-command' : 'hl-error'}">${escapeHtml(segment)}</span>`;
         } else {
-            // Handle 'run' keyword in execute
+            // Execute recursion
             if (segment.toLowerCase() === "run" && commandData.command === "execute") {
                 processed += `<span class="hl-command">run</span>`;
                 processed += await processCommandSegments(segments.slice(i + 1));
@@ -62,9 +65,13 @@ function getHighlightClass(word, expected) {
 
     switch (expected.type) {
         case "target": 
-            return isValidTarget(word) ? "hl-selector" : "hl-error";
+            return /^(@[a-p|e|s|r|v]|@[a-p|e|s|r|v]\[.*\]|[A-Za-z0-9_]{3,16})$/i.test(word) ? "hl-selector" : "hl-error";
         
         case "word":
+            // WILDCARD LOGIC: If options is ["*"], everything is valid.
+            if (expected.options && expected.options.includes("*")) {
+                return "hl-item"; 
+            }
             if (expected.options && expected.options.includes(word.toLowerCase())) {
                 return "hl-command"; 
             }
@@ -74,19 +81,11 @@ function getHighlightClass(word, expected) {
             return /^([a-z0-9_]+:)?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
         
         case "int": 
-            // Support for: 10, -5, ~, ~5, ^, ^-2
             const coordRegex = /^([~^]-?\d*|-?\d+)$/;
             return coordRegex.test(word) ? "hl-number" : "hl-error";
 
-        case "json_component":
-            return word.startsWith('{') ? "hl-item" : "hl-error";
-
         default: return "";
     }
-}
-
-function isValidTarget(word) {
-    return /^(@[a-p|e|s|r|v]|@[a-p|e|s|r|v]\[.*\]|[A-Za-z0-9_]{3,16})$/i.test(word);
 }
 
 function escapeHtml(text) {
