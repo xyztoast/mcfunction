@@ -246,27 +246,39 @@
   <script>
 const codeArea = document.getElementById('codeArea');
 const highlightLayer = document.getElementById('highlightLayer');
+const lineNumbers = document.getElementById('lineNumbers'); // Ensure this exists
 let highlightTimeout;
 
-// 1. Lag-free Update with Debounce
+// 1. Line Numbers Logic (Moved outside to be reliable)
+function updateLineNumbers() {
+    const lines = codeArea.value.split('\n').length;
+    let lineContent = '';
+    for (let i = 1; i <= lines; i++) {
+        lineContent += i + '\n';
+    }
+    lineNumbers.textContent = lineContent;
+}
+
+// 2. Highlighting Logic
 async function updateHighlighting() {
     const text = codeArea.value;
     const highlighted = await applyHighlighting(text);
     
-    // Using requestAnimationFrame ensures the browser is ready to paint
     window.requestAnimationFrame(() => {
         highlightLayer.innerHTML = highlighted;
-        updateLineNumbers(); // Keep line numbers in sync
+        // Re-sync scroll just in case
+        highlightLayer.scrollTop = codeArea.scrollTop;
+        highlightLayer.scrollLeft = codeArea.scrollLeft;
     });
 }
 
-// 2. Event Listener with a tiny 10ms delay to prevent "character behind"
+// 3. Event Listeners
 codeArea.addEventListener('input', () => {
+    updateLineNumbers(); // Run immediately for line numbers
     clearTimeout(highlightTimeout);
     highlightTimeout = setTimeout(updateHighlighting, 10); 
 });
 
-// 3. Perfect Scroll Sync
 codeArea.addEventListener('scroll', () => {
     window.requestAnimationFrame(() => {
         highlightLayer.scrollTop = codeArea.scrollTop;
@@ -275,6 +287,18 @@ codeArea.addEventListener('scroll', () => {
     });
 });
 
+// 4. INITIAL RUN (Fixes the "Black Text on Load" issue)
+window.addEventListener('DOMContentLoaded', () => {
+    updateLineNumbers();
+    updateHighlighting();
+});
+
+
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // 5. Original Functionality (Copy, Delete, Export)
     document.getElementById('copyCode').addEventListener('click', () => {
       const text = codeArea.value;
