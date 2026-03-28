@@ -1,0 +1,9 @@
+{
+  "command": "particle",
+  "pattern": [
+    { "type": "item_id" },
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" }
+  ]
+}
