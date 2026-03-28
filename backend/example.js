@@ -1,92 +1,82 @@
-// Cache to store command JSONs so we don't fetch them every single keystroke
+// Cache to store command JSONs
 const commandCache = {};
 
 /**
- * Main entry point called by editor.html
+ * Main entry point
  */
 async function applyHighlighting(text) {
     const lines = text.split('\n');
     let finalHtml = "";
 
     for (let line of lines) {
-        // Handle Comments
         if (line.trim().startsWith('#')) {
             finalHtml += `<span class="hl-comment">${escapeHtml(line)}</span>\n`;
             continue;
         }
 
-        const segments = line.split(/(\s+)/); // Keep spaces for perfect alignment
+        const segments = line.split(/(\s+)/);
         let processedLine = "";
-        let commandData = null;
-        let argCounter = 0;
-
-        for (let segment of segments) {
-            if (segment.trim() === "") {
-                processedLine += segment;
-                continue;
-            }
-
-            // The first word is the command
-            if (!commandData) {
-                const cmdClean = segment.toLowerCase();
-                commandData = await fetchCommandGrammar(cmdClean);
-                
-                if (commandData) {
-                    processedLine += `<span class="hl-command">${escapeHtml(segment)}</span>`;
-                } else {
-                    processedLine += `<span class="hl-error">${escapeHtml(segment)}</span>`;
-                }
-            } else {
-                // Check argument against JSON pattern
-                let expected = commandData.pattern[argCounter];
-                let cssClass = getHighlightClass(segment, expected);
-                
-                processedLine += `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
-                argCounter++;
-            }
-        }
+        
+        // We use a helper function to process segments so we can handle "execute ... run"
+        processedLine = await processCommandSegments(segments);
+        
         finalHtml += processedLine + "\n";
     }
     return finalHtml;
 }
 
-/**
- * Fetches with Caching
- */
+async function processCommandSegments(segments) {
+    let processed = "";
+    let commandData = null;
+    let argCounter = 0;
+
+    for (let i = 0; i < segments.length; i++) {
+        let segment = segments[i];
+        if (segment.trim() === "") {
+            processed += segment;
+            continue;
+        }
+
+        if (!commandData) {
+            const cmdClean = segment.toLowerCase();
+            commandData = await fetchCommandGrammar(cmdClean);
+            
+            if (commandData) {
+                processed += `<span class="hl-command">${escapeHtml(segment)}</span>`;
+            } else {
+                processed += `<span class="hl-error">${escapeHtml(segment)}</span>`;
+            }
+        } else {
+            // SPECIAL CASE: Execute "run" starts a new command sequence
+            if (segment.toLowerCase() === "run" && commandData.command === "execute") {
+                processed += `<span class="hl-command">run</span>`;
+                // Process the rest of the segments as a brand new command
+                const remaining = segments.slice(i + 1);
+                processed += await processCommandSegments(remaining);
+                break; // Exit this loop, the recursive call handled the rest
+            }
+
+            let expected = commandData.pattern[argCounter];
+            let cssClass = getHighlightClass(segment, expected);
+            
+            processed += `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
+            argCounter++;
+        }
+    }
+    return processed;
+}
+
 async function fetchCommandGrammar(cmd) {
     if (commandCache[cmd]) return commandCache[cmd];
-
     try {
-        // Use ./ to ensure relative pathing on GitHub Pages
         const response = await fetch(`./backend/commands/${cmd}.json`);
         if (!response.ok) return null;
         const data = await response.json();
         commandCache[cmd] = data; 
         return data;
-    } catch (e) {
-        return null;
-    }
+    } catch (e) { return null; }
 }
 
-/**
- * Validates Bedrock Targets (@s, player names, selectors with brackets)
- */
-function isValidTarget(word) {
-    // 1. Basic selectors: @p, @a, @r, @e, @s, @v, @initiator
-    const basicSelector = /^@(p|a|r|e|s|v|initiator)$/i;
-    
-    // 2. Complex selectors: @a[tag=test, c=1]
-    const complexSelector = /^@(p|a|r|e|s|v|initiator)\[.*\]$/i;
-    
-    // 3. Player names: 3-16 chars, alphanumeric and underscores
-    const playerName = /^[A-Za-z0-9_]{3,16}$/;
-
-    return basicSelector.test(word) || complexSelector.test(word) || playerName.test(word);
-}
-
-/**
- * Decides which CSS class to use
- */
 function getHighlightClass(word, expected) {
     if (!expected) return ""; 
 
@@ -94,22 +84,34 @@ function getHighlightClass(word, expected) {
         case "target": 
             return isValidTarget(word) ? "hl-selector" : "hl-error";
         
+        case "word":
+            // Checks if the word matches one of the allowed options in the JSON
+            if (expected.options && expected.options.includes(word.toLowerCase())) {
+                return "hl-command"; // Using command color for keywords like 'at' or 'as'
+            }
+            return "hl-error";
+
         case "item_id": 
-            // Matches namespaced IDs like minecraft:stick or just stick
-            const itemRegex = /^([a-z0-9_]+:)?[a-z0-9_]+$/;
-            return itemRegex.test(word) ? "hl-item" : "hl-error";
+            return /^([a-z0-9_]+:)?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
         
         case "int": 
-            // Matches positive/negative integers
-            return /^-?\d+$/.test(word) ? "hl-number" : "hl-error";
+            // Matches numbers AND coordinates like ~ -5 or ^10
+            const coordRegex = /^([~^]-?\d*|-?\d+)$/;
+            return coordRegex.test(word) ? "hl-number" : "hl-error";
 
         case "json_component":
-            // Basic check for opening brace of a component string
             return word.startsWith('{') ? "hl-item" : "hl-error";
 
         default: 
             return "";
     }
+}
+
+function isValidTarget(word) {
+    const basicSelector = /^@(p|a|r|e|s|v|initiator)$/i;
+    const complexSelector = /^@(p|a|r|e|s|v|initiator)\[.*\]$/i;
+    const playerName = /^[A-Za-z0-9_]{3,16}$/;
+    return basicSelector.test(word) || complexSelector.test(word) || playerName.test(word);
 }
 
 function escapeHtml(text) {
