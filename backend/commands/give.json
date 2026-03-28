@@ -1,0 +1,9 @@
+  "command": "give",
+  "pattern": [
+    { "type": "target", "required": true },
+    { "type": "item_id", "required": true },
+    { "type": "int", "required": false },
+    { "type": "int", "required": false },
+    { "type": "json_component", "required": false }
+  ]
+}
