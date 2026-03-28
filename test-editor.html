@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
 <!-- External Theme Link -->
-<link rel="stylesheet" href="theme/editor/default.css">
+<link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/editor/default.css">
 
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
@@ -15,7 +15,7 @@
   body {
     margin: 0;
     background-color: #323232;
-    font-family: monospace;
+    font-weight: 0 !important; 
     font-family: mcfont;
     color: #fff;
     overflow: hidden;
@@ -203,19 +203,19 @@
 <body>
     <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
         <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
-        <h3 style="padding: 0px 12px;">mcb<g>Code</g></h3>
+        <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
     </div>
 
     <div class="navi">
       <div class="nav-left">
-        <div class="nav-item" style="padding-left: 24px;">
+        <div class="nav-item">
           <button>File</button>
           <div class="nav-dropdown">
             <div id="exportCode">export as .mcfunction</div>
             <div id="copyCode">copy code</div>
           </div>
         </div>
-        <div class="nav-item" style="padding-left: 10px;">
+        <div class="nav-item">
           <button>Edit</button>
           <div class="nav-dropdown">
             <div id="deleteCode" class="delete">delete code</div>
@@ -246,6 +246,13 @@
             </div>
           </div>
         </div>
+        <div class="nav-item">
+          <button>View</button>
+          <div class="nav-dropdown">
+            <div>Themes</div>
+            <div>Font size</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -258,7 +265,7 @@
     </div>
 
   <!-- Loading external grammar and logic -->
-  <script src="backend/example.js"></script>
+  <script src="https://xyztoast.github.io/mcfunction/backend/example.js"></script>
 
   <script>
 const codeArea = document.getElementById('codeArea');
