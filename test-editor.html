@@ -244,45 +244,36 @@
   <script src="backend/example.js"></script>
 
   <script>
-    const codeArea = document.getElementById('codeArea');
-    const lineNumbers = document.getElementById('lineNumbers');
-    const highlightLayer = document.getElementById('highlightLayer');
+const codeArea = document.getElementById('codeArea');
+const highlightLayer = document.getElementById('highlightLayer');
+let highlightTimeout;
 
-    // 1. Line Number Logic
-    function updateLineNumbers() {
-      const lines = codeArea.value.split('\n').length;
-      let lineContent = '';
-      for (let i = 1; i <= lines; i++) {
-        lineContent += i + '\n';
-      }
-      lineNumbers.textContent = lineContent;
-    }
-
-    // 2. Highlighting Bridge Logic
-    async function updateHighlighting() {
-      const text = codeArea.value;
-      
-      // We look for the applyHighlighting function in your external backend/example.js
-      if (typeof applyHighlighting === "function") {
-        highlightLayer.innerHTML = await applyHighlighting(text);
-      } else {
-        // Fallback: just show plain text if script hasn't loaded or function missing
-        highlightLayer.textContent = text;
-      }
-    }
-
-    // 3. Combined Input Listener
-    codeArea.addEventListener('input', () => {
-      updateLineNumbers();
-      updateHighlighting();
+// 1. Lag-free Update with Debounce
+async function updateHighlighting() {
+    const text = codeArea.value;
+    const highlighted = await applyHighlighting(text);
+    
+    // Using requestAnimationFrame ensures the browser is ready to paint
+    window.requestAnimationFrame(() => {
+        highlightLayer.innerHTML = highlighted;
+        updateLineNumbers(); // Keep line numbers in sync
     });
+}
 
-    // 4. Scroll Sync (Very important for overlays)
-    codeArea.addEventListener('scroll', () => {
-      lineNumbers.scrollTop = codeArea.scrollTop;
-      highlightLayer.scrollTop = codeArea.scrollTop;
-      highlightLayer.scrollLeft = codeArea.scrollLeft;
+// 2. Event Listener with a tiny 10ms delay to prevent "character behind"
+codeArea.addEventListener('input', () => {
+    clearTimeout(highlightTimeout);
+    highlightTimeout = setTimeout(updateHighlighting, 10); 
+});
+
+// 3. Perfect Scroll Sync
+codeArea.addEventListener('scroll', () => {
+    window.requestAnimationFrame(() => {
+        highlightLayer.scrollTop = codeArea.scrollTop;
+        highlightLayer.scrollLeft = codeArea.scrollLeft;
+        lineNumbers.scrollTop = codeArea.scrollTop;
     });
+});
 
     // 5. Original Functionality (Copy, Delete, Export)
     document.getElementById('copyCode').addEventListener('click', () => {
