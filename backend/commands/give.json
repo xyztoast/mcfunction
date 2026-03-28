@@ -1,3 +1,4 @@
+{
   "command": "give",
   "pattern": [
     { "type": "target", "required": true },
@@ -6,3 +7,4 @@
     { "type": "int", "required": false },
     { "type": "json_component", "required": false }
   ]
+}
