@@ -1,26 +1,5 @@
-// Example of how you would write your logic
-async function applyHighlighting(text) {
-    const lines = text.split('\n');
-    let output = "";
-
-    for (let line of lines) {
-        let words = line.split(' ');
-        let command = words[0];
-
-        // Fetch command.json logic
-        try {
-            const res = await fetch(`backend/commands/${command}.json`);
-            if (res.ok) {
-                const grammar = await res.json();
-                // Match words to grammar structure...
-                output += `<span class="hl-command">${command}</span> ...\n`;
-            } else {
-                output += line + "\n";
-            }
-        } catch(e) { output += line + "\n"; }
-    }
-    return output;
-}
+// Cache to store command JSONs so we don't fetch them every single keystroke
+const commandCache = {};
 
 /**
  * Main entry point called by editor.html
@@ -30,53 +9,61 @@ async function applyHighlighting(text) {
     let finalHtml = "";
 
     for (let line of lines) {
+        // Handle Comments
         if (line.trim().startsWith('#')) {
             finalHtml += `<span class="hl-comment">${escapeHtml(line)}</span>\n`;
             continue;
         }
 
-        const words = line.split(/(\s+)/); // Keep spaces for perfect alignment
+        const segments = line.split(/(\s+)/); // Keep spaces for perfect alignment
         let processedLine = "";
         let commandData = null;
-        let argumentIndex = 0;
+        let argCounter = 0;
 
-        for (let segment of words) {
-            // If it's just whitespace, keep it as is
+        for (let segment of segments) {
+            // If it's just whitespace, append and skip
             if (segment.trim() === "") {
                 processedLine += segment;
                 continue;
             }
 
-            // The first non-space word is the command
+            // The first word is the command
             if (!commandData) {
                 commandData = await fetchCommandGrammar(segment);
                 if (commandData) {
-                    processedLine += `<span class="hl-command">${segment}</span>`;
+                    processedLine += `<span class="hl-command">${escapeHtml(segment)}</span>`;
                 } else {
-                    processedLine += `<span class="hl-error">${segment}</span>`;
+                    // Highlight as error if command JSON isn't found
+                    processedLine += `<span class="hl-error">${escapeHtml(segment)}</span>`;
                 }
             } else {
                 // It's an argument. Check it against the JSON pattern
-                let expected = commandData.pattern[argumentIndex];
+                // Logic: commandData.pattern[0] is the first argument after the command name
+                let expected = commandData.pattern[argCounter];
                 let cssClass = getHighlightClass(segment, expected);
                 
-                processedLine += `<span class="${cssClass}">${segment}</span>`;
-                argumentIndex++;
+                processedLine += `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
+                argCounter++;
             }
         }
         finalHtml += processedLine + "\n";
     }
+    // We add a zero-width space at the end to help with trailing newlines
     return finalHtml;
 }
 
 /**
- * Fetches your JSON file from the backend folder
+ * Fetches your JSON file from the backend folder with Caching
  */
 async function fetchCommandGrammar(cmd) {
+    if (commandCache[cmd]) return commandCache[cmd];
+
     try {
         const response = await fetch(`backend/commands/${cmd}.json`);
         if (!response.ok) return null;
-        return await response.json();
+        const data = await response.json();
+        commandCache[cmd] = data; // Store in cache
+        return data;
     } catch (e) {
         return null;
     }
@@ -86,16 +73,16 @@ async function fetchCommandGrammar(cmd) {
  * Decides which CSS class to use based on the grammar type
  */
 function getHighlightClass(word, expected) {
-    if (!expected) return ""; // No more arguments expected (extra words)
+    if (!expected) return ""; // Extra arguments with no rules
 
     switch (expected.type) {
         case "target":
-            // Regex for @s, @a, @p, @r, @e or player names
             return /^(@[a-p|e|s|r]|[A-Za-z0-9_]{3,16})$/.test(word) ? "hl-selector" : "hl-error";
         case "item_id":
-            return word.includes(':') || /^[a-z_]+$/.test(word) ? "hl-item" : "hl-error";
+            // Checks for minecraft:item or just item_name
+            return /^[a-z0-9_]+:?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
         case "int":
-            return /^\d+$/.test(word) ? "hl-number" : "hl-error";
+            return /^-?\d+$/.test(word) ? "hl-number" : "hl-error";
         default:
             return "";
     }
