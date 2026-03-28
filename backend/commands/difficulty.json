@@ -1,0 +1,6 @@
+{
+  "command": "difficulty",
+  "pattern": [
+    { "type": "word", "options": ["peaceful", "easy", "normal", "hard", "p", "e", "n", "h"] }
+  ]
+}
