@@ -1,6 +1,8 @@
 {
   "command": "title",
   "pattern": [
-    { "type": "word", "options": ["title", "subtitle", "actionbar"] }
+    { "type": "target", "required": true },
+    { "type": "word", "options": ["title", "subtitle", "actionbar"] },
+    { "type": "word", "options": ["*"] }
   ]
 }
