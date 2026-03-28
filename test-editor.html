@@ -206,45 +206,6 @@
     z-index: 100;
     border: 1px solid #ff4d4d;
 }
-
-
-/* Gutter Dot for Errors */
-.line-number-wrapper { position: relative; }
-.error-dot {
-    position: absolute;
-    left: 5px;
-    color: #ff4d4d;
-    font-size: 14px;
-    line-height: 1.2em;
-}
-
-/* Floating Autocomplete Menu */
-.autocomplete-menu {
-    position: absolute;
-    background: #252526;
-    border: 1px solid #454545;
-    color: #cccccc;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    z-index: 1000;
-    max-height: 150px;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    font-family: monospace;
-}
-
-.autocomplete-menu li {
-    padding: 4px 10px;
-    cursor: pointer;
-}
-
-.autocomplete-menu li.selected, .autocomplete-menu li:hover {
-    background: #094771;
-    color: white;
-}
-
-
 </style>
 </head>
 <body>
@@ -295,14 +256,7 @@
         </div>
       </div>
     </div>
-  
-<div class="code-container">
-    <pre id="lineNumbers" class="line-numbers"></pre>
-    <div id="highlightLayer" class="highlight-layer"></div>
-    <textarea id="codeArea" class="code-area" spellcheck="false"></textarea>
-    <ul id="autocompleteMenu" class="autocomplete-menu" style="display: none;"></ul>
-</div>
-  
+
     <div class="editor" id="editor">
       <pre id="lineNumbers" class="line-numbers">1</pre>
       <div class="code-container">
@@ -336,9 +290,9 @@ let isHighlighting = false; // Add this line at the top of your script
 async function updateHighlighting() {
     // If we are already busy highlighting, don't start a new one yet
     if (isHighlighting) return; 
-    
+
     const text = codeArea.value;
-    
+
     // Set the gate to 'true' (Busy)
     isHighlighting = true;
 
@@ -346,10 +300,10 @@ async function updateHighlighting() {
     window.requestAnimationFrame(async () => {
         const highlighted = await applyHighlighting(text);
         highlightLayer.innerHTML = highlighted;
-        
+
         // We are done! Open the gate for the next update
         isHighlighting = false;
-        
+
         // Sync the scroll one last time
         highlightLayer.scrollTop = codeArea.scrollTop;
         highlightLayer.scrollLeft = codeArea.scrollLeft;
@@ -377,6 +331,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateHighlighting();
 });
 
+
 codeArea.addEventListener('keydown', (e) => {
     const pairs = { '(': ')', '{': '}', '[': ']', '"': '"' };
     
@@ -393,77 +348,6 @@ codeArea.addEventListener('keydown', (e) => {
         updateHighlighting();
     }
 });
-
-
-
-const menu = document.getElementById('autocompleteMenu');
-
-// 1. Auto-Closing Brackets/Quotes
-codeArea.addEventListener('keydown', (e) => {
-    const pairs = { '(': ')', '{': '}', '[': ']', '"': '"' };
-    if (pairs[e.key]) {
-        e.preventDefault();
-        const start = codeArea.selectionStart;
-        const end = codeArea.selectionEnd;
-        const val = codeArea.value;
-        codeArea.value = val.substring(0, start) + e.key + pairs[e.key] + val.substring(end);
-        codeArea.setSelectionRange(start + 1, start + 1);
-        updateHighlighting();
-    }
-    
-    // Handle Enter/Tab for Autocomplete
-    if ((e.key === 'Tab' || e.key === 'Enter') && menu.style.display === 'block') {
-        const selected = menu.querySelector('.selected');
-        if (selected) {
-            e.preventDefault();
-            insertSuggestion(selected.innerText);
-        }
-    }
-});
-
-// 2. Error Dot Logic (Called by example.js)
-window.updateErrorDots = (errorLines) => {
-    const lines = lineNumbers.textContent.split('\n');
-    let newNumbers = "";
-    for (let i = 1; i < lines.length; i++) {
-        const hasError = errorLines.includes(i);
-        newNumbers += `<div class="line-number-wrapper">
-            ${hasError ? '<span class="error-dot">•</span>' : ''}
-            ${i}
-        </div>`;
-    }
-    lineNumbers.innerHTML = newNumbers;
-};
-
-// 3. Show/Hide Menu (Basic Logic)
-async function checkAutocomplete() {
-    const text = codeArea.value;
-    const pos = codeArea.selectionStart;
-    const lastWord = text.substring(0, pos).split(/[\s\n]+/).pop();
-
-    if (lastWord.length < 1) {
-        menu.style.display = 'none';
-        return;
-    }
-
-    // This is where you'd call a function to get suggestions from your JSONs
-    // For now, let's use the current word to mock suggestions
-    const suggestions = ["@s", "@a", "@p", "@r", "@e", "minecraft:", "run", "as", "at"];
-    const matches = suggestions.filter(s => s.startsWith(lastWord));
-
-    if (matches.length > 0) {
-        menu.innerHTML = matches.map((m, i) => `<li class="${i===0?'selected':''}">${m}</li>`).join('');
-        menu.style.display = 'block';
-        // Position menu (Simplified: follows a general area)
-        menu.style.left = "50px"; 
-        menu.style.top = "50px";
-    } else {
-        menu.style.display = 'none';
-    }
-}
-
-codeArea.addEventListener('input', checkAutocomplete);
-    
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
