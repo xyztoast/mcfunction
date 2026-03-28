@@ -135,3 +135,34 @@ function getHighlightClass(word, expected) {
 function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
+
+/* --- THEME SWITCHING LOGIC --- */
+
+function setTheme(themeName) {
+    // List of all your themes to ensure only one is active at a time
+    const themes = ['default', 'neon', 'blue', 'soft', 'grayscale'];
+    
+    // Remove all theme classes from body
+    themes.forEach(t => document.body.classList.remove(`theme-${t}`));
+    
+    // Add the selected theme class
+    document.body.classList.add(`theme-${themeName}`);
+    
+    // Save selection
+    localStorage.setItem('editor-theme', themeName);
+}
+
+// Initializing the theme on load
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('editor-theme') || 'default';
+    setTheme(savedTheme);
+
+    // Attach click listeners to your theme divs
+    document.querySelectorAll('.sub-dropdown div').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Grabs the text (e.g., "Neon") and makes it "neon"
+            const theme = this.textContent.trim().toLowerCase();
+            setTheme(theme);
+        });
+    });
+});
