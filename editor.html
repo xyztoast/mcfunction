@@ -5,6 +5,9 @@
 <!-- highlight.js script here DO NOT TOUCH -->
 
 <link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
+<!-- External Theme Link -->
+<link rel="stylesheet" href="theme/editor/default.css">
+
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
 <title>mcbCode editor</title>
@@ -15,18 +18,21 @@
     font-family: monospace;
     font-family: mcfont;
     color: #fff;
+    overflow: hidden;
   }
 
   .editor {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 80px); /* Adjusted for top-thing and navi height */
     overflow: hidden;
     align-items: flex-start;
+    position: relative;
+    background-color: #0c0c0c;
   }
 
   .navi {
     font-size: 14px;
-    padding: 3 3px;
+    padding: 3px 3px;
     user-select: none;
     display: flex;
     justify-content: space-between;
@@ -38,7 +44,6 @@
     gap: 0px;
     align-items: center;
     padding-top: 1px
-
   }
 
   .nav-left img {
@@ -48,23 +53,14 @@
     padding-top: 1px
   }
 
-  img {
-    padding-top: 0px;
-    padding-left: 0px;
-
-  }
   button {
     background-color: transparent;
     border: none;
     color: #f0f0f0;
     user-select: none;
     margin: 0;
-  }
-
-  button:hover {
-    border: none;
-    color: #f0f0f0;
-    user-select: none;
+    cursor: pointer;
+    font-family: mcfont;
   }
 
   .line-numbers {
@@ -79,35 +75,58 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    color: #858585;
+    z-index: 10;
   }
 
-  .code-area {
+  /* WRAPPER FOR SYNCED LAYERS */
+  .code-container {
+    position: relative;
     flex: 1;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .code-area, .highlight-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     padding: 0 2px;
+    margin: 0;
+    border: none;
+    outline: none;
+    font-family: monospace;
+    line-height: 1.2em;
+    font-size: 12px;
+    white-space: pre;
+    word-wrap: normal;
+    box-sizing: border-box;
+    tab-size: 4;
+    overflow: auto;
+  }
+
+  /* The actual input layer (Invisible text, visible cursor) */
+  .code-area {
+    z-index: 2;
+    background: transparent !important;
+    color: transparent !important; 
+    caret-color: #fff !important; /* Keep typing cursor visible */
+    resize: none;
+  }
+
+  /* The visual highlighting layer (Behind the textarea) */
+  .highlight-layer {
+    z-index: 1;
     background-color: #0c0c0c;
     color: #f0f0f0;
-    outline: none;
-    border: none;
-    resize: none;
-    font-family: monospace;
-    overflows: hidden;
-    line-height: 1.2em;
-    white-space: pre;
-    margin: 0;
-    font-size: 12px;
-    height: 100%;
-  }
-
-  .fade {
-    opacity: 0;
-    transition: opacity 0.2s ease-in;
+    pointer-events: none; /* Let clicks pass through to textarea */
   }
 
   .nav-item {
     position: relative;
     display: inline-block;
-    padding-top: 0;
   }
 
   .nav-dropdown {
@@ -117,8 +136,7 @@
     left: 0;
     background-color: #212425;
     border: 1px solid #bebebe;
-    padding: 0px 0px;
-    min-width: 100px;
+    min-width: 160px;
     z-index: 100;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     flex-direction: column;
@@ -144,141 +162,213 @@
     margin-left: 10px;
     border-radius: 5px;
     padding: 5px 0;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    font-size: 8px;
+    font-size: 10px;
   }
 
   #colorFormat:hover .sub-dropdown {
     display: flex;
-    border-radius: 5px;
   }
 
-  .sub-dropdown div {
-    padding: 6px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
+  #exportCode { color: #00b2ff; }
+  .delete { color: #ff4d4d; }
+  h3 { font-family: mcfont; margin: 0; }
+  g { color: #05ee93; }
 
-  .sub-dropdown div:hover {
-    background-color: #323738;
-  }
-
-  #exportCode {
-    color: #00b2ff;
-  }
-
-  .delete {
+  /* The Dot in the Line Number Gutter */
+.line-number.has-error::before {
+    content: "●";
     color: #ff4d4d;
-  }
-  
-  h2 {
-      font-family: mcfont;
-  }
-  
-  g {
-      color: #05ee93;
-  }
+    position: absolute;
+    left: -15px;
+    font-size: 10px;
+}
+
+.hl-error:hover::after {
+    content: "Invalid syntax or missing JSON definition";
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 100;
+    border: 1px solid #ff4d4d;
+}
 </style>
 </head>
 <body>
-    <div class="top-thing" style="display: flex; align-items: center;">
+    <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
         <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
-    <h3 style="padding: 0px 12px;">mcb<g>Code</g></h3>
-    
+        <h3 style="padding: 0px 12px;">mcb<g>Code</g></h3>
     </div>
-  <div class="navi">
-    <div class="nav-left">
-      <div class="nav-item">
-      </div>
-      <div class="nav-item">
-      <div class="nav-item" style="padding-left: 24px;">
-        <button>File</button>
-        <div class="nav-dropdown">
-          <div id="exportCode">export as .mcfunction</div>
-          <div id="copyCode">copy code</div>
+
+    <div class="navi">
+      <div class="nav-left">
+        <div class="nav-item" style="padding-left: 24px;">
+          <button>File</button>
+          <div class="nav-dropdown">
+            <div id="exportCode">export as .mcfunction</div>
+            <div id="copyCode">copy code</div>
+          </div>
         </div>
-      </div>
-    </div>
-      <div class="nav-item">
-        <button>Edit</button>
-        <div class="nav-dropdown">
-          <div id="deleteCode" class="delete">delete code</div>
-          <div id="colorFormat">color format
-            <div class="sub-dropdown" id="colorMenu">
-              <div data-code="§0">§0 - black</div>
-              <div data-code="§1">§1 - dark blue</div>
-              <div data-code="§2">§2 - dark green</div>
-              <div data-code="§3">§3 - dark aqua</div>
-              <div data-code="§4">§4 - dark red</div>
-              <div data-code="§5">§5 - dark purple</div>
-              <div data-code="§6">§6 - gold</div>
-              <div data-code="§7">§7 - gray</div>
-              <div data-code="§8">§8 - dark gray</div>
-              <div data-code="§9">§9 - blue</div>
-              <div data-code="§a">§a - green</div>
-              <div data-code="§b">§b - aqua</div>
-              <div data-code="§c">§c - red</div>
-              <div data-code="§d">§d - light purple</div>
-              <div data-code="§e">§e - yellow</div>
-              <div data-code="§f">§f - white</div>
-              <div data-code="§g">§g - gold</div>
-              <div data-code="§k">§k - obfuscated</div>
-              <div data-code="§l">§l - bold</div>
-              <div data-code="§o">§o - italic</div>
-              <div data-code="§r">§r - reset</div>
+        <div class="nav-item" style="padding-left: 10px;">
+          <button>Edit</button>
+          <div class="nav-dropdown">
+            <div id="deleteCode" class="delete">delete code</div>
+            <div id="colorFormat">color format
+              <div class="sub-dropdown" id="colorMenu">
+                <div data-code="§0">§0 - black</div>
+                <div data-code="§1">§1 - dark blue</div>
+                <div data-code="§2">§2 - dark green</div>
+                <div data-code="§3">§3 - dark aqua</div>
+                <div data-code="§4">§4 - dark red</div>
+                <div data-code="§5">§5 - dark purple</div>
+                <div data-code="§6">§6 - gold</div>
+                <div data-code="§7">§7 - gray</div>
+                <div data-code="§8">§8 - dark gray</div>
+                <div data-code="§9">§9 - blue</div>
+                <div data-code="§a">§a - green</div>
+                <div data-code="§b">§b - aqua</div>
+                <div data-code="§c">§c - red</div>
+                <div data-code="§d">§d - light purple</div>
+                <div data-code="§e">§e - yellow</div>
+                <div data-code="§f">§f - white</div>
+                <div data-code="§g">§g - gold</div>
+                <div data-code="§k">§k - obfuscated</div>
+                <div data-code="§l">§l - bold</div>
+                <div data-code="§o">§o - italic</div>
+                <div data-code="§r">§r - reset</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-     </div>
     </div>
-  </div>
-</div>
 
-  <div class="editor" id="editor">
+    <div class="editor" id="editor">
       <pre id="lineNumbers" class="line-numbers">1</pre>
-    <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast">give @a stick</textarea>
-  </div>
+      <div class="code-container">
+        <div class="highlight-layer" id="highlightLayer"></div>
+        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast">give @a stick</textarea>
+      </div>
     </div>
+
+  <!-- Loading external grammar and logic -->
+  <script src="backend/example.js"></script>
 
   <script>
-    const codeArea = document.getElementById('codeArea');
-    const lineNumbers = document.getElementById('lineNumbers');
+const codeArea = document.getElementById('codeArea');
+const highlightLayer = document.getElementById('highlightLayer');
+const lineNumbers = document.getElementById('lineNumbers'); // Ensure this exists
+let highlightTimeout;
 
-    function updateLineNumbers() {
-      const lines = codeArea.value.split('\n').length;
-      let lineContent = '';
-      for (let i = 1; i <= lines; i++) {
+// 1. Line Numbers Logic (Moved outside to be reliable)
+function updateLineNumbers() {
+    const lines = codeArea.value.split('\n').length;
+    let lineContent = '';
+    for (let i = 1; i <= lines; i++) {
         lineContent += i + '\n';
-      }
-      lineNumbers.textContent = lineContent;
     }
+    lineNumbers.textContent = lineContent;
+}
 
-    codeArea.addEventListener('input', () => {
-      updateLineNumbers();
+// 2. Highlighting Logic
+let isHighlighting = false; // Add this line at the top of your script
+
+async function updateHighlighting() {
+    // If we are already busy highlighting, don't start a new one yet
+    if (isHighlighting) return; 
+
+    const text = codeArea.value;
+
+    // Set the gate to 'true' (Busy)
+    isHighlighting = true;
+
+    // Use requestAnimationFrame so the browser stays smooth
+    window.requestAnimationFrame(async () => {
+        const highlighted = await applyHighlighting(text);
+        highlightLayer.innerHTML = highlighted;
+
+        // We are done! Open the gate for the next update
+        isHighlighting = false;
+
+        // Sync the scroll one last time
+        highlightLayer.scrollTop = codeArea.scrollTop;
+        highlightLayer.scrollLeft = codeArea.scrollLeft;
     });
+}
 
-    codeArea.addEventListener('scroll', () => {
-      lineNumbers.scrollTop = codeArea.scrollTop;
+// 3. Event Listeners
+codeArea.addEventListener('input', () => {
+    updateLineNumbers(); // Run immediately for line numbers
+    clearTimeout(highlightTimeout);
+    highlightTimeout = setTimeout(updateHighlighting, 10); 
+});
+
+codeArea.addEventListener('scroll', () => {
+    window.requestAnimationFrame(() => {
+        highlightLayer.scrollTop = codeArea.scrollTop;
+        highlightLayer.scrollLeft = codeArea.scrollLeft;
+        lineNumbers.scrollTop = codeArea.scrollTop;
     });
+});
 
+// 4. INITIAL RUN (Fixes the "Black Text on Load" issue)
+window.addEventListener('DOMContentLoaded', () => {
+    updateLineNumbers();
+    updateHighlighting();
+});
+
+
+codeArea.addEventListener('keydown', (e) => {
+    const pairs = { '(': ')', '{': '}', '[': ']', '"': '"' };
+    
+    if (pairs[e.key]) {
+        e.preventDefault();
+        const start = codeArea.selectionStart;
+        const end = codeArea.selectionEnd;
+        const val = codeArea.value;
+        
+        // Insert the pair and move the cursor in the middle
+        codeArea.value = val.substring(0, start) + e.key + pairs[e.key] + val.substring(end);
+        codeArea.setSelectionRange(start + 1, start + 1);
+        
+        updateHighlighting();
+    }
+});
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // 5. Original Functionality (Copy, Delete, Export)
     document.getElementById('copyCode').addEventListener('click', () => {
       const text = codeArea.value;
       if (!text) return;
-      navigator.clipboard.writeText(text).then(()=>alert('Code copied'));
+      // Using execCommand for better iframe compatibility
+      const dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = text;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+      // Custom message instead of alert
+      console.log('Code copied'); 
     });
 
     document.getElementById('deleteCode').addEventListener('click', () => {
-      if(confirm('Are you sure you want to delete all code?')) {
-        codeArea.value = '';
-        updateLineNumbers();
-      }
+      codeArea.value = '';
+      updateLineNumbers();
+      updateHighlighting();
     });
 
     document.getElementById('exportCode').addEventListener('click', () => {
-      if(!codeArea.value) return alert('Nothing to export');
-      let fileName = prompt('Enter file name');
-      if (!fileName) return;
+      if(!codeArea.value) return;
+      let fileName = prompt('Enter file name') || "script";
       fileName = fileName.replace(/[^a-z0-9_\-]/gi, '_') + '-idktoast.mcfunction';
       const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
       const a = document.createElement('a');
@@ -297,10 +387,13 @@
         codeArea.value = codeArea.value.slice(0, start) + code + codeArea.value.slice(end);
         codeArea.selectionStart = codeArea.selectionEnd = start + code.length;
         codeArea.focus();
+        updateHighlighting();
       });
     });
 
+    // Initial Run
     updateLineNumbers();
+    updateHighlighting();
   </script>
 </body>
 </html>
