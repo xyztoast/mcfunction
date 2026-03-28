@@ -3,4 +3,4 @@
 .hl-item { color: #ce9178; }
 .hl-number { color: #b5cea8; }
 .hl-comment { color: #6a9955; }
-.hl-error { border-bottom: 2px wavy red; }
+.hl-error { color: #ff0000;}
