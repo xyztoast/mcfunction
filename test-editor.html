@@ -260,13 +260,26 @@ function updateLineNumbers() {
 }
 
 // 2. Highlighting Logic
+let isHighlighting = false; // Add this line at the top of your script
+
 async function updateHighlighting() {
-    const text = codeArea.value;
-    const highlighted = await applyHighlighting(text);
+    // If we are already busy highlighting, don't start a new one yet
+    if (isHighlighting) return; 
     
-    window.requestAnimationFrame(() => {
+    const text = codeArea.value;
+    
+    // Set the gate to 'true' (Busy)
+    isHighlighting = true;
+
+    // Use requestAnimationFrame so the browser stays smooth
+    window.requestAnimationFrame(async () => {
+        const highlighted = await applyHighlighting(text);
         highlightLayer.innerHTML = highlighted;
-        // Re-sync scroll just in case
+        
+        // We are done! Open the gate for the next update
+        isHighlighting = false;
+        
+        // Sync the scroll one last time
         highlightLayer.scrollTop = codeArea.scrollTop;
         highlightLayer.scrollLeft = codeArea.scrollLeft;
     });
