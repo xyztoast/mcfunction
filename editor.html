@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
 <!-- External Theme Link -->
-<link rel="stylesheet" href="theme/editor/default.css">
+<link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/editor/default.css">
 
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
@@ -12,7 +13,7 @@
   body {
     margin: 0;
     background-color: #323232;
-    font-family: monospace;
+    font-weight: 0 !important; 
     font-family: mcfont;
     color: #fff;
     overflow: hidden;
@@ -195,24 +196,39 @@
     z-index: 100;
     border: 1px solid #ff4d4d;
 }
+.viewbeta {
+    font-size: 12px;
+    margin-left: 36px;
+    border-radius: 8px;
+    background-color: #0c0c0c;
+    padding: 8px 12px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.viewbeta:hover {
+    color: #bebebe;
+    background-color: #262626;
+}
+
 </style>
 </head>
 <body>
     <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
         <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
-        <h3 style="padding: 0px 12px;">mcb<g>Code</g></h3>
+        <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
+        <a href="https://xyztoast.github.io/mcfunction/test-editor" style="text-decoration: none; color: #ffffff;"><p class="viewbeta">View Beta Site</p></a>
     </div>
 
     <div class="navi">
       <div class="nav-left">
-        <div class="nav-item" style="padding-left: 24px;">
+        <div class="nav-item">
           <button>File</button>
           <div class="nav-dropdown">
             <div id="exportCode">export as .mcfunction</div>
             <div id="copyCode">copy code</div>
           </div>
         </div>
-        <div class="nav-item" style="padding-left: 10px;">
+        <div class="nav-item">
           <button>Edit</button>
           <div class="nav-dropdown">
             <div id="deleteCode" class="delete">delete code</div>
@@ -243,6 +259,13 @@
             </div>
           </div>
         </div>
+        <div class="nav-item">
+          <button>View</button>
+          <div class="nav-dropdown">
+            <div>Themes</div>
+            <div>Font size</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -255,7 +278,7 @@
     </div>
 
   <!-- Loading external grammar and logic -->
-  <script src="backend/example.js"></script>
+  <script src="https://xyztoast.github.io/mcfunction/backend/example.js"></script>
 
   <script>
 const codeArea = document.getElementById('codeArea');
