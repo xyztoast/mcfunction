@@ -4,7 +4,6 @@ const FILES_TO_CACHE = [
   '/editor.html',
   '/theme/site.css',
   '/app/manifest.json',
-  '/app/index.html',
   './icon-512.png'
 ];
 
