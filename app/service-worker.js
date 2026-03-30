@@ -1,30 +1,24 @@
-const CACHE_NAME = 'mcbCode';
-const FILES_TO_CACHE = [
-  '/',
-  '/editor.html',
-  '/theme/site.css',
-  '/app/manifest.json',
-  './icon-512.png'
-];
+const cacheName = 'mcbcode-cache-v1';
 
-self.addEventListener('install', evt => {
-  evt.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
-  );
+// install: cache everything we see
+self.addEventListener('install', event => {
   self.skipWaiting();
-});
-
-self.addEventListener('activate', evt => {
-  evt.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(key => key !== CACHE_NAME && caches.delete(key)))
-    )
+  event.waitUntil(
+    caches.open(cacheName).then(cache => cache.addAll(['/editor.html']))
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', evt => {
-  evt.respondWith(
-    caches.match(evt.request).then(resp => resp || fetch(evt.request))
+// fetch: respond with cache first, then network
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request).then(resp => {
+        return caches.open(cacheName).then(cache => {
+          cache.put(event.request, resp.clone());
+          return resp;
+        });
+      }).catch(() => new Response('Offline', { status: 503 }));
+    })
   );
 });
