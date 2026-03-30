@@ -388,7 +388,7 @@ async function updateHighlighting() {
 
 // 3. Event Listeners
 codeArea.addEventListener('input', () => {
-    updateLineNumbers(); // Run immediately for line numbers
+    updateLineNumbers();
     clearTimeout(highlightTimeout);
     highlightTimeout = setTimeout(updateHighlighting, 10); 
 });
@@ -401,7 +401,7 @@ codeArea.addEventListener('scroll', () => {
     });
 });
 
-// 4. INITIAL RUN (Fixes the "Black Text on Load" issue)
+// 4. INITIAL RUN
 window.addEventListener('DOMContentLoaded', () => {
     updateLineNumbers();
     updateHighlighting();
@@ -417,7 +417,7 @@ codeArea.addEventListener('keydown', (e) => {
         const end = codeArea.selectionEnd;
         const val = codeArea.value;
         
-        // Insert the pair and move the cursor in the middle
+       
         codeArea.value = val.substring(0, start) + e.key + pairs[e.key] + val.substring(end);
         codeArea.setSelectionRange(start + 1, start + 1);
         
@@ -429,7 +429,7 @@ codeArea.addEventListener('keydown', (e) => {
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
-    // 5. Original Functionality (Copy, Delete, Export)
+    // 5. Original Functionality
     document.getElementById('copyCode').addEventListener('click', () => {
       const text = codeArea.value;
       if (!text) return;
@@ -450,17 +450,23 @@ codeArea.addEventListener('keydown', (e) => {
       updateHighlighting();
     });
 
-    document.getElementById('exportCode').addEventListener('click', () => {
-      if(!codeArea.value) return;
-      let fileName = prompt('Enter file name') || "script";
-      fileName = fileName.replace(/[^a-z0-9_\-]/gi, '_') + '.mcfunction';
-      const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = fileName;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
+document.getElementById('exportCode').addEventListener('click', () => {
+  const codeArea = document.getElementById('codeArea'); // assuming your textarea with code has this id
+  const fileNameArea = document.getElementById('autoWidth'); 
+
+  if (!codeArea.value) return;
+
+  // get filename from textarea, fallback to "script"
+  let fileName = (fileNameArea.value || 'untitled')
+    .replace(/[^a-z0-9_\-]/gi, '_') + '.mcfunction';
+
+  const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fileName;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
 
     const colorMenu = document.getElementById('colorMenu');
     colorMenu.querySelectorAll('div').forEach(item => {
