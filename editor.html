@@ -203,17 +203,17 @@
   display: block;
 }
 
-.file-details {
+.file-name {
   background-color: #0c0c0c;
   color: #ffffff;
   white-space: nowrap;
   height: 18px;
   font-size: 16px;
   outline: none;
-  width: 25%;
   border: none;
   padding: 6px 2px;
   resize: none;
+  min-width: 25%;
   line-height: 18px;
   overflow-y: hidden
 }
@@ -239,10 +239,30 @@
         <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
         <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
         <div class="filename-txt">Filename:</div>
-        <textarea class="file-details"></textarea>
+        <textarea id="autoWidth" class="file-name"></textarea>
         <div class="filename-mcf">.mcfunction</div>
     </div>
+<script>
+const textarea = document.getElementById('autoWidth');
 
+// helper span for measuring text width
+const measurer = document.createElement('span');
+measurer.style.visibility = 'hidden';
+measurer.style.whiteSpace = 'pre';
+measurer.style.font = window.getComputedStyle(textarea).font;
+document.body.appendChild(measurer);
+
+function adjustWidth() {
+  measurer.textContent = textarea.value || textarea.placeholder;
+  textarea.style.width = measurer.offsetWidth + 10 + 'px'; // +10 for padding
+}
+
+// initial size
+adjustWidth();
+
+// update as user types
+textarea.addEventListener('input', adjustWidth);
+</script>
     <div class="navi">
       <div class="nav-left">
         <div class="nav-item">
