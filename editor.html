@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 
+<!-- highlight.js script here DO NOT TOUCH -->
+
 <link rel="stylesheet" href="theme/site.css">
 <!-- External Theme Link -->
 <link id="theme-link" rel="stylesheet" href="theme/editor/default.css">
@@ -201,12 +203,44 @@
   display: block;
 }
 
+.file-details {
+  background-color: #0c0c0c;
+  color: #ffffff;
+  white-space: nowrap;
+  height: 18px;
+  font-size: 16px;
+  outline: none;
+  width: 25%;
+  border: none;
+  padding: 6px 2px;
+  resize: none;
+  line-height: 18px;
+  overflow-y: hidden
+}
+
+.filename-txt {
+  background-color: #454545;
+  padding: 6px 6px;
+  padding-right: 12px;
+  border-bottom-left-radius: 12px;
+  border-top-left-radius: 12px;
+}
+
+.filename-mcf {
+  background-color: #1f1f1f;
+  padding: 6px 6px;
+  border-bottom-right-radius: 12px;
+  border-top-right-radius: 12px;
+}
 </style>
 </head>
 <body>
     <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
         <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
         <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
+        <div class="filename-txt">Filename:</div>
+        <textarea class="file-details"></textarea>
+        <div class="filename-mcf">.mcfunction</div>
     </div>
 
     <div class="navi">
