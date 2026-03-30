@@ -1,0 +1,25 @@
+{
+  "name": "mcbCode Editor",
+  "short_name": "mcbCode",
+  "start_url": "/app/index.html",
+  "display": "standalone",
+  "background_color": "#0c0c0c",
+  "theme_color": "#05ee93",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/editor.html",
+      "accept": {
+        "text/plain": [".mcfunction"]
+      },
+      "name": "MCFunction Files"
+    }
+  ]
+}
