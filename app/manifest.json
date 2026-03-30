@@ -1,13 +1,19 @@
 {
-  "name": "mcbCode Editor",
+  "name": "mcbCode",
   "short_name": "mcbCode",
-  "start_url": "/app/index.html",
+  "start_url": "/editor.html",
   "display": "standalone",
   "background_color": "#0c0c0c",
   "theme_color": "#05ee93",
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "/app/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/app/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -17,9 +23,9 @@
     {
       "action": "/editor.html",
       "accept": {
-        "text/plain": [".mcfunction"]
+        "application/octet-stream": [".mcfunction"]
       },
-      "name": "MCFunction Files"
+      "name": "mcbCode"
     }
   ]
 }
