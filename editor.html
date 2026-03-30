@@ -213,7 +213,7 @@
   border: none;
   padding: 6px 2px;
   resize: none;
-  min-width: 25%;
+  min-width: 10%;
   line-height: 18px;
   overflow-y: hidden
 }
@@ -232,6 +232,7 @@
   border-bottom-right-radius: 12px;
   border-top-right-radius: 12px;
 }
+
 </style>
 </head>
 <body>
@@ -452,7 +453,7 @@ codeArea.addEventListener('keydown', (e) => {
     document.getElementById('exportCode').addEventListener('click', () => {
       if(!codeArea.value) return;
       let fileName = prompt('Enter file name') || "script";
-      fileName = fileName.replace(/[^a-z0-9_\-]/gi, '_') + '-idktoast.mcfunction';
+      fileName = fileName.replace(/[^a-z0-9_\-]/gi, '_') + '.mcfunction';
       const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
