@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
 
-<!-- highlight.js script here DO NOT TOUCH -->
-
 <link rel="stylesheet" href="theme/site.css">
 <!-- External Theme Link -->
 <link id="theme-link" rel="stylesheet" href="theme/editor/default.css">
@@ -203,7 +201,6 @@
   display: block;
 }
 
-
 </style>
 </head>
 <body>
@@ -224,32 +221,32 @@
         <div class="nav-item">
           <button>Edit</button>
           <div class="nav-dropdown">
-            <div id="deleteCode" class="delete">delete code</div>
-            <div id="colorFormat">color format
+            <div id="colorFormat">Color Format
               <div class="sub-dropdown" id="colorMenu">
-                <div data-code="§0">§0 - black</div>
-                <div data-code="§1">§1 - dark blue</div>
-                <div data-code="§2">§2 - dark green</div>
-                <div data-code="§3">§3 - dark aqua</div>
-                <div data-code="§4">§4 - dark red</div>
-                <div data-code="§5">§5 - dark purple</div>
-                <div data-code="§6">§6 - gold</div>
-                <div data-code="§7">§7 - gray</div>
-                <div data-code="§8">§8 - dark gray</div>
-                <div data-code="§9">§9 - blue</div>
-                <div data-code="§a">§a - green</div>
-                <div data-code="§b">§b - aqua</div>
-                <div data-code="§c">§c - red</div>
-                <div data-code="§d">§d - light purple</div>
-                <div data-code="§e">§e - yellow</div>
-                <div data-code="§f">§f - white</div>
-                <div data-code="§g">§g - gold</div>
-                <div data-code="§k">§k - obfuscated</div>
-                <div data-code="§l">§l - bold</div>
-                <div data-code="§o">§o - italic</div>
-                <div data-code="§r">§r - reset</div>
+                <div data-code="§0">§0 - Black</div>
+                <div data-code="§1">§1 - Dark Blue</div>
+                <div data-code="§2">§2 - Dark Green</div>
+                <div data-code="§3">§3 - Dark Aqua</div>
+                <div data-code="§4">§4 - Dark Red</div>
+                <div data-code="§5">§5 - Dark Purple</div>
+                <div data-code="§6">§6 - Gold</div>
+                <div data-code="§7">§7 - Gray</div>
+                <div data-code="§8">§8 - Dark Gray</div>
+                <div data-code="§9">§9 - Blue</div>
+                <div data-code="§a">§a - Green</div>
+                <div data-code="§b">§b - Aqua</div>
+                <div data-code="§c">§c - Red</div>
+                <div data-code="§d">§d - Light Purple</div>
+                <div data-code="§e">§e - Yellow</div>
+                <div data-code="§f">§f - White</div>
+                <div data-code="§g">§g - Gold</div>
+                <div data-code="§k">§k - Obfuscated</div>
+                <div data-code="§l">§l - Bold</div>
+                <div data-code="§o">§o - Italic</div>
+                <div data-code="§r">§r - Reset</div>
               </div>
             </div>
+           <div id="deleteCode" class="delete">Delete Code</div>
           </div>
         </div>
 <div class="nav-item">
@@ -267,10 +264,14 @@
       </div>
     </div>
     <div class="has-submenu">
-      Font Size
+      Keyboard Shortcuts
       <div class="sub-dropdown">
-        <input type="range" id="fontsize" min="6" max="24" value="12">
-<span id="fontsize-value">12px</span>
+        <h4>Ctrl+A - Select All</h4>
+        <h4>Ctrl+C - Copy</h4>
+        <h4>Ctrl+V - Paste</h4>
+        <h4>Ctrl+X - Cut</h4>
+        <h4>Ctrl+S - Download File</h4>
+        <h4>Ctrl+E - Edit Details</h4>
       </div>
     </div>
   </div>
@@ -423,10 +424,7 @@ codeArea.addEventListener('keydown', (e) => {
     updateLineNumbers();
     updateHighlighting();
 
-    // font size changer
-  </script>
 
-<script data-goatcounter="https://idktoast.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+  </script>
 </body>
 </html>
