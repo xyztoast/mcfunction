@@ -1,0 +1,8 @@
+{
+  "command": "setblock",
+  "pattern": [
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" }
+  ]
+}
