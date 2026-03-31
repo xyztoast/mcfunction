@@ -19,19 +19,23 @@ async function applyHighlighting(text) {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
+        // 1. Handle Empty Lines
         if (line.trim() === "") {
             finalHtml += "\n";
             continue;
         }
 
+        // 2. Handle Comments
         if (line.trim().startsWith('#')) {
             finalHtml += `<span class="hl-comment">${escapeHtml(line)}</span>\n`;
             continue;
         }
 
+        // 3. Process Command Logic
         const segments = line.split(/(\s+)/);
         const processed = processSegmentsSync(segments);
         
+        // Track errors for the gutter dots
         if (processed.includes('hl-error')) {
             errorLines.push(i + 1);
         }
@@ -39,6 +43,7 @@ async function applyHighlighting(text) {
         finalHtml += processed + "\n";
     }
 
+    // Call the dot update in the HTML if it exists
     if (typeof window.updateErrorDots === "function") {
         window.updateErrorDots(errorLines);
     }
@@ -56,20 +61,22 @@ function processSegmentsSync(segments) {
     let restOfLineMode = false;
     let restOfLineClass = "";
     
-    // NEW: Color State
+    // § Color & Formatting State
     let activeColor = null;
+    let activeFormat = []; // e.g., ["font-weight:bold", "text-decoration:underline"]
 
     for (let i = 0; i < segments.length; i++) {
         let segment = segments[i];
         
+        // Preserve whitespace
         if (segment.trim() === "") {
             processed += segment;
             continue;
         }
 
-        // § COLOR LOGIC: Check if segment contains or starts a color code
+        // § COLOR & FORMATTING LOGIC
         if (segment.includes('§')) {
-            const parts = segment.split(/(§[0-9a-f-r])/i);
+            const parts = segment.split(/(§[0-9a-f-r-l-o-n-m-k])/i);
             let colorSegmentHtml = "";
             
             for (let part of parts) {
@@ -79,13 +86,18 @@ function processSegmentsSync(segments) {
                     colorSegmentHtml += `<span class="hl-code">${part}</span>`;
                 } else if (/§r/i.test(part)) {
                     activeColor = null;
+                    activeFormat = [];
+                    colorSegmentHtml += `<span class="hl-code">${part}</span>`;
+                } else if (/§[l-o-n-m-k]/i.test(part)) {
+                    const code = part.charAt(1).toLowerCase();
+                    const format = colorCodes[code];
+                    if (format && !activeFormat.includes(format)) activeFormat.push(format);
                     colorSegmentHtml += `<span class="hl-code">${part}</span>`;
                 } else {
-                    const style = activeColor ? `style="color: ${activeColor}"` : "";
+                    const styleStr = (activeColor ? `color: ${activeColor};` : "") + activeFormat.join(";");
+                    const style = styleStr ? `style="${styleStr}"` : "";
                     colorSegmentHtml += `<span ${style}>${escapeHtml(part)}</span>`;
-                    
-                    // Stop coloring if we hit a closing quote
-                    if (part.includes('"') || part.includes("'")) activeColor = null;
+                    if (part.includes('"') || part.includes("'")) { activeColor = null; activeFormat = []; }
                 }
             }
             processed += colorSegmentHtml;
@@ -95,35 +107,45 @@ function processSegmentsSync(segments) {
         const segmentLower = segment.toLowerCase();
 
         if (!commandData) {
+            // Check cache for the base command (e.g., "give")
             commandData = commandCache[segmentLower];
+
             if (commandData) {
                 processed += `<span class="hl-command">${escapeHtml(segment)}</span>`;
             } else {
+                // Not in cache? Fetch for next time and mark as error for now
                 fetchCommandGrammar(segmentLower); 
                 processed += `<span class="hl-error">${escapeHtml(segment)}</span>`;
             }
         } else {
+            // Handle Execute Recursion
             if (segmentLower === "run" && commandData.command === "execute") {
                 processed += `<span class="hl-command">run</span>`;
+                // Process the rest of the line as a new command
                 processed += processSegmentsSync(segments.slice(i + 1));
                 break; 
             }
 
+            // If we hit a restOfLine trigger previously, keep using that class
             if (restOfLineMode) {
-                const style = activeColor ? `style="color: ${activeColor}"` : "";
+                const styleStr = (activeColor ? `color: ${activeColor};` : "") + activeFormat.join(";");
+                const style = styleStr ? `style="${styleStr}"` : "";
                 processed += `<span class="${restOfLineClass}" ${style}>${escapeHtml(segment)}</span>`;
                 continue;
             }
 
+            // Highlight arguments based on the JSON pattern
             let expected = commandData.pattern[argCounter];
             let cssClass = getHighlightClass(segment, expected);
             
+            // Check for the new restOfLine state
             if (expected && expected.restOfLine === "true") {
                 restOfLineMode = true;
                 restOfLineClass = cssClass;
             }
 
-            const style = activeColor ? `style="color: ${activeColor}"` : "";
+            const styleStr = (activeColor ? `color: ${activeColor};` : "") + activeFormat.join(";");
+            const style = styleStr ? `style="${styleStr}"` : "";
             processed += `<span class="${cssClass}" ${style}>${escapeHtml(segment)}</span>`;
             argCounter++;
         }
@@ -151,6 +173,7 @@ async function fetchCommandGrammar(cmd) {
         if (response.ok) {
             const data = await response.json();
             commandCache[cmd] = data;
+            // Re-run highlighting now that we have the data
             if (typeof updateHighlighting === "function") updateHighlighting();
         }
     } catch (e) { /* silent fail */ }
