@@ -1,0 +1,13 @@
+{
+  "command": "fill",
+  "pattern": [
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int", "required": false },
+    { "type": "json_component", "required": false }
+  ]
+}
