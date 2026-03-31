@@ -51,6 +51,8 @@ function processSegmentsSync(segments) {
     let processed = "";
     let commandData = null;
     let argCounter = 0;
+    let restOfLineMode = false;
+    let restOfLineClass = "";
 
     for (let i = 0; i < segments.length; i++) {
         let segment = segments[i];
@@ -83,9 +85,22 @@ function processSegmentsSync(segments) {
                 break; 
             }
 
+            // If we hit a restOfLine trigger previously, keep using that class
+            if (restOfLineMode) {
+                processed += `<span class="${restOfLineClass}">${escapeHtml(segment)}</span>`;
+                continue;
+            }
+
             // Highlight arguments based on the JSON pattern
             let expected = commandData.pattern[argCounter];
             let cssClass = getHighlightClass(segment, expected);
+            
+            // Check for the new restOfLine state
+            if (expected && expected.restOfLine === "true") {
+                restOfLineMode = true;
+                restOfLineClass = cssClass;
+            }
+
             processed += `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
             argCounter++;
         }
@@ -120,9 +135,10 @@ function getHighlightClass(word, expected) {
             return /^(@[a-p|e|s|r|v]|@[a-p|e|s|r|v]\[.*\]|[A-Za-z0-9_]{3,16})$/i.test(word) ? "hl-selector" : "hl-error";
         case "word":
             if (expected.options) {
-                if (expected.options.includes("*")) return "hl-item"; 
                 if (expected.options.includes(word.toLowerCase())) return "hl-command"; 
             }
+            // If it's a restOfLine word but not in options, we still treat it as hl-item/command rather than error
+            if (expected.restOfLine === "true") return "hl-item";
             return "hl-error";
         case "item_id": 
             return /^([a-z0-9_]+:)?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
