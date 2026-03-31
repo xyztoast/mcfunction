@@ -1,0 +1,10 @@
+{
+  "command": "testforblock",
+  "pattern": [
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "int" },
+    { "type": "word", "required": true, "options": ["*"]},
+    { "type": "json_component", "required": false }
+  ]
+}
