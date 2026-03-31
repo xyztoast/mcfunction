@@ -1,0 +1,7 @@
+{
+  "command": "give",
+  "pattern": [
+    { "type": "word", "required": true, "options": ["survival", "creative", "adventure", "spectator", "s", "c", "a", "1", "2", "3", "0"] },
+    { "type": "target", "required": true }
+  ]
+}
