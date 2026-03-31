@@ -53,6 +53,9 @@ function processSegmentsSync(segments) {
     let argCounter = 0;
     let restOfLineMode = false;
     let restOfLineClass = "";
+    
+    // NEW: Track branching state
+    let currentNode = null;
 
     for (let i = 0; i < segments.length; i++) {
         let segment = segments[i];
@@ -71,6 +74,8 @@ function processSegmentsSync(segments) {
 
             if (commandData) {
                 processed += `<span class="hl-command">${escapeHtml(segment)}</span>`;
+                // Set the starting node if it exists (for branching)
+                if (commandData.nodes) currentNode = commandData.nodes["root"];
             } else {
                 // Not in cache? Fetch for next time and mark as error for now
                 fetchCommandGrammar(segmentLower); 
@@ -80,29 +85,45 @@ function processSegmentsSync(segments) {
             // Handle Execute Recursion
             if (segmentLower === "run" && commandData.command === "execute") {
                 processed += `<span class="hl-command">run</span>`;
-                // Process the rest of the line as a new command
                 processed += processSegmentsSync(segments.slice(i + 1));
                 break; 
             }
 
-            // If we hit a restOfLine trigger previously, keep using that class
             if (restOfLineMode) {
                 processed += `<span class="${restOfLineClass}">${escapeHtml(segment)}</span>`;
                 continue;
             }
 
-            // Highlight arguments based on the JSON pattern
-            let expected = commandData.pattern[argCounter];
+            let expected = null;
+
+            // BRANCHING LOGIC: If we have nodes, find the next one based on the word
+            if (currentNode) {
+                // Check if current word is a valid keyword option in this node
+                if (currentNode.options && currentNode.options[segmentLower]) {
+                    const nextNodeKey = currentNode.options[segmentLower];
+                    expected = { type: "word", options: [segmentLower] }; // Highlight as keyword
+                    currentNode = commandData.nodes[nextNodeKey]; // Move to the next state
+                } 
+                // Otherwise, check if this node expects a specific type (like target or int)
+                else if (currentNode.type) {
+                    expected = currentNode;
+                    // Move to the next node in the chain if specified
+                    currentNode = currentNode.next ? commandData.nodes[currentNode.next] : null;
+                }
+            } else {
+                // FALLBACK: Original linear pattern logic
+                expected = commandData.pattern ? commandData.pattern[argCounter] : null;
+                argCounter++;
+            }
+
             let cssClass = getHighlightClass(segment, expected);
             
-            // Check for the new restOfLine state
             if (expected && expected.restOfLine === "true") {
                 restOfLineMode = true;
                 restOfLineClass = cssClass;
             }
 
-            processed += `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
-            argCounter++;
+            processed += `<span class="${cssClass || 'hl-error'}">${escapeHtml(segment)}</span>`;
         }
     }
     return processed;
@@ -118,7 +139,6 @@ async function fetchCommandGrammar(cmd) {
         if (response.ok) {
             const data = await response.json();
             commandCache[cmd] = data;
-            // Re-run highlighting now that we have the data
             if (typeof updateHighlighting === "function") updateHighlighting();
         }
     } catch (e) { /* silent fail */ }
@@ -128,7 +148,7 @@ async function fetchCommandGrammar(cmd) {
  * Helper: Mapping JSON types to CSS classes
  */
 function getHighlightClass(word, expected) {
-    if (!expected) return ""; 
+    if (!expected) return "hl-error"; 
 
     switch (expected.type) {
         case "target": 
@@ -138,7 +158,6 @@ function getHighlightClass(word, expected) {
                 if (expected.options.includes("*")) return "hl-item"; 
                 if (expected.options.includes(word.toLowerCase())) return "hl-command"; 
             }
-            // If it's a restOfLine word but not in options, we still treat it as hl-item/command rather than error
             if (expected.restOfLine === "true") return "hl-item";
             return "hl-error";
         case "item_id": 
@@ -158,25 +177,18 @@ function escapeHtml(text) {
 function setTheme(themeName) {
     const themeLink = document.getElementById('theme-link');
     if (themeLink) {
-        // We use a relative path since the files are in your repo
-        // This builds the path: theme/editor/[name].css
         const themeUrl = `theme/editor/${themeName.toLowerCase()}.css`;
-
         themeLink.href = themeUrl;
         localStorage.setItem('selected-editor-theme', themeName.toLowerCase());
-
         console.log("Switched theme to:", themeUrl);
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    // 1. Load saved theme
     const savedTheme = localStorage.getItem('selected-editor-theme') || 'default';
     setTheme(savedTheme);
 
-    // 2. Attach click events to your dropdown divs
     const themeButtons = document.querySelectorAll('.sub-dropdown div');
-
     themeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const themeName = btn.textContent.trim().toLowerCase();
