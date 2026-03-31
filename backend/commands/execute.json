@@ -1,0 +1,24 @@
+{
+  "command": "execute",
+  "nodes": {
+    "root": {
+      "type": "word",
+      "options": {
+        "as": "target_node",
+        "at": "target_node",
+        "if": "if_node"
+      }
+    },
+    "target_node": {
+      "type": "target",
+      "next": "root"
+    },
+    "if_node": {
+      "type": "word",
+      "options": {
+        "entity": "target_node",
+        "block": "pos_node"
+      }
+    }
+  }
+}
