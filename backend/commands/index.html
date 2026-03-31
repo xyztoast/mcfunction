@@ -1,1 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
 
+  
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://xyztoast.github.io/mcfunction">
+<meta property="og:title" content="mcbCode">
+<meta property="og:description" content="First MCFunction Code Editor for Minecraft Bedrock Edition">
+<meta property="og:image" content="https://xyztoast.github.io/mcfunction/theme/favicon.png">
+<meta property="og:image:width" content="64">
+<meta property="og:image:height" content="64">
+<meta property="og:site_name" content="mcbCode">
+<meta name="keywords" content="minecraft bedrock mcfunction code editor minecraft bedrock">
+<meta name="description" content="First MCFunction Code Editor for Minecraft Bedrock Edition">
+<meta name="robots" content="index, follow">
+
+  
+  <link rel="icon" href="https://xyztoast.github.io/mcfunction/theme/favicon.png">
+  <link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>mcbCode</title>
+  <style>
+    html,body{
+      min-height:100%;
+      margin:0;
+      font-family:'mcfont', sans-serif;
+      background:#0c0c0c;
+      font-weight: 0;
+      color:#bebebe;
+      justify-content: center;
+      margin: auto;
+      text-align: center;
+    }
+
+    h1{
+
+      font-family: "mcfontb", sans-serif;
+      font-size: 40px;
+      margin-top: 5vh;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    h2 {
+     font-size: 25px; 
+     color: #ffffff;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffff;
+        transition: color 0.2s ease-in-out;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #05ee93;
+    }
+
+
+  .mcbc {
+    position: fixed;
+    left: 5px;
+    top: 10px;
+    height: 50px;
+    max-width: 50px;
+  }
+
+  g {
+      color: #05ee93;
+  }
+
+  c {
+      color: #e7007b;
+  }
+
+  button {
+      text-align: center;
+      background-color: #313131;
+      border: none;
+      font-size: 18px;
+      border-radius: 12px;
+      padding: 8px 12px;
+      color: #ffffff;
+      transition: color 0.2s ease-in-out;
+      cursor: pointer;
+  }
+
+  button:hover {
+      color: #05ee93;
+  }
+
+  #tryitout {
+      color: #0c0c0c;
+      background-color: #05ee93;
+      box-shadow: 0 0 20px 10px #05ee934;
+      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+      border: 4px solid #00a459;
+  }
+
+  #tryitout:hover {
+      color: #ffffff;
+      background-color: #00a95c;
+  }
+
+.navi {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 75px;
+    background-color: rgba(45 45 45 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+}
+
+.quick-links {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    text-align: center;
+    margin: auto;
+}
+
+.divider {
+    border-top: 2px solid #bebebe;
+    max-width: 30%;
+    opacity: 0.5;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.content-wrapper {
+    display: flex;
+    max-width: 90%;
+    margin: auto;
+}
+
+.content {
+    flex: 1;
+}
+
+#documentation {
+      border: 4px solid #3f3f3f;
+}
+
+
+code {
+    font-family: mcfont;
+    background-color: #1d1d1d;
+    padding: 16px 12px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    max-width: 80%;
+    margin: auto;
+    flex: 1;
+    gap: 6px;
+    user-select: none;
+}
+
+
+aa {
+    color: #55ff55;
+}
+
+aao {
+    color: #55ff55;
+    opacity: 0.5;
+}
+
+cc {
+    color: #ff5555;
+}
+
+ee {
+    color: #ffff55;
+}
+
+rr {
+    color: #ffaa00;
+}
+
+bb {
+    color: #55ffff;
+}
+
+footer {
+    color: #343434;
+}
+footer g {
+    color: #008e4c;
+}
+  </style>
+</head>
+<body>
+<br>
+<br>
+<p>here on accident?</p>
+<div style="user-select: none;">
+<div class="top-navi">
+    <a href="https://xyztoast.github.io/mcfunction/editor"><button id="tryitout">To Editor</button></a>
+    <a href="https://xyztoast.github.io/mcfunction/"><button id="documentation">Home Page</button></a>
+</div>
+</div>
+<h1>mcb<g>Code</g> <c>command</c> <img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 40px"> list</h1>
+<p style="color: #fff;">checklist for myself</p>
+<br>
+<br>
+<br>
+<br>
+<h2>commands checklist</h2>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> difficulty</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> fill</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> gamemode</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> gamerule</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> give</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> particle</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> say</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> scriptevent</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> setblock</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> teleport</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/118/white-heavy-check-mark_2705.png" style="width: 20px"> tp</p>
+<p style="color: #f0f0f0; font-size: 18px;"><img src="https://em-content.zobj.net/source/apple/129/cross-mark_274c.png" style="width: 20px"> others</p>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<footer>Not affiliated  with Microsoft or Mojang AB.<br><br>
+© Copyright 2026 mcb<g>Code</g></footer>
+<br><br>
+
+
+
+
+
+
+
+
+<script data-goatcounter="https://idktoast.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
