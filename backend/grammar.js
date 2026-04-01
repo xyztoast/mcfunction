@@ -2,11 +2,12 @@
 const commandCache = {};
 
 /**
- * The "Brain" - Processes segments
+ * The "Brain" - Processes segments with the "Elimination Race" logic
  */
 function processSegmentsSync(segments) {
     let processed = "";
     let commandData = null;
+    let activePatterns = []; // This holds all the valid paths we are currently racing
     let argCounter = 0;
     let restOfLineMode = false;
     let restOfLineClass = "";
@@ -23,11 +24,23 @@ function processSegmentsSync(segments) {
         const segmentLower = segment.toLowerCase();
 
         if (!commandData) {
-            // Check cache for the base command (e.g., "give")
+            // Check cache for the base command (e.g., "give", "tickingarea")
             commandData = commandCache[segmentLower];
 
             if (commandData) {
                 processed += `<span class="hl-command">${escapeHtml(segment)}</span>`;
+                
+                // Initialize the Race!
+                if (commandData.overloads) {
+                    // If it has multiple paths, load them all
+                    activePatterns = commandData.overloads.map(o => o.pattern);
+                } else if (commandData.pattern) {
+                    // If it's a simple file like fill.json, just load the one path
+                    activePatterns = [commandData.pattern];
+                } else {
+                    activePatterns = [];
+                }
+
             } else {
                 // Not in cache? Fetch for next time and mark as error for now
                 fetchCommandGrammar(segmentLower); 
@@ -48,17 +61,42 @@ function processSegmentsSync(segments) {
                 continue;
             }
 
-            // Highlight arguments based on the JSON pattern
-            let expected = commandData.pattern[argCounter];
-            let cssClass = getHighlightClass(segment, expected);
-            
-            // Check for the new restOfLine state
-            if (expected && expected.restOfLine === "true") {
-                restOfLineMode = true;
-                restOfLineClass = cssClass;
+            // --- THE ELIMINATION RACE ---
+            let bestClass = "hl-error";
+            let matchedExpected = null;
+
+            // Filter down the patterns to only the ones that match the current word
+            let survivingPatterns = activePatterns.filter(pattern => {
+                let expected = pattern[argCounter];
+                
+                // If this pattern ran out of arguments but the user is still typing, eliminate it
+                if (!expected) return false; 
+                
+                let cssClass = getHighlightClass(segment, expected);
+                // If the class isn't an error, this pattern survives!
+                return cssClass !== "hl-error";
+            });
+
+            if (survivingPatterns.length > 0) {
+                // We have a match! Update our active list to only the survivors
+                activePatterns = survivingPatterns;
+                
+                // Grab the expected object from the first survivor to determine the CSS/RestOfLine
+                matchedExpected = activePatterns[0][argCounter];
+                bestClass = getHighlightClass(segment, matchedExpected);
+            } else {
+                // No patterns matched. The user typed an error.
+                // We leave activePatterns alone so if they backspace and fix it, it can pick back up.
+                bestClass = "hl-error";
             }
 
-            processed += `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
+            // Check for the new restOfLine state using the winning pattern
+            if (matchedExpected && matchedExpected.restOfLine === "true") {
+                restOfLineMode = true;
+                restOfLineClass = bestClass;
+            }
+
+            processed += `<span class="${bestClass}">${escapeHtml(segment)}</span>`;
             argCounter++;
         }
     }
@@ -95,13 +133,14 @@ function getHighlightClass(word, expected) {
                 if (expected.options.includes("*")) return "hl-item"; 
                 if (expected.options.includes(word.toLowerCase())) return "hl-command"; 
             }
+            // If it's a restOfLine word but not in options, we still treat it as hl-item/command rather than error
             if (expected.restOfLine === "true") return "hl-item";
             return "hl-error";
         case "item_id": 
             return /^([a-z0-9_]+:)?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
         case "int": 
             return /^([~^]-?\d*|-?\d+)$/.test(word) ? "hl-number" : "hl-error";
-        default: return "";
+        default: return ""; // Failsafe for things like json_component
     }
 }
 
