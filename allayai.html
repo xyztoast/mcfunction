@@ -338,7 +338,7 @@ header {
     chatInput.style.height = Math.max(80, chatInput.scrollHeight) + "px";
   }
 
-  async function callWorker(prompt) {
+async function callWorker(prompt) {
     const contextualPrompt = `[Context: ${currentMode.toUpperCase()} mode] ${prompt}`;
     
     const payload = {
@@ -351,16 +351,23 @@ header {
       body: JSON.stringify(payload)
     });
     
-    if (!response.ok) {
-        // Try to get the error message from the body
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `HTTP Error ${response.status}`);
+    const data = await response.json();
+
+    // Debugging: This will show you the REAL "box" in the browser console
+    console.log("OpenRouter Response:", data);
+
+    // This checks all the common places OpenRouter hides the text
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+        return data.choices[0].message.content;
+    } else if (data.choices && data.choices[0] && data.choices[0].text) {
+        return data.choices[0].text;
+    } else if (data.error) {
+        return `OpenRouter Error: ${data.error.message}`;
     }
     
-    const data = await response.json();
-    return data.choices?.[0]?.message?.content || "No content returned from AI.";
+    return "AI reached, but the response format was unexpected. Check Console.";
   }
-
+    
   function typeMessage(text, isError = false) {
     const container = document.createElement('div');
     container.className = 'message-container bot-container';
