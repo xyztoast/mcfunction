@@ -12,7 +12,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  /* Prevent horizontal overflow */
   overflow-x: hidden;
 }
 
@@ -37,14 +36,8 @@ header {
 }
 
 @keyframes messageFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes letterFadeIn {
@@ -124,11 +117,11 @@ header {
   z-index: 1000; 
   padding: 0 20px;
   box-sizing: border-box;
-  pointer-events: none; /* Allows clicks to pass through wrapper to chat if needed */
+  pointer-events: none;
 }
 
 .input-container {
-  pointer-events: auto; /* Re-enable for the actual input */
+  pointer-events: auto;
   position: relative;
   width: 100%;
   max-width: 1200px; 
@@ -190,7 +183,7 @@ header {
 }
 
 .dropup-content {
-  display: none; /* Changed from block to none to remove ghost space */
+  display: none; 
   position: absolute;
   bottom: 100%;
   left: 0;
@@ -205,14 +198,8 @@ header {
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
-.dropup-content.show {
-  display: block;
-}
-
-.dropup-content.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.dropup-content.show { display: block; }
+.dropup-content.visible { opacity: 1; transform: translateY(0); }
 
 .dropup-item {
   padding: 14px 20px; 
@@ -223,13 +210,8 @@ header {
   transition: background 0.2s, color 0.2s;
 }
 
-.dropup-item:hover {
-  background-color: #383838;
-}
-
-.dropup-item.active {
-  color: #05ee93;
-}
+.dropup-item:hover { background-color: #383838; }
+.dropup-item.active { color: #05ee93; }
 
 .icon-btn {
   background: none;
@@ -245,29 +227,29 @@ header {
   transition: color 0.2s ease-in-out;
 }
 
-.icon-btn:hover {
-  color: #05ee93;
-}
+.icon-btn:hover:not(:disabled) { color: #05ee93; }
+.icon-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .input-container:hover {
   border-color: #05ee93;
   box-shadow: 0 0 15px rgba(5, 238, 147, 0.4);
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #0c0c0c;
-}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0c0c0c; }
 ::-webkit-scrollbar-thumb {
   background: #383838;
   border: 2px solid #0c0c0c;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #05ee93;
-}
+::-webkit-scrollbar-thumb:hover { background: #05ee93; }
 
+.typing-indicator {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 10px;
+  font-family: 'mcfont', sans-serif;
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -278,6 +260,7 @@ header {
   <div id="chat-messages"></div>
 
 <div class="prompt-wrapper">
+  <div id="typing-status" class="typing-indicator">Allay is thinking...</div>
   <div class="input-container">
     <textarea 
       id="chat-input"
@@ -299,40 +282,40 @@ header {
       <button class="icon-btn send-btn" id="send-btn">Send</button>
     </div>
   </div>
-  <div class="disclaimer">AllayAI is artificial intelligence, it may be incorrect</div>
+  <div class="disclaimer">AllayAI is artificial intelligence powered by Vercel & Cloudflare</div>
 </div>
 
 <script>
+  // Replace with your Vercel deployment URL + /api/send
+  const workerUrl = "https://allay-proxy.vercel.app/api/send"; 
+
   const chatInput = document.getElementById('chat-input');
   const chatMessages = document.getElementById('chat-messages');
   const sendBtn = document.getElementById('send-btn');
   const modeBtn = document.getElementById('mode-btn');
   const modeMenu = document.getElementById('mode-menu');
   const modeItems = document.querySelectorAll('.dropup-item');
+  const typingStatus = document.getElementById('typing-status');
 
   let currentMode = 'redstone';
+  let isProcessing = false;
 
   function toggleMenu(show) {
     if (show) {
       modeMenu.classList.add('show');
-      // Timeout to allow display: block to trigger before opacity transition
       setTimeout(() => modeMenu.classList.add('visible'), 10);
     } else {
       modeMenu.classList.remove('visible');
-      // Wait for transition to finish before hiding
       setTimeout(() => modeMenu.classList.remove('show'), 300);
     }
   }
 
   modeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    const isShowing = modeMenu.classList.contains('visible');
-    toggleMenu(!isShowing);
+    toggleMenu(!modeMenu.classList.contains('visible'));
   });
 
-  window.addEventListener('click', () => {
-    toggleMenu(false);
-  });
+  window.addEventListener('click', () => toggleMenu(false));
 
   modeItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -346,17 +329,31 @@ header {
 
   function autoGrow() {
     chatInput.style.height = "5px";
-    const newHeight = Math.max(80, chatInput.scrollHeight);
-    chatInput.style.height = newHeight + "px";
+    chatInput.style.height = Math.max(80, chatInput.scrollHeight) + "px";
   }
 
-  function generateRandomText(length) {
-    const chars = 'abcdefghijklmnopqrstuvwxyz ';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+  async function callWorker(prompt) {
+    const contextualPrompt = `[Context: ${currentMode.toUpperCase()} mode] ${prompt}`;
+    
+    const payload = {
+      userPrompt: contextualPrompt
+    };
+
+    try {
+      const response = await fetch(workerUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) throw new Error('Proxy Error');
+      
+      const data = await response.json();
+      return data.choices?.[0]?.message?.content || "I couldn't generate a response.";
+    } catch (err) {
+      console.error(err);
+      throw err;
     }
-    return result;
   }
 
   function typeMessage(text) {
@@ -368,66 +365,69 @@ header {
     container.appendChild(msgDiv);
     chatMessages.appendChild(container);
 
-    text.split('').forEach((char, index) => {
+    const cleanText = text.replace(/\*\*/g, '');
+
+    cleanText.split('').forEach((char, index) => {
       const span = document.createElement('span');
       span.className = 'char';
       span.textContent = char;
-      span.style.animationDelay = `${index * 0.01}s`;
+      span.style.animationDelay = `${index * 0.005}s`;
       msgDiv.appendChild(span);
     });
 
-    chatMessages.scrollTo({
-      top: chatMessages.scrollHeight,
-      behavior: 'smooth'
-    });
+    chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
   }
 
-  function sendMessage() {
+  async function sendMessage() {
+    if (isProcessing) return;
+    
     const rawText = chatInput.value.trim();
     if (rawText === "") return;
 
-    const fullMessage = `${rawText} !&${currentMode}`;
+    isProcessing = true;
+    sendBtn.disabled = true;
+    chatInput.disabled = true;
 
     const container = document.createElement('div');
     container.className = 'message-container user-container';
-
     const msgDiv = document.createElement('div');
     msgDiv.className = 'message user-message';
     msgDiv.textContent = rawText;
     container.appendChild(msgDiv);
-
     const metaDiv = document.createElement('div');
     metaDiv.className = 'message-meta';
     metaDiv.textContent = currentMode;
     container.appendChild(metaDiv);
-
     chatMessages.appendChild(container);
     
-    console.log("Sent internal message:", fullMessage);
-
     chatInput.value = "";
     autoGrow();
-    
-    chatMessages.scrollTo({
-      top: chatMessages.scrollHeight,
-      behavior: 'smooth'
-    });
+    chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
 
-    setTimeout(() => {
-      const randomReply = generateRandomText(500);
-      typeMessage(randomReply);
-    }, 600);
+    typingStatus.style.display = 'block';
+
+    try {
+      const response = await callWorker(rawText);
+      typingStatus.style.display = 'none';
+      typeMessage(response);
+    } catch (error) {
+      typingStatus.style.display = 'none';
+      typeMessage("Water may have taken the redstone signal out... it seems blocked.");
+    } finally {
+      isProcessing = false;
+      sendBtn.disabled = false;
+      chatInput.disabled = false;
+      chatInput.focus();
+    }
   }
 
   chatInput.addEventListener('input', autoGrow);
-
   chatInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   });
-
   sendBtn.addEventListener('click', sendMessage);
 </script>
 
