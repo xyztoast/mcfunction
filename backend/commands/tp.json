@@ -1,9 +1,68 @@
 {
   "command": "tp",
-  "pattern": [
-    { "type": "target" },
-    { "type": "int" },
-    { "type": "int" },
-    { "type": "int" }
+  "overloads": [
+    {
+      "comment": "tp <victim: target> <destination: target> [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "target", "required": true },
+        { "type": "target", "required": true },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    },
+    {
+      "comment": "tp <victim: target> <x y z> [yRot] [xRot] [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "target", "required": true },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "int", "required": false },
+        { "type": "int", "required": false },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    },
+    {
+      "comment": "tp <victim: target> <x y z> facing <lookAtPosition: x y z> [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "target", "required": true },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "word", "options": ["facing"], "required": true },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    },
+    {
+      "comment": "tp <victim: target> <x y z> facing <lookAtEntity: target> [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "target", "required": true },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "word", "options": ["facing"], "required": true },
+        { "type": "target", "required": true },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    },
+    {
+      "comment": "tp <destination: target> [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "target", "required": true },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    },
+    {
+      "comment": "tp <x y z> [yRot] [xRot] [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "int", "required": false },
+        { "type": "int", "required": false },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    },
+    {
+      "comment": "tp <x y z> facing <lookAtPosition: x y z> [checkForBlocks: Boolean]",
+      "pattern": [
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "word", "options": ["facing"], "required": true },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "word", "options": ["true", "false"], "required": false }
+      ]
+    }
   ]
 }
