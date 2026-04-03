@@ -1,0 +1,10 @@
+{
+  "command": "camerashake",
+  "pattern": [
+    { "type": "target", "required": true },
+    { "type": "word", "options": ["add", "stop"], "required": true },
+    { "type": "int", "required": false },
+    { "type": "int", "required": false },
+    { "type": "word", "options": ["positional", "rotational"], "required": false }
+  ]
+}
