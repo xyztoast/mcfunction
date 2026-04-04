@@ -339,7 +339,7 @@ header {
   }
 
 async function callWorker(prompt) {
-    const contextualPrompt = `[Context: ${currentMode.toUpperCase()} mode] ${prompt}`;
+    const contextualPrompt = `${prompt} [${currentMode()}]`;
     
     const payload = {
       userPrompt: contextualPrompt
