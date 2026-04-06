@@ -4,12 +4,12 @@
 
 <link rel="manifest" href="/app/manifest.json">
 
-<link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
+<link rel="stylesheet" href="https://mcbcode.com/theme/site.css">
 <!-- External Theme Link -->
-<link id="theme-link" rel="stylesheet" href="https://xyztoast.github.io/mcfunciton/theme/editor/default.css">
+<link id="theme-link" rel="stylesheet" href="https://mcbcode.com/theme/editor/default.css">
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
-<title>mcbCode editor</title>
+<title>Editor | mcbCode</title>
 <style>
   body {
     margin: 0;
@@ -96,8 +96,8 @@
     margin: 0;
     border: none;
     outline: none;
-    font-family: monospace;
-    line-height: 1.2em;
+    font-family: 'Courier New', monospace !important;
+    line-height: 1.2;
     font-size: 12px;
     white-space: pre;
     word-wrap: normal;
@@ -110,8 +110,8 @@
   .code-area {
     z-index: 2;
     background: transparent !important;
-    color: transparent !important; 
-    caret-color: #fff !important; 
+    color: transparent; 
+    caret-color: #ffffff !important;
     resize: none;
   }
 
@@ -119,8 +119,14 @@
   .highlight-layer {
     z-index: 1;
     background-color: #0c0c0c;
-    color: #f0f0f0;
+    color: #ffffff;
     pointer-events: none; 
+  }
+
+  .code-area, 
+  .highlight-layer, 
+  .highlight-layer * {
+    font-family: monospace !important;
   }
 
   .nav-item {
@@ -173,7 +179,6 @@
   #exportCode { color: #00b2ff; }
   .delete { color: #ff4d4d; }
   h3 { font-family: mcfont; margin: 0; }
-  g { color: #05ee93; }
 
 
 .nav-item:hover .nav-dropdown {
@@ -248,7 +253,7 @@
 </head>
 <body>
     <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
-        <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
+        <a href="https://mcbcode.com" style="padding-left: 12px;"><img src="https://mcbcode.com/theme/favicon.png" alt="icon" style="width: 36px"></a>
         <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
         <div class="filename-txt">Filename:</div>
         <textarea id="autoWidth" class="file-name" maxlength="72"></textarea>
@@ -330,23 +335,13 @@ textarea.addEventListener('input', adjustWidth);
         <div class="theme-btn" onclick="setTheme('solid')">Solid</div>
       </div>
     </div>
-    <div class="has-submenu">
-      <img src="https://ccvaults.com/thumbnails/10.%20Items/25.%20Legacy%20Banner%20Patterns/Flow_Banner_Pattern.png" style="width: 16px; height: 16px; padding-right: 4px;">Keyboard Shortcuts
-      <div class="sub-dropdown">
-        <h4>Ctrl+A - Select All</h4>
-        <h4>Ctrl+C - Copy</h4>
-        <h4>Ctrl+V - Paste</h4>
-        <h4>Ctrl+X - Cut</h4>
-        <h4>Ctrl+S - Download File</h4>
-        <h4>Ctrl+E - Edit Details</h4>
-      </div>
-    </div>
   </div>
 </div>
         <div class="nav-item">
           <button>Help</button>
           <div class="nav-dropdown">
             <a href="https://wiki.bedrock.dev/commands/intro-to-command-blocks" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Wild_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>wiki.bedrock.dev</g></div></a>
+            <a href="https://minecraft.wiki/w/Commands" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Wild_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>minecraft.wiki</g></div></a>
           </div>
         </div>
       </div>
@@ -366,7 +361,9 @@ textarea.addEventListener('input', adjustWidth);
       <pre id="lineNumbers" class="line-numbers">1</pre>
       <div class="code-container">
         <div class="highlight-layer" id="highlightLayer"></div>
-        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast"># welcome to mcbCode. 
+        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="give @a diamond 7
+title @a title Welcome to
+title @a subtitle mcbCode"># welcome to mcbCode. 
 title @a actionbar §aWelcome to my world!
 tp @a 0 319 0
 give @a oak_log 32
@@ -375,8 +372,8 @@ give @r stone_sword</textarea>
     </div>
 
   <!-- load stuff -->
-<script src="backend/grammar.js"></script>
-<script src="backend/highlight.js"></script>
+<script src="https://mcbcode.com/backend/grammar.js"></script>
+<script src="https://mcbcode.com/backend/highlight.js"></script>
 
   <script>
 const codeArea = document.getElementById('codeArea');
@@ -520,7 +517,7 @@ document.getElementById('exportCode').addEventListener('click', () => {
 
 
   </script>
-  <script src="https://xyztoast.github.io/mcfunction/app/editor.js"></script>
+  <script src="https://mcbcode.com/app/editor.js"></script>
 
 
 
@@ -545,9 +542,9 @@ document.getElementById('exportCode').addEventListener('click', () => {
 
 <link rel="manifest" href="/app/manifest.json">
 
-<link rel="stylesheet" href="https://xyztoast.github.io/mcfunction/theme/site.css">
+<link rel="stylesheet" href="https://mcbcode.com/theme/site.css">
 <!-- External Theme Link -->
-<link id="theme-link" rel="stylesheet" href="https://xyztoast.github.io/mcfunciton/theme/editor/default.css">
+<link id="theme-link" rel="stylesheet" href="https://mcbcode.com/theme/editor/default.css">
 <meta charset="UTF-8">
 <link rel="icon" href="/icons/mcbcode.png">
 <title>mcbCode editor</title>
@@ -652,7 +649,7 @@ document.getElementById('exportCode').addEventListener('click', () => {
     z-index: 2;
     background: transparent !important;
     color: transparent !important; 
-    caret-color: #fff !important; 
+    caret-color: #ffffff !important; 
     resize: none;
   }
 
@@ -660,7 +657,8 @@ document.getElementById('exportCode').addEventListener('click', () => {
   .highlight-layer {
     z-index: 1;
     background-color: #0c0c0c;
-    color: #f0f0f0;
+    color: #ffffff;
+    font-family: monospace !important;
     pointer-events: none; 
   }
 
@@ -789,7 +787,7 @@ document.getElementById('exportCode').addEventListener('click', () => {
 </head>
 <body>
     <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
-        <a href="https://xyztoast.github.io/mcfunction" style="padding-left: 12px;"><img src="https://xyztoast.github.io/icons/mcbcode.png" alt="icon" style="width: 36px"></a>
+        <a href="https://mcbcode.com" style="padding-left: 12px;"><img src="https://mcbcode.com/theme/favicon.png" alt="icon" style="width: 36px"></a>
         <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
         <div class="filename-txt">Filename:</div>
         <textarea id="autoWidth" class="file-name" maxlength="72"></textarea>
@@ -871,19 +869,7 @@ textarea.addEventListener('input', adjustWidth);
         <div class="theme-btn" onclick="setTheme('solid')">Solid</div>
       </div>
     </div>
-    <div class="has-submenu">
-      <img src="https://ccvaults.com/thumbnails/10.%20Items/25.%20Legacy%20Banner%20Patterns/Flow_Banner_Pattern.png" style="width: 16px; height: 16px; padding-right: 4px;">Keyboard Shortcuts
-      <div class="sub-dropdown">
-        <h4>Ctrl+A - Select All</h4>
-        <h4>Ctrl+C - Copy</h4>
-        <h4>Ctrl+V - Paste</h4>
-        <h4>Ctrl+X - Cut</h4>
-        <h4>Ctrl+S - Download File</h4>
-        <h4>Ctrl+E - Edit Details</h4>
       </div>
-    </div>
-  </div>
-</div>
         <div class="nav-item">
           <button>Help</button>
           <div class="nav-dropdown">
@@ -907,17 +893,16 @@ textarea.addEventListener('input', adjustWidth);
       <pre id="lineNumbers" class="line-numbers">1</pre>
       <div class="code-container">
         <div class="highlight-layer" id="highlightLayer"></div>
-        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast"># welcome to mcbCode. 
-title @a actionbar §aWelcome to my world!
-tp @a 0 319 0
-give @a oak_log 32
-give @r stone_sword
+        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="mcbCode made by idktoast"># this is a test site!
+# i use this for testing experimental features that might break the site.
+# you are free to use this site, but expect bugs
+# the real site is at mcbcode.com/editor
 </textarea>
       </div>
     </div>
 
   <!-- Loading external grammar and logic -->
-  <script src="https://xyztoast.github.io/mcfunction/backend/test-example.js"></script>
+  <script src="https://mcbcode.com/backend/test-example.js"></script>
 
   <script>
 const codeArea = document.getElementById('codeArea');
@@ -1061,7 +1046,7 @@ document.getElementById('exportCode').addEventListener('click', () => {
 
 
   </script>
-  <script src="https://xyztoast.github.io/mcfunction/app/editor.js"></script>
+  <script src="https://mcbcode.com/app/editor.js"></script>
 
 
 
