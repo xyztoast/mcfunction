@@ -3,7 +3,7 @@
 one of the first dedicated code editors for `.mcfunction`, specifically built for the Minecraft Bedrock Edition command system.
 
 ## moving to its own repository
-this project originally lived over at my github site. however, as more and more was added, the project grew into a full-scale editor for command blocks and mcfunctions, i decided it needs a dedicated space. 
+this project originally lived over at my [github site](https://xyztoast.github.io). however, as more and more was added, the project grew into a full-scale editor for command blocks and mcfunctions, i decided it needs a dedicated space. 
 
 i'm moving development here to keep things organized as i add more.
 
