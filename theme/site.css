@@ -18,9 +18,6 @@
   font-family: 'mcfont', sans-serif;
 }
 
-.code-area, .highlight-layer {
-  font-family: monospace !important;
-}
 body {
   background-color: #0c0c0c;
 }
@@ -59,6 +56,7 @@ input {
 button {
   font-family: 'mcfont';
 }
-textarea {
-  font-family: 'mcfont';
+
+.code-area, .highlight-layer {
+  font-family: monospace !important;
 }
