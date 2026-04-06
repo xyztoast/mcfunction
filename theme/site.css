@@ -28,6 +28,7 @@ body::selection {
 
 g {
   color: #05ee93;
+  font-family: inherit;
 }
 
 c {
