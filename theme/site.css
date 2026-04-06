@@ -3,13 +3,13 @@
 
     @font-face {
       font-family: 'mcfont';
-      src: url('https://xyztoast.github.io/mcfunction/theme/font/mcfont.ttf') format('truetype');
+      src: url('https://mcbcode.com/theme/font/mcfont.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
     }
     @font-face {
       font-family: 'mcfontb';
-      src: url('https://xyztoast.github.io/mcfunction/theme/font/mcfontb.ttf') format('truetype');
+      src: url('https://mcbcode.com/theme/font/mcfontb.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
     }
