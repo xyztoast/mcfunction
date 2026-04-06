@@ -3,5 +3,5 @@
 .hl-item { color: #ce9178; }
 .hl-number { color: #b5cea8; }
 .hl-comment { color: #4f4f4f; font-style: italic; }
-.hl-error { color: #ff8585 !important; text-decoration: underline wavy #ff0000; cursor: help; }
+.hl-error { color: #e7007b !important; text-decoration: underline wavy #99004c; cursor: help; }
 .hl-word { color: #d340f7 }
