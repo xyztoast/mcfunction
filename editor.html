@@ -189,7 +189,6 @@
 
 .has-submenu {
   position: relative;
-  cursor: pointer;
   border-radius: 0;
 }
 
@@ -278,7 +277,7 @@ document.body.appendChild(measurer);
 
 function adjustWidth() {
   measurer.textContent = textarea.value || textarea.placeholder;
-  textarea.style.width = measurer.offsetWidth + 10 + 'px'; // +10 for padding
+  textarea.style.width = measurer.offsetWidth + 'px'; // +10 for padding
 }
 
 // initial size
@@ -356,12 +355,12 @@ textarea.addEventListener('input', adjustWidth);
     <div class="has-submenu">
       <img src="https://ccvaults.com/thumbnails/20.%20Blocks/22.%20Redstone/Sticky_Piston.png" style="width: 16px; height: 16px; padding-right: 4px;">Keyboard Shortcuts
       <div class="sub-dropdown">
-        <img src="https://ccvaults.com/thumbnails/10.%20Items/18.%20Consumables/Writable_Book.png" style="width: 16px; height: 16px; padding-right: 4px;"><p><kbs>Ctrl+C</kbs> Copy</p>
-        <img src="https://ccvaults.com/thumbnails/10.%20Items/34.%20Uncategorized/Paper.png" style="width: 16px; height: 16px; padding-right: 4px;"><p><kbs>Ctrl+V</kbs> Paste</p>
-        <img src="https://ccvaults.com/thumbnails/10.%20Items/36.%20Other/Shears.png" style="width: 16px; height: 16px; padding-right: 4px;"><p><kbs>Ctrl+X</kbs> Cut</p>
+        <p><img src="https://ccvaults.com/thumbnails/10.%20Items/18.%20Consumables/Writable_Book.png" style="width: 16px; height: 16px;"> <kbs>Ctrl+C</kbs> Copy</p>
+        <p><img src="https://ccvaults.com/thumbnails/10.%20Items/34.%20Uncategorized/Paper.png" style="width: 16px; height: 16px;"> <kbs>Ctrl+V</kbs> Paste</p>
+        <p><img src="https://ccvaults.com/thumbnails/10.%20Items/36.%20Other/Shears.png" style="width: 16px; height: 16px;"> <kbs>Ctrl+X</kbs> Cut</p>
         <br>
-        <img src="https://ccvaults.com/thumbnails/10.%20Items/20.%20Compass/Clock_29.png" style="width: 16px; height: 16px; padding-right: 4px;"><p><kbs>Ctrl+Z</kbs> Undo</p>
-        <img src="https://ccvaults.com/thumbnails/10.%20Items/20.%20Compass/Clock_02.png" style="width: 16px; height: 16px; padding-right: 4px;"><p><kbs>Ctrl+Y</kbs> Redo</p>
+        <p><img src="https://ccvaults.com/thumbnails/10.%20Items/20.%20Compass/Clock_29.png" style="width: 16px; height: 16px;"> <kbs>Ctrl+Z</kbs> Undo</p>
+        <p><img src="https://ccvaults.com/thumbnails/10.%20Items/20.%20Compass/Clock_02.png" style="width: 16px; height: 16px;"> <kbs>Ctrl+Y</kbs> Redo</p>
       </div>
     </div>
 
@@ -504,7 +503,8 @@ codeArea.addEventListener('keydown', (e) => {
     });
 
 document.getElementById('exportCode').addEventListener('click', () => {
-  const codeArea = document.getElementById('codeArea'); // assuming your textarea with code has this id
+  const codeArea = document.getElementById('codeArea');
+
   const fileNameArea = document.getElementById('autoWidth'); 
 
   if (!codeArea.value) return;
