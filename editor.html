@@ -70,7 +70,7 @@
     overflow: hidden;
     text-align: right;
     line-height: 1.2em;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -98,7 +98,7 @@
     outline: none;
     font-family: 'Courier New', monospace !important;
     line-height: 1.2;
-    font-size: 12px;
+    font-size: 14px;
     white-space: pre;
     word-wrap: normal;
     box-sizing: border-box;
@@ -338,6 +338,17 @@ textarea.addEventListener('input', adjustWidth);
         <div class="theme-btn" onclick="setTheme('soft')">Soft</div>
         <div class="theme-btn" onclick="setTheme('grayscale')">Grayscale</div>
         <div class="theme-btn" onclick="setTheme('solid')">Solid</div>
+      </div>
+    </div>
+<div class="has-submenu">
+      <img src="https://ccvaults.com/thumbnails/10.%20Items/18.%20Consumables/Apple.png" style="width: 16px; height: 16px; padding-right: 4px;">Font Size
+      <div class="sub-dropdown">
+        <div class="theme-btn" onclick="setFontSize('12')">Tiny</div>
+        <div class="theme-btn" onclick="setFontSize('14')">Default</div>
+        <div class="theme-btn" onclick="setFontSize('16')">Medium</div>
+        <div class="theme-btn" onclick="setFontSize('18')">Large</div>
+        <div class="theme-btn" onclick="setFontSize('20')">X Large</div>
+        <div class="theme-btn" onclick="setFontSize('22')">2X Large</div>
       </div>
     </div>
   </div>
@@ -615,6 +626,24 @@ document.addEventListener('keydown', (e) => {
     updateLineNumbers();
     updateHighlighting();
 
+
+    // font size changing
+    function setFontSize(size) {
+  const fontSize = size + 'px';
+  const selectors = ['.code-area', '.highlight-layer', '.line-numbers'];
+
+  selectors.forEach(selector => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+      el.style.fontSize = fontSize;
+    });
+  });
+
+  // Most code editors need line height adjusted to match font size
+  // updateLineNumbers() and updateHighlighting() are called if they exist
+  if (typeof updateLineNumbers === 'function') updateLineNumbers();
+  if (typeof updateHighlighting === 'function') updateHighlighting();
+}
 
   </script>
   <script src="https://mcbcode.com/app/editor.js"></script>
