@@ -366,8 +366,9 @@ textarea.addEventListener('input', adjustWidth);
         <br>
         <p>Selections</p>
         <p><kbs>Ctrl+A</kbs> Select All</p>
-        <p><kbs>Ctrl+Arrow Key</kbs> Select</p>
-        <p></p>
+        <br>
+        <p>mcbCode Shortcuts</p>
+        <p><kbs>Ctrl+Alt+D</kbs> Delete Code</p>
       </div>
     </div>
 
@@ -390,13 +391,8 @@ textarea.addEventListener('input', adjustWidth);
       <pre id="lineNumbers" class="line-numbers">1</pre>
       <div class="code-container">
         <div class="highlight-layer" id="highlightLayer"></div>
-        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="give @a diamond 7
-title @a title Welcome to
-title @a subtitle mcbCode"># welcome to mcbCode. 
-title @a actionbar §aWelcome to my world!
-tp @a 0 319 0
-give @a oak_log 32
-give @r stone_sword</textarea>
+        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="#welcome to mcbCode"># welcome to mcbCode. 
+title @a actionbar qwertyuiop</textarea>
       </div>
     </div>
 
@@ -410,7 +406,7 @@ const highlightLayer = document.getElementById('highlightLayer');
 const lineNumbers = document.getElementById('lineNumbers'); // Ensure this exists
 let highlightTimeout;
 
-// 1. Line Numbers Logic (Moved outside to be reliable)
+// 1. Line Numbers Logic
 function updateLineNumbers() {
     const lines = codeArea.value.split('\n').length;
     let lineContent = '';
@@ -418,32 +414,83 @@ function updateLineNumbers() {
         lineContent += i + '\n';
     }
     lineNumbers.textContent = lineContent;
+    
+    // SYNC: Ensure line numbers match current scroll after content changes
+    lineNumbers.scrollTop = codeArea.scrollTop;
 }
 
 let isHighlighting = false;
 
 async function updateHighlighting() {
-
     if (isHighlighting) return; 
 
     const text = codeArea.value;
-
-
     isHighlighting = true;
-
 
     window.requestAnimationFrame(async () => {
         const highlighted = await applyHighlighting(text);
         highlightLayer.innerHTML = highlighted;
 
-
         isHighlighting = false;
 
-
+        // SYNC: Keep highlight and line numbers aligned
         highlightLayer.scrollTop = codeArea.scrollTop;
         highlightLayer.scrollLeft = codeArea.scrollLeft;
+        lineNumbers.scrollTop = codeArea.scrollTop;
     });
 }
+
+// 2. CRITICAL ADDITION: The Scroll Listener
+// This ensures that when the user scrolls the codeArea, 
+// the line numbers follow immediately.
+codeArea.addEventListener('scroll', () => {
+    lineNumbers.scrollTop = codeArea.scrollTop;
+    highlightLayer.scrollTop = codeArea.scrollTop;
+    highlightLayer.scrollLeft = codeArea.scrollLeft;
+});
+
+// 3. Initial Setup
+codeArea.addEventListener('input', () => {
+    updateLineNumbers();
+    updateHighlighting();
+});
+
+
+// 2. Centralized Sync Logic
+function syncScroll() {
+    // Scroll the line number container's *parent* if you have one, 
+    // or the element itself if it is the scrollable wrapper.
+    lineNumbers.scrollTop = codeArea.scrollTop;
+    highlightLayer.scrollTop = codeArea.scrollTop;
+    highlightLayer.scrollLeft = codeArea.scrollLeft;
+}
+
+// 3. Attach Listeners
+codeArea.addEventListener('scroll', syncScroll);
+codeArea.addEventListener('input', () => {
+    updateLineNumbers();
+    updateHighlighting();
+});
+
+// Initial call to set heights
+updateLineNumbers();
+
+
+// 2. Centralized Sync Logic
+function syncScroll() {
+    // line-height and padding MUST match in your CSS for this to work
+    lineNumbers.scrollTop = codeArea.scrollTop;
+    highlightLayer.scrollTop = codeArea.scrollTop;
+    highlightLayer.scrollLeft = codeArea.scrollLeft;
+}
+
+// 3. Keep events synced
+codeArea.onscroll = syncScroll;
+codeArea.oninput = () => {
+    updateLineNumbers();
+    updateHighlighting();
+};
+
 
 // 3. Event Listeners
 codeArea.addEventListener('input', () => {
@@ -503,11 +550,22 @@ codeArea.addEventListener('keydown', (e) => {
       console.log('Code copied'); 
     });
 
-    document.getElementById('deleteCode').addEventListener('click', () => {
-      codeArea.value = '';
-      updateLineNumbers();
-      updateHighlighting();
-    });
+document.getElementById('deleteCode').addEventListener('click', () => {
+  codeArea.value = '';
+  updateLineNumbers();
+  updateHighlighting();
+});
+
+// Added Ctrl+Alt+D shortcut
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'd') {
+    e.preventDefault(); // Prevents default browser behavior if any
+    codeArea.value = '';
+    updateLineNumbers();
+    updateHighlighting();
+  }
+});
+
 
 document.getElementById('exportCode').addEventListener('click', () => {
   const codeArea = document.getElementById('codeArea');
