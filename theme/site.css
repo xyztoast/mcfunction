@@ -23,10 +23,11 @@
 /* fira code import */
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
 
-/* ubuntu mono import */
+/* ubuntu import */
     @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-
+/* inconsolota import */
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 
 * {
   font-family: 'mcfont', sans-serif;
