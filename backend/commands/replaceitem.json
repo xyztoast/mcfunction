@@ -1,0 +1,63 @@
+{
+  "command": "replaceitem",
+  "overloads": [
+    {
+      "description": "block, no handling",
+      "pattern": [
+        { "type": "word", "required": true, "options": ["block"] },
+        { "type": "int", "required": true },
+        { "type": "int", "required": true },
+        { "type": "int", "required": true },
+        { "type": "word", "required": true, "options": ["slot.container"] },
+        { "type": "int", "required": true, "min": 0 },
+        { "type": "word", "required": true, "options": ["*"] },
+        { "type": "int", "required": false, "min": 1, "max": 64 },
+        { "type": "int", "required": false, "min": 0 },
+        { "type": "word", "required": false, "options": ["*"] }
+      ]
+    },
+    {
+      "description": "block, with handling",
+      "pattern": [
+        { "type": "word", "required": true, "options": ["block"] },
+        { "type": "int", "required": true },
+        { "type": "int", "required": true },
+        { "type": "int", "required": true },
+        { "type": "word", "required": true, "options": ["slot.container"] },
+        { "type": "int", "required": true, "min": 0 },
+        { "type": "word", "required": true, "options": ["destroy", "keep"] },
+        { "type": "word", "required": true, "options": ["*"] },
+        { "type": "int", "required": false, "min": 1, "max": 64 },
+        { "type": "int", "required": false, "min": 0 },
+        { "type": "word", "required": false, "options": ["*"] }
+      ]
+    },
+    {
+      "description": "entity, no handling",
+      "pattern": [
+        { "type": "word", "required": true, "options": ["entity"] },
+        { "type": "target", "required": true },
+        { "type": "word", "required": true, "options": ["slot.armor.chest", "slot.armor.feet", "slot.armor.head", "slot.armor.legs", "slot.chest", "slot.enderchest", "slot.hotbar", "slot.inventory", "slot.saddle", "slot.weapon.mainhand", "slot.weapon.offhand"] },
+        { "type": "int", "required": true, "min": 0 },
+        { "type": "word", "required": true, "options": ["*"] },
+        { "type": "int", "required": false, "min": 1, "max": 64 },
+        { "type": "int", "required": false, "min": 0 },
+        { "type": "word", "required": false, "options": ["*"] }
+      ]
+    },
+    {
+      "description": "entity, with handling",
+      "pattern": [
+        { "type": "word", "required": true, "options": ["entity"] },
+        { "type": "target", "required": true },
+        { "type": "word", "required": true, "options": ["slot.armor.chest", "slot.armor.feet", "slot.armor.head", "slot.armor.legs", "slot.chest", "slot.enderchest", "slot.hotbar", "slot.inventory", "slot.saddle", "slot.weapon.mainhand", "slot.weapon.offhand"] },
+        { "type": "int", "required": true, "min": 0 },
+        { "type": "word", "required": true, "options": ["destroy", "keep"] },
+        { "type": "word", "required": true, "options": ["*"] },
+        { "type": "int", "required": false, "min": 1, "max": 64 },
+        { "type": "int", "required": false, "min": 0 },
+        { "type": "word", "required": false, "options": ["*"] }
+      ]
+    }
+  ]
+}
