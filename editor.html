@@ -110,7 +110,7 @@
   .code-area {
     z-index: 2;
     background: transparent !important;
-    color: transparent; 
+    color: transparent !important ;
     caret-color: #05ee93 !important;
     resize: none;
   }
@@ -227,21 +227,17 @@
   background-color: #454545;
   padding: 6px 6px;
   padding-right: 12px;
-  border-bottom-left-radius: 12px;
-  border-top-left-radius: 12px;
 }
 
 .filename-mcf {
   background-color: #1f1f1f;
   padding: 6px 6px;
-  border-bottom-right-radius: 12px;
-  border-top-right-radius: 12px;
 }
 
 .copyshortcut {
   transition: background-color 0.2s ease-in-out;
-  border-radius: 12px;
   background-color: #1f1f1f;
+  width: 18px;
   padding: 6px 6px; margin-left: 8px;
 }
 
@@ -271,7 +267,7 @@ kbs {
   outline: none;
   border: none;
   color: #ffffff;
-  height: 360px;
+  height: 180px;
 
 }
 </style>
@@ -398,6 +394,8 @@ textarea.addEventListener('input', function() {
         <div class="nav-item">
           <button>Help</button>
           <div class="nav-dropdown" style="width: 225px;">
+
+
                 <div class="has-submenu"><img src="https://ccvaults.com/thumbnails/20.%20Blocks/18.%20Decoration/Dirt.png" style="width: 16px; height: 16px; padding-right: 4px;">Third Party Sites
                 <div class="sub-dropdown">
                 <a href="https://minecraft.wiki/w/Commands" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Spire_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>minecraft.wiki</g></div></a>
@@ -405,6 +403,8 @@ textarea.addEventListener('input', function() {
             <a href="https://www.digminecraft.com/game_commands/index.php" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Silence_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>digminecraft.com</g></div></a>
           </div>
           </div>
+
+
     <div class="has-submenu">
       <img src="https://ccvaults.com/thumbnails/20.%20Blocks/22.%20Redstone/Sticky_Piston.png" style="width: 16px; height: 16px; padding-right: 4px;">Keyboard Shortcuts
       <div class="sub-dropdown">
@@ -441,13 +441,60 @@ textarea.addEventListener('input', function() {
   background-color: #323232;
   height: 100%;
   font-size: 12px;
-  padding: 6px 6px;
+  padding: 6px 0px;
+  display: flex;
+  flex-direction: column;
 
 }
+
+.sidebar-kbd {
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  padding: 0px 0px;
+  padding-bottom: 6px;
+  background-color: #343434;
+  max-height: 10000000px;
+  font-size: 10px;
+  font-family: 'mcfont';
+  padding-top: 6px;
+  color: #bebebe;
+  user-select: none;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.sidebar-kbd:hover,
+.sidebar-kbd.active {
+  color: #05ee93;
+  pointer: default !important;
+  background-color: #454545;
+}
+
+.sidebar-kbd:first-child {
+  margin-top: auto;
+}
+
+.sidebar-kbd:last-child {
+  margin-bottom: 20px;
+}
+
 </style>
+
+
+
+
+<!--code editor textarea-->
     <div class="editor" id="editor">
       <div class="sidebar">
-      </div>
+        <div class="sidebar-kbd" style="color: #00b2ff">Font Size:<br></div>
+        <div class="sidebar-kbd" id="fontdisplay" style="color: #00b2ff"></div>
+        <div style="border-bottom: 1px solid #bebebe"></div>
+        <div class="sidebar-kbd" id="other">Other</div>
+        <div class="sidebar-kbd" id="shift">Shift</div>
+        <div class="sidebar-kbd" id="alt">Alt</div>
+        <div class="sidebar-kbd" id="ctrl">Ctrl</div>
+        <div style="border-top: 1px solid #bebebe"></div><br>
+        </div>
       <pre id="lineNumbers" class="line-numbers">1</pre>
       <div class="code-container">
         <div class="highlight-layer" id="highlightLayer"></div>
@@ -455,11 +502,30 @@ textarea.addEventListener('input', function() {
 title @a actionbar qwertyuiop</textarea>
       </div>
     </div>
-
+</div>
   <!-- load stuff -->
 <script src="https://mcbcode.com/backend/grammar.js"></script>
 <script src="https://mcbcode.com/backend/highlight.js"></script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- scripting stuff -->
   <script>
 const codeArea = document.getElementById('codeArea');
 const highlightLayer = document.getElementById('highlightLayer');
@@ -778,6 +844,71 @@ window.addEventListener('keydown', (e) => {
     findPanel.style.visibility = 'hidden';
   }
 });
+
+
+
+// key detecting thing i forgor
+
+const keys = {
+  ctrl: document.getElementById('ctrl'),
+  shift: document.getElementById('shift'),
+  alt: document.getElementById('alt'),
+  other: document.getElementById('other')
+};
+
+window.addEventListener('keydown', (e) => {
+  // Map modifiers to their IDs
+  if (e.key === 'Control') keys.ctrl.classList.add('active');
+  if (e.key === 'Shift') keys.shift.classList.add('active');
+  if (e.key === 'Alt') keys.alt.classList.add('active');
+
+  // "Other" triggers only if a modifier is active and the key isn't a modifier itself
+  const isModifier = ['Control', 'Shift', 'Alt'].includes(e.key);
+  if ((e.ctrlKey || e.shiftKey || e.altKey) && !isModifier) {
+    keys.other.classList.add('active');
+  }
+});
+
+window.addEventListener('keyup', (e) => {
+  if (e.key === 'Control') keys.ctrl.classList.remove('active');
+  if (e.key === 'Shift') keys.shift.classList.remove('active');
+  if (e.key === 'Alt') keys.alt.classList.remove('active');
+  
+  // Reset "other" if no non-modifier keys are held
+  // (Or reset it on any keyup to be safe)
+  keys.other.classList.remove('active');
+});
+</script>
+
+<script>
+// font size display
+document.addEventListener('DOMContentLoaded', () => {
+    const codeArea = document.getElementById('codeArea');
+    const display = document.getElementById('fontdisplay');
+
+    // Safety check: ensure both elements exist
+    if (!codeArea || !display) {
+        console.error("Missing element: codeArea or fontdisplay not found.");
+        return;
+    }
+
+    const updateDisplay = () => {
+        const style = window.getComputedStyle(codeArea);
+        display.textContent = style.fontSize;
+    };
+
+    // 1. Initial run
+    updateDisplay();
+
+    // 2. Watch for font changes (layout shifts)
+    const resizeObs = new ResizeObserver(() => updateDisplay());
+    resizeObs.observe(codeArea);
+
+    // 3. Watch for manual style changes (class toggles)
+    const mutationObs = new MutationObserver(() => updateDisplay());
+    mutationObs.observe(codeArea, { attributes: true, attributeFilter: ['style', 'class'] });
+});
+
 
 </script>
 
