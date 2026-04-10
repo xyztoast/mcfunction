@@ -1,500 +1,273 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 
-<link rel="manifest" href="/app/manifest.json">
 
-<link rel="stylesheet" href="https://mcbcode.com/theme/site.css">
-<!-- External Theme Link -->
-<link id="theme-link" rel="stylesheet" href="https://mcbcode.com/theme/editor/default.css">
-<meta charset="UTF-8">
-<link rel="icon" href="/icons/mcbcode.png">
-<title>Editor | mcbCode</title>
-<style>
-  body {
-    margin: 0;
-    background-color: #323232;
-    font-weight: 0 !important; 
-    font-family: mcfont;
-    color: #fff;
-    overflow: hidden;
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mcbcode.com">
+<meta property="og:title" content="mcbCode">
+<meta property="og:description" content="First MCFunction Code Editor for Minecraft Bedrock Edition">
+<meta property="og:image" content="https://mcbcode.com/theme/favicon.png">
+<meta property="og:image:width" content="64">
+<meta property="og:image:height" content="64">
+<meta property="og:site_name" content="mcbCode">
+<meta name="keywords" content="minecraft bedrock mcfunction code editor minecraft bedrock">
+<meta name="description" content="First MCFunction Code Editor for Minecraft Bedrock Edition">
+<meta name="robots" content="index, follow">
+
+
+  <link rel="icon" href="https://mcbcode.com/theme/favicon.png">
+  <link rel="stylesheet" href="https://mcbcode.com/theme/site.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>mcbCode</title>
+  <style>
+    html,body{
+      min-height:100%;
+      margin:0;
+      font-family:'mcfont', sans-serif;
+      background:#0c0c0c;
+      font-weight: 0;
+      color:#bebebe;
+      justify-content: center;
+      margin: auto;
+      text-align: center;
+    }
+
+    h1{
+
+      font-family: "mcfontb", sans-serif;
+      font-size: 40px;
+      margin-top: 20vh;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    h2 {
+     font-size: 25px; 
+     color: #ffffff;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffff;
+        transition: color 0.2s ease-in-out;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #05ee93;
+    }
+
+
+  .mcbc {
+    position: fixed;
+    left: 5px;
+    top: 10px;
+    height: 50px;
+    max-width: 50px;
   }
 
-  .editor {
-    display: flex;
-    height: calc(100vh - 80px); /* Adjusted for top-thing and navi height */
-    overflow: hidden;
-    align-items: flex-start;
-    position: relative;
-    background-color: #0c0c0c;
-  }
-
-  .navi {
-    font-size: 14px;
-    padding: 3px 3px;
-    user-select: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .nav-left, .nav-right {
-    display: flex;
-    gap: 0px;
-    align-items: center;
-    padding-top: 1px
-  }
-
-  .nav-left img {
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    padding-top: 1px
+  c {
+      color: #e7007b;
   }
 
   button {
-    background-color: transparent;
-    border: none;
-    color: #f0f0f0;
-    user-select: none;
-    margin: 0;
-    cursor: pointer;
-    font-family: mcfont;
+      text-align: center;
+      background-color: #313131;
+      border: none;
+      font-size: 18px;
+      border-radius: 12px;
+      padding: 8px 12px;
+      color: #ffffff;
+      transition: color 0.2s ease-in-out;
+      cursor: pointer;
   }
 
-  .line-numbers {
-    background-color: transparent;
-    padding: 0 7px;
-    font-family: mcfont;
-    user-select: none;
-    overflow: hidden;
-    text-align: right;
-    line-height: 1.2em;
-    font-size: 14px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    color: #858585;
-    z-index: 10;
+  button:hover {
+      color: #05ee93;
   }
 
-  /* WRAPPER FOR SYNCED LAYERS */
-  .code-container {
-    position: relative;
-    flex: 1;
-    height: 100%;
-    overflow: hidden;
+  #tryitout {
+      color: #0c0c0c;
+      background-color: #05ee93;
+      box-shadow: 0 0 20px 10px #05ee934;
+      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+      border: 4px solid #00a459;
   }
 
-  .code-area, .highlight-layer {
-    position: absolute;
+  #tryitout:hover {
+      color: #ffffff;
+      background-color: #00a95c;
+  }
+
+.navi {
+    position: fixed;
     top: 0;
-    left: 0;
+    max-width: 100%;
     width: 100%;
-    height: 100%;
-    padding: 0 2px;
-    margin: 0;
-    border: none;
-    outline: none;
-    font-family: 'Courier New', monospace !important;
-    line-height: 1.2;
-    font-size: 14px;
-    white-space: pre;
-    word-wrap: normal;
-    box-sizing: border-box;
-    tab-size: 4;
-    overflow: auto;
-  }
+    height: 75px;
+    background-color: rgba(45 45 45 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+}
 
-  /* The actual input layer (Invisible text, visible cursor) */
-  .code-area {
-    z-index: 2;
-    background: transparent !important;
-    color: transparent !important ;
-    caret-color: #05ee93 !important;
-    resize: none;
-  }
+.quick-links {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 700px;
+    width: 700px;
+    text-align: center;
+    margin: auto;
+}
+
+.divider {
+    border-top: 2px solid #bebebe;
+    max-width: 30%;
+    opacity: 0.5;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.content-wrapper {
+    display: flex;
+    max-width: 90%;
+    margin: auto;
+}
+
+.content {
+    flex: 1;
+}
+
+#documentation {
+      border: 4px solid #3f3f3f;
+}
 
 
-  .highlight-layer {
-    z-index: 1;
-    background-color: #0c0c0c;
-    color: #ffffff;
-    pointer-events: none; 
-  }
+code {
+    font-family: mcfont;
+    background-color: #1d1d1d;
+    padding: 16px 12px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    max-width: 80%;
+    margin: auto;
+    flex: 1;
+    gap: 6px;
+    user-select: none;
+}
 
-  .code-area, 
-  .highlight-layer, 
-  .highlight-layer * {
+
+aa {
+    color: #55ff55;
     font-family: monospace !important;
-  }
-
-  .nav-item {
-    position: relative;
-    display: inline-block;
-  }
-
-  .nav-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #212425;
-    border: 1px solid #bebebe;
-    min-width: 250px;
-    z-index: 100;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    flex-direction: column;
-  }
-
-  .nav-dropdown div {
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 12px;
-  }
-
-  .nav-dropdown div:hover {
-    background-color: #454545;
-  }
-
-  .nav-item:hover .nav-dropdown {
-    display: flex;
-  }
-
-  .sub-dropdown {
-    display: none;
-    min-width: 225px !important;
-    flex-direction: column;
-    background-color: #323232;
-    font-size: 9px;
-  }
-
-  .sub-dropdown:hover {
-    background-color: #323232 !important;
-  }
-
-  #colorFormat:hover .sub-dropdown {
-    display: flex;
-  }
-
-  #exportCode { color: #00b2ff; }
-  .delete { color: #ff4d4d; }
-  h3 { font-family: mcfont; margin: 0; }
-
-
-.nav-item:hover .nav-dropdown {
-  display: block;
 }
 
-
-.has-submenu {
-  position: relative;
-  border-radius: 0;
+aao {
+    color: #55ff55;
+    opacity: 0.5;
+    font-family: monospace !important;
 }
 
-.has-submenu:hover {
+cc {
+    color: #ff5555;
+    font-family: monospace !important;
 }
 
-.sub-dropdown {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 90%;
-  border: 1px solid #bebebe;
-  min-width: 120px;
+ee {
+    color: #ffff55;
+    font-family: monospace !important;
 }
 
-.has-submenu:hover .sub-dropdown {
-  display: block;
+rr {
+    color: #ffaa00;
+    font-family: monospace !important;
 }
 
-.file-name {
-  background-color: #0c0c0c;
-  color: #ffffff;
-  white-space: nowrap;
-  height: 18px;
-  font-size: 16px;
-  outline: none;
-  border: none;
-  padding: 6px 2px;
-  resize: none;
-  min-width: 10%;
-  line-height: 18px;
-  overflow-y: hidden
+bb {
+    color: #55ffff;
+    font-family: monospace !important;
 }
 
-.filename-txt {
-  background-color: #454545;
-  padding: 6px 6px;
-  padding-right: 12px;
+footer {
+    color: #343434;
+}
+footer g {
+    color: #008e4c;
 }
 
-.filename-mcf {
-  background-color: #1f1f1f;
-  padding: 6px 6px;
+#code-preview {
+  background-color: #121212;
+  width: 40%;
+  padding: 12px 12px;
+  user-select: default;
+  text-align: left;
 }
 
-.copyshortcut {
-  transition: background-color 0.2s ease-in-out;
-  background-color: #1f1f1f;
-  width: 18px;
-  padding: 6px 6px; margin-left: 8px;
+.two-content {
+  display: flex;
+  margin: auto;
+  width: 80%;
+  font-family: monospace !important;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 18px;
 }
 
-.copyshortcut:hover {
-  background-color: #454545;
-  cursor: pointer;
+.two-content  p {
+  width: 40%;
 }
-
-kbs {
-  background-color: #454545;
-  padding: 3px 3px;
-}
-
-.find-panel-wrapper {
-  background-color: rgba(50, 50, 50, 0.25);
-  backdrop-filter: blur(5px);
-  padding: 4px 8px;
-  position: fixed;
-  top: 100px;
-  z-index: 50;
-  right: 30px;
-}
-
-#findthing {
-  resize: none;
-  background-color: #0c0c0c;
-  outline: none;
-  border: none;
-  color: #ffffff;
-  height: 180px;
-
-}
-</style>
+  </style>
 </head>
 <body>
-
-  <div class="find-panel-wrapper">
-    <p style="opacity: 1  !important;">Find Tool</p>
-    <textarea id="findthing"></textarea>
-  </div>
-
-    <div class="top-thing" style="display: flex; align-items: center; height: 50px;">
-        <a href="https://mcbcode.com" style="padding-left: 12px;"><img src="https://mcbcode.com/theme/favicon.png" alt="icon" style="width: 36px"></a>
-        <h2 style="padding: 0px 12px;">mcb<g>Code</g></h2>
-        <div class="filename-txt">Filename:</div>
-        <textarea id="autoWidth" class="file-name" maxlength="72"></textarea>
-        <div class="filename-mcf">.mcfunction</div>
-        <div class="copyshortcut" id="copyCode"><img style="width: 16px; height: 16px" src="https://ccvaults.com/thumbnails/10.%20Items/15.%20Projectiles/Ender_Pearl.png"></div>
-    </div>
-<script>
-const textarea = document.getElementById('autoWidth');
-
-// helper span for measuring text width
-const measurer = document.createElement('span');
-measurer.style.visibility = 'hidden';
-measurer.style.whiteSpace = 'pre';
-measurer.style.font = window.getComputedStyle(textarea).font;
-document.body.appendChild(measurer);
-
-function adjustWidth() {
-  measurer.textContent = textarea.value || textarea.placeholder;
-  textarea.style.width = measurer.offsetWidth + 'px'; // +10 for padding
-}
-
-// initial size
-adjustWidth();
-
-// update as user types
-textarea.addEventListener('input', adjustWidth);
-
-
-
-// find textarea show/hide
-const textarea = document.getElementById('findthing');
-
-textarea.addEventListener('input', function() {
-  // Reset height to 'auto' to allow shrinking when text is deleted
-  this.style.height = 'auto';
-  
-  // Set the new height based on the content's scroll height
-  this.style.height = this.scrollHeight + 'px';
-});
-
-</script>
     <div class="navi">
-      <div class="nav-left">
-        <div class="nav-item">
-          <button>File</button>
-          <div class="nav-dropdown">
-            <div id="copyCode"><img src="https://ccvaults.com/thumbnails/10.%20Items/15.%20Projectiles/Ender_Pearl.png" style="width: 16px; height: 16px; padding-right: 4px;">Copy Code</div>
-            <div id="exportCode"><img src="https://ccvaults.com/thumbnails/10.%20Items/11.%20Materials/Diamond.png" style="width: 16px; height: 16px; padding-right: 4px;">Export as .mcfunction</div>
-          </div>
-        </div>
-        <div class="nav-item">
-          <button>Edit</button>
-          <div class="nav-dropdown">
-            <div id="colorFormat"><img src="https://ccvaults.com/thumbnails/10.%20Items/21.%20Decoration/Amethyst_Cluster.png" style="width: 16px; height: 16px; padding-right: 4px;">Color Format
-              <div class="sub-dropdown" id="colorMenu">
-                <div data-code="§0">§0 - Black</div>
-                <div data-code="§1">§1 - Dark Blue</div>
-                <div data-code="§2">§2 - Dark Green</div>
-                <div data-code="§3">§3 - Dark Aqua</div>
-                <div data-code="§4">§4 - Dark Red</div>
-                <div data-code="§5">§5 - Dark Purple</div>
-                <div data-code="§6">§6 - Gold</div>
-                <div data-code="§7">§7 - Gray</div>
-                <div data-code="§8">§8 - Dark Gray</div>
-                <div data-code="§9">§9 - Blue</div>
-                <div data-code="§a">§a - Green</div>
-                <div data-code="§b">§b - Aqua</div>
-                <div data-code="§c">§c - Red</div>
-                <div data-code="§d">§d - Light Purple</div>
-                <div data-code="§e">§e - Yellow</div>
-                <div data-code="§f">§f - White</div>
-                <div data-code="§g">§g - Gold</div>
-                <div data-code="§k">§k - Obfuscated</div>
-                <div data-code="§l">§l - Bold</div>
-                <div data-code="§o">§o - Italic</div>
-                <div data-code="§r">§r - Reset</div>
-              </div>
-            </div>
-           <div id="deleteCode" class="delete"><img src="https://ccvaults.com/thumbnails/10.%20Items/19.%20Buckets/Lava_Bucket.png" style="width: 16px; height: 16px; padding-right: 4px;">Delete Code</div>
-          </div>
-        </div>
-<div class="nav-item">
-  <button>View</button>
-  <div class="nav-dropdown">
-    <div class="has-submenu">
-      <img src="https://ccvaults.com/thumbnails/10.%20Items/18.%20Consumables/Enchanted_Golden_Apple.png" style="width: 16px; height: 16px; padding-right: 4px;">Themes
-      <div class="sub-dropdown">
-        <div class="theme-btn" onclick="setTheme('default')">Default</div>
-        <div class="theme-btn" onclick="setTheme('neon')">Neon</div>
-        <div class="theme-btn" onclick="setTheme('blue')">Blue</div>
-        <div class="theme-btn" onclick="setTheme('soft')">Soft</div>
-        <div class="theme-btn" onclick="setTheme('grayscale')">Grayscale</div>
-        <div class="theme-btn" onclick="setTheme('solid')">Solid</div>
-      </div>
+        <div style="text-align: left; padding-left: 20px;"><h2>mcb<g>Code</g></h2></div>
     </div>
-  </div>
+<h1>mcb<g>Code</g></h1>
+<p style="color: #fff;">The <g>first</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
+<div style="user-select: none;">
+<div class="top-navi">
+    <a href="https://mcbcode.com/editor"><button id="tryitout">To Editor</button></a>
 </div>
-        <div class="nav-item">
-          <button>Help</button>
-          <div class="nav-dropdown" style="width: 225px;">
-
-
-                <div class="has-submenu"><img src="https://ccvaults.com/thumbnails/20.%20Blocks/18.%20Decoration/Dirt.png" style="width: 16px; height: 16px; padding-right: 4px;">Third Party Sites
-                <div class="sub-dropdown">
-                <a href="https://minecraft.wiki/w/Commands" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Spire_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>minecraft.wiki</g></div></a>
-            <a href="https://wiki.bedrock.dev/commands/intro-to-command-blocks" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Wild_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>wiki.bedrock.dev</g></div></a>
-            <a href="https://www.digminecraft.com/game_commands/index.php" target="_blank" style="text-decoration: none; color: #ffffff"><div><img src="https://ccvaults.com/thumbnails/10.%20Items/29.%20Trims/Silence_Armor_Trim_Smithing_Template.png" style="width: 16px; height: 16px; padding-right: 4px;">Open <g>digminecraft.com</g></div></a>
-          </div>
-          </div>
-
-
-    <div class="has-submenu">
-      <img src="https://ccvaults.com/thumbnails/20.%20Blocks/22.%20Redstone/Sticky_Piston.png" style="width: 16px; height: 16px; padding-right: 4px;">Keyboard Shortcuts
-      <div class="sub-dropdown">
-        <p><g>Clipboard Operations</g></p>
-        <p><kbs>Ctrl+C</kbs> Copy</p>
-        <p><kbs>Ctrl+V</kbs> Paste</p>
-        <p><kbs>Ctrl+X</kbs> Cut</p>
-        <br>
-        <p><g>Action History</g></p>
-        <p><kbs>Ctrl+Z</kbs> Undo</p>
-        <p><kbs>Ctrl+Y</kbs> Redo</p>
-        <br>
-        <p><g>Selections</g></p>
-        <p><kbs>Ctrl+A</kbs> Select All</p>
-        <br>
-        <p><g>mcbCode Shortcuts</g></p>
-        <p><kbs>Ctrl+Alt+D</kbs> Delete Code</p>
-        <p><kbs>Ctrl+S</kbs> Download File</p>
-        <p><kbs>Ctrl+[</kbs> Decrease Font Size</p>
-        <p><kbs>Ctrl+]</kbs> Increase Font Size</p>
-        <p><kbs>Ctrl+F</kbs> Find and Replace</p>
-        <br>
-        <p><g></g></p>
-        <p><kbs></kbs></p>
-      </div>
-    </div>
-
-        </div>
-        </div>
-      </div>
-    </div>
-<style>
-.sidebar {
-  background-color: #323232;
-  height: 100%;
-  font-size: 12px;
-  padding: 6px 0px;
-  display: flex;
-  flex-direction: column;
-
-}
-
-.sidebar-kbd {
-  text-align: center;
-  align-content: center;
-  align-items: center;
-  padding: 0px 0px;
-  padding-bottom: 6px;
-  background-color: #343434;
-  max-height: 10000000px;
-  font-size: 10px;
-  font-family: 'mcfont';
-  padding-top: 6px;
-  color: #bebebe;
-  user-select: none;
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.sidebar-kbd:hover,
-.sidebar-kbd.active {
-  color: #05ee93;
-  pointer: default !important;
-  background-color: #454545;
-}
-
-.sidebar-kbd:first-child {
-  margin-top: auto;
-}
-
-.sidebar-kbd:last-child {
-  margin-bottom: 20px;
-}
-
-</style>
-
-
-
-
-<!--code editor textarea-->
-    <div class="editor" id="editor">
-      <div class="sidebar">
-        <div class="sidebar-kbd" style="color: #00b2ff">Font Size:<br></div>
-        <div class="sidebar-kbd" id="fontdisplay" style="color: #00b2ff"></div>
-        <div style="border-bottom: 1px solid #bebebe"></div>
-        <div class="sidebar-kbd" id="other">Other</div>
-        <div class="sidebar-kbd" id="shift">Shift</div>
-        <div class="sidebar-kbd" id="alt">Alt</div>
-        <div class="sidebar-kbd" id="ctrl">Ctrl</div>
-        <div style="border-top: 1px solid #bebebe"></div><br>
-        </div>
-      <pre id="lineNumbers" class="line-numbers">1</pre>
-      <div class="code-container">
-        <div class="highlight-layer" id="highlightLayer"></div>
-        <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="#welcome to mcbCode"># welcome to mcbCode. 
-title @a actionbar qwertyuiop</textarea>
-      </div>
-    </div>
+<br>
+<br>
+<br>
+<br>
+<div class="two-content">
+<p style="font-family: monospace" id="code-preview"><g>title</g> <aa>@a</aa> <c style="font-family: monospace !important;
+">title</c><br>
+<g>give</g> <aa>@s</aa> <rr style="font-family: monospace !important;
+">diamond_block</rr>
+<g>tp</g> <aa>@r</aa> <aao>123 ~ 123</aao></p>
+<p><g>Groundbreaking:</g><br>An editor that actually follows the rules logic. </p>
 </div>
-  <!-- load stuff -->
-<script src="https://mcbcode.com/backend/grammar.js"></script>
-<script src="https://mcbcode.com/backend/highlight.js"></script>
 
+<div style="margin-top: 100px"></div>
 
+<div class="two-content">
+<p><g>Groundbreaking:</g><br>An editor that actually follows the rules logic. </p>
+<p style="font-family: monospace" id="code-preview"><g>title</g> <aa>@a</aa> <c style="font-family: monospace !important;
+">title</c><br>
+<g>give</g> <aa>@s</aa> <rr style="font-family: monospace !important;
+">diamond_block</rr>
+<g>tp</g> <aa>@r</aa> <aao>123 ~ 123</aao></p>
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<footer>Not affiliated  with Microsoft or Mojang AB.<br><br>
+© Copyright 2026 mcb<g>Code</g></footer>
+<br><br>
 
 
 
@@ -503,407 +276,7 @@ title @a actionbar qwertyuiop</textarea>
 
 
 
-
-
-
-
-
-
-
-
-
-<!-- scripting stuff -->
-  <script>
-const codeArea = document.getElementById('codeArea');
-const highlightLayer = document.getElementById('highlightLayer');
-const lineNumbers = document.getElementById('lineNumbers'); // Ensure this exists
-let highlightTimeout;
-
-// 1. Line Numbers Logic
-function updateLineNumbers() {
-    const lines = codeArea.value.split('\n').length;
-    let lineContent = '';
-    for (let i = 1; i <= lines; i++) {
-        lineContent += i + '\n';
-    }
-    lineNumbers.textContent = lineContent;
-    
-    // SYNC: Ensure line numbers match current scroll after content changes
-    lineNumbers.scrollTop = codeArea.scrollTop;
-}
-
-let isHighlighting = false;
-
-async function updateHighlighting() {
-    if (isHighlighting) return; 
-
-    const text = codeArea.value;
-    isHighlighting = true;
-
-    window.requestAnimationFrame(async () => {
-        const highlighted = await applyHighlighting(text);
-        highlightLayer.innerHTML = highlighted;
-
-        isHighlighting = false;
-
-        // SYNC: Keep highlight and line numbers aligned
-        highlightLayer.scrollTop = codeArea.scrollTop;
-        highlightLayer.scrollLeft = codeArea.scrollLeft;
-        lineNumbers.scrollTop = codeArea.scrollTop;
-    });
-}
-
-// 2. CRITICAL ADDITION: The Scroll Listener
-// This ensures that when the user scrolls the codeArea, 
-// the line numbers follow immediately.
-codeArea.addEventListener('scroll', () => {
-    lineNumbers.scrollTop = codeArea.scrollTop;
-    highlightLayer.scrollTop = codeArea.scrollTop;
-    highlightLayer.scrollLeft = codeArea.scrollLeft;
-});
-
-// 3. Initial Setup
-codeArea.addEventListener('input', () => {
-    updateLineNumbers();
-    updateHighlighting();
-});
-
-
-// 2. Centralized Sync Logic
-function syncScroll() {
-    // Scroll the line number container's *parent* if you have one, 
-    // or the element itself if it is the scrollable wrapper.
-    lineNumbers.scrollTop = codeArea.scrollTop;
-    highlightLayer.scrollTop = codeArea.scrollTop;
-    highlightLayer.scrollLeft = codeArea.scrollLeft;
-}
-
-// 3. Attach Listeners
-codeArea.addEventListener('scroll', syncScroll);
-codeArea.addEventListener('input', () => {
-    updateLineNumbers();
-    updateHighlighting();
-});
-
-// Initial call to set heights
-updateLineNumbers();
-
-
-// 2. Centralized Sync Logic
-function syncScroll() {
-    // line-height and padding MUST match in your CSS for this to work
-    lineNumbers.scrollTop = codeArea.scrollTop;
-    highlightLayer.scrollTop = codeArea.scrollTop;
-    highlightLayer.scrollLeft = codeArea.scrollLeft;
-}
-
-// 3. Keep events synced
-codeArea.onscroll = syncScroll;
-codeArea.oninput = () => {
-    updateLineNumbers();
-    updateHighlighting();
-};
-
-
-// 3. Event Listeners
-codeArea.addEventListener('input', () => {
-    updateLineNumbers();
-    clearTimeout(highlightTimeout);
-    highlightTimeout = setTimeout(updateHighlighting, 10); 
-});
-
-codeArea.addEventListener('scroll', () => {
-    window.requestAnimationFrame(() => {
-        highlightLayer.scrollTop = codeArea.scrollTop;
-        highlightLayer.scrollLeft = codeArea.scrollLeft;
-        lineNumbers.scrollTop = codeArea.scrollTop;
-    });
-});
-
-// 4. INITIAL RUN
-window.addEventListener('DOMContentLoaded', () => {
-    updateLineNumbers();
-    updateHighlighting();
-});
-
-
-codeArea.addEventListener('keydown', (e) => {
-    const pairs = { '(': ')', '{': '}', '[': ']', '"': '"' };
-    
-    if (pairs[e.key]) {
-        e.preventDefault();
-        const start = codeArea.selectionStart;
-        const end = codeArea.selectionEnd;
-        const val = codeArea.value;
-        
-       
-        codeArea.value = val.substring(0, start) + e.key + pairs[e.key] + val.substring(end);
-        codeArea.setSelectionRange(start + 1, start + 1);
-        
-        updateHighlighting();
-    }
-});
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-    // 5. Original Functionality
-    document.getElementById('copyCode').addEventListener('click', () => {
-      const text = codeArea.value;
-      if (!text) return;
-      // Using execCommand for better iframe compatibility
-      const dummy = document.createElement("textarea");
-      document.body.appendChild(dummy);
-      dummy.value = text;
-      dummy.select();
-      document.execCommand("copy");
-      document.body.removeChild(dummy);
-      // Custom message instead of alert
-      console.log('Code copied'); 
-    });
-
-document.getElementById('deleteCode').addEventListener('click', () => {
-  codeArea.value = '';
-  updateLineNumbers();
-  updateHighlighting();
-});
-
-// Added Ctrl+Alt+D shortcut
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'd') {
-    e.preventDefault(); // Prevents default browser behavior if any
-    codeArea.value = '';
-    updateLineNumbers();
-    updateHighlighting();
-  }
-});
-
-
-const downloadFile = () => {
-  const codeArea = document.getElementById('codeArea');
-  const fileNameArea = document.getElementById('autoWidth');
-
-  if (!codeArea.value) return;
-
-  // get filename from textarea, fallback to "untitled"
-  let fileName = (fileNameArea.value || 'untitled')
-    .replace(/[^a-z0-9_\-]/gi, '_') + '.mcfunction';
-
-  const blob = new Blob([codeArea.value], { type: 'application/octet-stream' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
-
-// Button Click Listener
-document.getElementById('exportCode').addEventListener('click', downloadFile);
-
-// Ctrl + Alt + S Shortcut
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key.toLowerCase() === 's') {
-    e.preventDefault(); // Prevents the browser's "Save Page As" dialog
-    downloadFile();
-  }
-});
-
-
-    const colorMenu = document.getElementById('colorMenu');
-    colorMenu.querySelectorAll('div').forEach(item => {
-      item.addEventListener('click', () => {
-        const code = item.getAttribute('data-code');
-        const start = codeArea.selectionStart;
-        const end = codeArea.selectionEnd;
-        codeArea.value = codeArea.value.slice(0, start) + code + codeArea.value.slice(end);
-        codeArea.selectionStart = codeArea.selectionEnd = start + code.length;
-        codeArea.focus();
-        updateHighlighting();
-      });
-    });
-
-    // Initial Run
-    updateLineNumbers();
-    updateHighlighting();
-
-
-// 1. Initialize the state
-let currentFontSize = 16; 
-
-/**
- * Updates the font size for all editor components
- * and triggers re-alignment functions.
- */
-function setFontSize(size) {
-  // Clamp between 8 and 36
-  currentFontSize = Math.min(Math.max(size, 8), 36);
-  
-  const fontSize = currentFontSize + 'px';
-  const selectors = ['.code-area', '.highlight-layer', '.line-numbers'];
-
-  selectors.forEach(selector => {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(el => {
-      el.style.fontSize = fontSize;
-    });
-  });
-
-  // Trigger re-calculation of highlights and line numbers
-  if (typeof updateLineNumbers === 'function') updateLineNumbers();
-  if (typeof updateHighlighting === 'function') updateHighlighting();
-}
-
-/**
- * Keyboard listener for Ctrl + [ and Ctrl + ]
- * Using 'true' (capture phase) to intercept the keys before 
- * they reach the textarea and cause ghost characters.
- */
-window.addEventListener('keydown', (e) => {
-  // Check for Ctrl (or Cmd on Mac) + brackets
-  if ((e.ctrlKey || e.metaKey) && (e.key === '[' || e.key === ']')) {
-    
-    // STOP the character from being typed
-    e.preventDefault();
-    e.stopImmediatePropagation();
-
-    if (e.key === ']') { 
-      // Increase size
-      setFontSize(currentFontSize + 2);
-    } else if (e.key === '[') { 
-      // Decrease size
-      setFontSize(currentFontSize - 2);
-    }
-  }
-}, true); // This 'true' is critical to stop the '[' from appearing
-
-
-  </script>
-  <script src="https://mcbcode.com/app/editor.js"></script>
-
-
-
-<script>
-  if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/app/sw.js')
-    .then(() => console.log('sw registered'))
-    .catch(console.error);
-}
-
-
-</script>
-
-<script>
-// find/replace panel show/hide
-const findPanel = document.querySelector('.find-panel-wrapper');
-const findInput = document.getElementById('findthing');
-
-// Initial setup for the fade
-findPanel.style.transition = 'opacity 0.2s ease, visibility 0.2s';
-findPanel.style.opacity = '0';
-findPanel.style.visibility = 'hidden';
-
-window.addEventListener('keydown', (e) => {
-  // Catch Ctrl+F or Cmd+F
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
-    e.preventDefault();
-
-    const isHidden = findPanel.style.visibility === 'hidden';
-
-    if (isHidden) {
-      findPanel.style.visibility = 'visible';
-      findPanel.style.opacity = '1';
-      
-      // The "Auto-Focus" fix:
-      setTimeout(() => {
-        findInput.focus();
-      }, 50); 
-
-    } else {
-      findPanel.style.opacity = '0';
-      findPanel.style.visibility = 'hidden';
-    }
-  }
-
-  // Hide on Escape
-  if (e.key === 'Escape') {
-    findPanel.style.opacity = '0';
-    findPanel.style.visibility = 'hidden';
-  }
-});
-
-
-
-// key detecting thing i forgor
-
-const keys = {
-  ctrl: document.getElementById('ctrl'),
-  shift: document.getElementById('shift'),
-  alt: document.getElementById('alt'),
-  other: document.getElementById('other')
-};
-
-window.addEventListener('keydown', (e) => {
-  // Map modifiers to their IDs
-  if (e.key === 'Control') keys.ctrl.classList.add('active');
-  if (e.key === 'Shift') keys.shift.classList.add('active');
-  if (e.key === 'Alt') keys.alt.classList.add('active');
-
-  // "Other" triggers only if a modifier is active and the key isn't a modifier itself
-  const isModifier = ['Control', 'Shift', 'Alt'].includes(e.key);
-  if ((e.ctrlKey || e.shiftKey || e.altKey) && !isModifier) {
-    keys.other.classList.add('active');
-  }
-});
-
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'Control') keys.ctrl.classList.remove('active');
-  if (e.key === 'Shift') keys.shift.classList.remove('active');
-  if (e.key === 'Alt') keys.alt.classList.remove('active');
-  
-  // Reset "other" if no non-modifier keys are held
-  // (Or reset it on any keyup to be safe)
-  keys.other.classList.remove('active');
-});
-</script>
-
-<script>
-// font size display
-document.addEventListener('DOMContentLoaded', () => {
-    const codeArea = document.getElementById('codeArea');
-    const display = document.getElementById('fontdisplay');
-
-    // Safety check: ensure both elements exist
-    if (!codeArea || !display) {
-        console.error("Missing element: codeArea or fontdisplay not found.");
-        return;
-    }
-
-    const updateDisplay = () => {
-        const style = window.getComputedStyle(codeArea);
-        display.textContent = style.fontSize;
-    };
-
-    // 1. Initial run
-    updateDisplay();
-
-    // 2. Watch for font changes (layout shifts)
-    const resizeObs = new ResizeObserver(() => updateDisplay());
-    resizeObs.observe(codeArea);
-
-    // 3. Watch for manual style changes (class toggles)
-    const mutationObs = new MutationObserver(() => updateDisplay());
-    mutationObs.observe(codeArea, { attributes: true, attributeFilter: ['style', 'class'] });
-});
-
-
-</script>
-
-
-  
-
-  
-  <script data-goatcounter="https://mcbcode.goatcounter.com/count"
+<script data-goatcounter="https://mcbcode.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
