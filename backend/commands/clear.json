@@ -1,0 +1,9 @@
+{
+  "command": "clear",
+  "pattern": [
+    { "type": "target", "required": true },
+    { "type": "word", "required": true, "options": ["*"] },
+    { "type": "int", "required": false },
+    { "type": "int", "required": false }
+  ]
+}
