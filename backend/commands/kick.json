@@ -1,0 +1,7 @@
+{
+  "command": "kick",
+  "pattern": [
+    { "type": "target", "required": true },
+    { "type": "word", "options": ["*"], "restOfLine":"true"  }
+  ]
+}
