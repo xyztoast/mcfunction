@@ -1,0 +1,63 @@
+{
+    "command": "clone",
+    "overloads": [
+        {
+            "pattern": [
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["replace", "masked"] },
+                { "type": "word", "options": ["force", "move", "normal"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["replace", "masked"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["filtered"] },
+                { "type": "word", "options": ["force", "move", "normal"] },
+                { "type": "item_id" }
+            ]
+        }
+    ]
+}
