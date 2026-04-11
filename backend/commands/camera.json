@@ -1,0 +1,248 @@
+{
+    "command": "camera",
+    "overloads": [
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["clear"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["fade"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["fade"] },
+                { "type": "word", "options": ["time"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["fade"] },
+                { "type": "word", "options": ["color"] },
+                { "type": "int", "min": 0, "max": 255 },
+                { "type": "int", "min": 0, "max": 255 },
+                { "type": "int", "min": 0, "max": 255 }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["fade"] },
+                { "type": "word", "options": ["time"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["color"] },
+                { "type": "int", "min": 0, "max": 255 },
+                { "type": "int", "min": 0, "max": 255 },
+                { "type": "int", "min": 0, "max": 255 }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["attach_to_entity"] },
+                { "type": "target" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["detach_from_entity"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["target_entity"] },
+                { "type": "target" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["target_entity"] },
+                { "type": "target" },
+                { "type": "word", "options": ["target_center_offset"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["default"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["rot"] },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["rot"] },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["facing"] },
+                { "type": "target" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["facing"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["ease"] },
+                { "type": "int" },
+                { "type": "word", "options": ["linear", "spring", "in_quad", "out_quad", "in_out_quad", "in_cubic", "out_cubic", "in_out_cubic", "in_quart", "out_quart", "in_out_quart", "in_quint", "out_quint", "in_out_quint", "in_sine", "out_sine", "in_out_sine", "in_expo", "out_expo", "in_out_expo", "in_circ", "out_circ", "in_out_circ", "in_bounce", "out_bounce", "in_out_bounce", "in_back", "out_back", "in_out_back", "in_elastic", "out_elastic", "in_out_elastic"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["ease"] },
+                { "type": "int" },
+                { "type": "word", "options": ["linear", "spring", "in_quad", "out_quad", "in_out_quad", "in_cubic", "out_cubic", "in_out_cubic", "in_quart", "out_quart", "in_out_quart", "in_quint", "out_quint", "in_out_quint", "in_sine", "out_sine", "in_out_sine", "in_expo", "out_expo", "in_out_expo", "in_circ", "out_circ", "in_out_circ", "in_bounce", "out_bounce", "in_out_bounce", "in_back", "out_back", "in_out_back", "in_elastic", "out_elastic", "in_out_elastic"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["ease"] },
+                { "type": "int" },
+                { "type": "word", "options": ["linear", "spring", "in_quad", "out_quad", "in_out_quad", "in_cubic", "out_cubic", "in_out_cubic", "in_quart", "out_quart", "in_out_quart", "in_quint", "out_quint", "in_out_quint", "in_sine", "out_sine", "in_out_sine", "in_expo", "out_expo", "in_out_expo", "in_circ", "out_circ", "in_out_circ", "in_bounce", "out_bounce", "in_out_bounce", "in_back", "out_back", "in_out_back", "in_elastic", "out_elastic", "in_out_elastic"] },
+                { "type": "word", "options": ["rot"] },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["ease"] },
+                { "type": "int" },
+                { "type": "word", "options": ["linear", "spring", "in_quad", "out_quad", "in_out_quad", "in_cubic", "out_cubic", "in_out_cubic", "in_quart", "out_quart", "in_out_quart", "in_quint", "out_quint", "in_out_quint", "in_sine", "out_sine", "in_out_sine", "in_expo", "out_expo", "in_out_expo", "in_circ", "out_circ", "in_out_circ", "in_bounce", "out_bounce", "in_out_bounce", "in_back", "out_back", "in_out_back", "in_elastic", "out_elastic", "in_out_elastic"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["rot"] },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["ease"] },
+                { "type": "int" },
+                { "type": "word", "options": ["linear", "spring", "in_quad", "out_quad", "in_out_quad", "in_cubic", "out_cubic", "in_out_cubic", "in_quart", "out_quart", "in_out_quart", "in_quint", "out_quint", "in_out_quint", "in_sine", "out_sine", "in_out_sine", "in_expo", "out_expo", "in_out_expo", "in_circ", "out_circ", "in_out_circ", "in_bounce", "out_bounce", "in_out_bounce", "in_back", "out_back", "in_out_back", "in_elastic", "out_elastic", "in_out_elastic"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["facing"] },
+                { "type": "target" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["minecraft:free", "minecraft:first_person", "minecraft:third_person", "minecraft:third_person_front", "*"] },
+                { "type": "word", "options": ["ease"] },
+                { "type": "int" },
+                { "type": "word", "options": ["linear", "spring", "in_quad", "out_quad", "in_out_quad", "in_cubic", "out_cubic", "in_out_cubic", "in_quart", "out_quart", "in_out_quart", "in_quint", "out_quint", "in_out_quint", "in_sine", "out_sine", "in_out_sine", "in_expo", "out_expo", "in_out_expo", "in_circ", "out_circ", "in_out_circ", "in_bounce", "out_bounce", "in_out_bounce", "in_back", "out_back", "in_out_back", "in_elastic", "out_elastic", "in_out_elastic"] },
+                { "type": "word", "options": ["pos"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["facing"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        }
+    ]
+              }
