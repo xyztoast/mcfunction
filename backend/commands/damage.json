@@ -1,0 +1,27 @@
+{
+    "command": "damage",
+    "overloads": [
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "int", "min": 0 }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "int", "min": 0 },
+                { "type": "word", "options": ["anvil", "block_explosion", "charging", "contact", "drowning", "entity_attack", "entity_explosion", "fall", "falling_block", "fire", "fire_tick", "fireworks", "fly_into_wall", "freezing", "lava", "lightning", "magic", "magma", "none", "override", "piston", "projectile", "self_destruct", "stalactite", "stalagmite", "starve", "suffocation", "temperature", "thorns", "void", "wither"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "int", "min": 0 },
+                { "type": "word", "options": ["anvil", "block_explosion", "charging", "contact", "drowning", "entity_attack", "entity_explosion", "fall", "falling_block", "fire", "fire_tick", "fireworks", "fly_into_wall", "freezing", "lava", "lightning", "magic", "magma", "none", "override", "piston", "projectile", "self_destruct", "stalactite", "stalagmite", "starve", "suffocation", "temperature", "thorns", "void", "wither"] },
+                { "type": "word", "options": ["entity"] },
+                { "type": "target" }
+            ]
+        }
+    ]
+}
