@@ -3,4 +3,4 @@ User-agent: *
 Disallow: /private/
 
 # Reference your sitemap to help search engines index your pages
-Sitemap: https://mcbcode.com/backend/sitemap.xml
+Sitemap: https://mcbcode.com/sitemap.xml
