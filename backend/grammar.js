@@ -12,7 +12,7 @@ let selectorArgKeys = null;
  */
 (async function loadColorCodes() {
     try {
-        const response = await fetch("./backend/colorcodes.json");
+        const response = await fetch("https://mcbcode.com/backend/colorcodes.json");
         if (response.ok) {
             const data = await response.json();
             Object.assign(colorCodeCache, data);
@@ -25,7 +25,7 @@ let selectorArgKeys = null;
  */
 (async function loadSelectorArgs() {
     try {
-        const response = await fetch("./backend/commands/other/selector_args.json");
+        const response = await fetch("https://mcbcode.com/backend/commands/other/selector_args.json");
         if (response.ok) {
             const data = await response.json();
             selectorArgKeys = data.keys || [];
@@ -372,7 +372,7 @@ function processSegmentsSync(segments) {
 async function fetchCommandGrammar(cmd) {
     if (commandCache[cmd] || !cmd) return;
     try {
-        const response = await fetch(`./backend/commands/${cmd}.json`);
+        const response = await fetch(`https://mcbcode.com/backend/commands/${cmd}.json`);
         if (response.ok) {
             const data = await response.json();
             commandCache[cmd] = data;
