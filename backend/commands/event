@@ -1,0 +1,8 @@
+{
+  "command": "event",
+  "pattern": [
+    { "type": "word", "required": true, "options": ["entity"] },
+    { "type": "target", "required": true },
+    { "type": "word", "options": ["*"] }
+  ]
+}
