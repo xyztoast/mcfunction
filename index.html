@@ -15,7 +15,6 @@
 <meta name="description" content="First MCFunction Code Editor for Minecraft Bedrock Edition">
 <meta name="robots" content="index, follow">
 
-
   <link rel="icon" href="https://mcbcode.com/theme/favicon.png">
   <link rel="stylesheet" href="https://mcbcode.com/theme/site.css">
   <meta charset="utf-8" />
@@ -35,7 +34,6 @@
     }
 
     h1{
-
       font-family: "mcfontb", sans-serif;
       font-size: 40px;
       margin-top: 20vh;
@@ -44,7 +42,7 @@
     }
 
     h2 {
-     font-size: 25px; 
+     font-size: 25px;
      color: #ffffff;
     }
 
@@ -58,7 +56,6 @@
         text-decoration: none;
         color: #05ee93;
     }
-
 
   .mcbc {
     position: fixed;
@@ -101,479 +98,341 @@
       background-color: #00a95c;
   }
 
-.navi {
-    position: fixed;
-    top: 0;
-    max-width: 100%;
-    width: 100%;
-    height: 75px;
-    background-color: rgba(45 45 45 0.6);
-    backdrop-filter: blur(6px);
-    display: flex;
-}
+  .navi {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 75px;
+      background-color: rgba(45, 45, 45, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      padding: 0 24px;
+      z-index: 100;
+  }
 
-.quick-links {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    max-width: 700px;
-    width: 700px;
-    text-align: center;
-    margin: auto;
-}
+  .navi-brand h2 {
+      margin: 0;
+  }
 
-.divider {
-    border-top: 2px solid #bebebe;
-    max-width: 30%;
-    opacity: 0.5;
-    margin: auto;
-    margin-top: 50px;
-}
+  .quick-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+  }
 
-.content-wrapper {
-    display: flex;
-    max-width: 90%;
-    margin: auto;
-}
+  .divider {
+      border-top: 2px solid #bebebe;
+      max-width: 30%;
+      opacity: 0.5;
+      margin: auto;
+      margin-top: 50px;
+  }
 
-.content {
-    flex: 1;
-}
+  footer { color: #343434; }
+  footer g { color: #008e4c; }
 
-#documentation {
-      border: 4px solid #3f3f3f;
-}
+  /* demo editor */
+  .demo-section {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      max-width: 900px;
+      margin: 40px auto 0 auto;
+      padding: 0 20px;
+      text-align: left;
+  }
 
+  .demo-desc {
+      flex: 0 0 210px;
+      color: #bebebe;
+  }
 
-code {
-    font-family: mcfont;
-    background-color: #1d1d1d;
-    padding: 16px 12px;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    max-width: 80%;
-    margin: auto;
-    flex: 1;
-    gap: 6px;
-    user-select: none;
-}
+  .demo-desc h2 {
+      margin-top: 0;
+      font-size: 21px;
+  }
 
+  .demo-desc p {
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 10px 0 18px 0;
+  }
 
-aa {
-    color: #55ff55;
-}
+  .demo-open-link {
+      display: inline-block;
+      color: #0c0c0c;
+      background-color: #05ee93;
+      border: 3px solid #00a459;
+      border-radius: 10px;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-family: mcfont;
+      transition: background-color 0.2s ease, color 0.2s ease;
+  }
 
-aao {
-    color: #55ff55;
-    opacity: 0.5;
-}
+  .demo-open-link:hover {
+      background-color: #00a95c;
+      color: #ffffff;
+  }
 
-cc {
-    color: #ff5555;
-}
+  .demo-editor-shell {
+      flex: 1;
+      background-color: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(5, 238, 147, 0.05);
+      min-width: 0;
+  }
 
-ee {
-    color: #ffff55;
-}
+  .demo-editor-topbar {
+      background-color: #212121;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-bottom: 1px solid #2e2e2e;
+      user-select: none;
+      font-size: 12px;
+      color: #7a7a7a;
+  }
 
-rr {
-    color: #ffaa00;
-}
+  .demo-editor-topbar img {
+      width: 16px;
+      height: 16px;
+  }
 
-bb {
-    color: #55ffff;
-}
+  .demo-editor-body {
+      display: flex;
+      height: 200px;
+      overflow: hidden;
+  }
 
-footer {
-    color: #343434;
-}
-footer g {
-    color: #008e4c;
-}
+  .demo-line-numbers {
+      background-color: #161616;
+      padding: 10px 10px 10px 12px;
+      text-align: right;
+      color: #444;
+      font-size: 13px;
+      line-height: 1.5;
+      user-select: none;
+      border-right: 1px solid #2a2a2a;
+      min-width: 28px;
+      overflow: hidden;
+      white-space: pre;
+      font-family: monospace;
+  }
 
-/* mini demo editor */
-.demo-editor-section {
-    max-width: 800px;
-    margin: 60px auto 0 auto;
-    padding: 0 20px;
-}
+  .demo-code-wrap {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+  }
 
-.demo-editor-shell {
-    background-color: #1a1a1a;
-    border: 1px solid #2e2e2e;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 40px rgba(5, 238, 147, 0.06);
-}
+  .demo-highlight {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      padding: 10px 12px;
+      box-sizing: border-box;
+      white-space: pre;
+      overflow: auto;
+      pointer-events: none;
+      color: #ffffff;
+      background-color: #161616;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+  }
 
-.demo-editor-topbar {
-    background-color: #212121;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 14px;
-    border-bottom: 1px solid #2e2e2e;
-    user-select: none;
-}
+  .demo-textarea {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      padding: 10px 12px;
+      box-sizing: border-box;
+      background: transparent;
+      color: transparent;
+      caret-color: #05ee93;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre;
+      word-wrap: normal;
+      tab-size: 4;
+      overflow: auto;
+      z-index: 2;
+  }
 
-.demo-editor-topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #bebebe;
-    font-size: 13px;
-}
+  .hl-cmd     { color: #ffff55; }
+  .hl-sel     { color: #ff5555; }
+  .hl-block   { color: #55ff55; }
+  .hl-coord   { color: #55ffff; }
+  .hl-key     { color: #ffaa00; }
+  .hl-comment { color: #4a4a4a; }
 
-.demo-editor-topbar-left img {
-    width: 18px;
-    height: 18px;
-}
-
-.demo-filename {
-    color: #7a7a7a;
-    font-size: 12px;
-}
-
-.demo-editor-topbar-right {
-    display: flex;
-    gap: 8px;
-}
-
-.demo-copy-btn {
-    background-color: #2c2c2c;
-    border: 1px solid #3a3a3a;
-    color: #bebebe;
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: mcfont;
-    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.demo-copy-btn:hover {
-    color: #05ee93;
-    background-color: #1f1f1f;
-}
-
-.demo-editor-body {
-    display: flex;
-    height: 220px;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    position: relative;
-    overflow: hidden;
-}
-
-.demo-line-numbers {
-    background-color: #161616;
-    padding: 10px 10px 10px 12px;
-    text-align: right;
-    color: #444;
-    font-size: 13px;
-    line-height: 1.5;
-    user-select: none;
-    border-right: 1px solid #2a2a2a;
-    min-width: 32px;
-    overflow: hidden;
-    white-space: pre;
-}
-
-.demo-code-wrap {
-    position: relative;
-    flex: 1;
-    overflow: hidden;
-}
-
-.demo-highlight {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    padding: 10px 12px;
-    box-sizing: border-box;
-    white-space: pre;
-    overflow: auto;
-    pointer-events: none;
-    color: #ffffff;
-    background-color: #161616;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    word-wrap: normal;
-}
-
-.demo-textarea {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    padding: 10px 12px;
-    box-sizing: border-box;
-    background: transparent;
-    color: transparent;
-    caret-color: #05ee93;
-    border: none;
-    outline: none;
-    resize: none;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    white-space: pre;
-    word-wrap: normal;
-    tab-size: 4;
-    overflow: auto;
-    z-index: 2;
-    spellcheck: false;
-}
-
-.demo-statusbar {
-    background-color: #05ee93;
-    color: #0c0c0c;
-    font-size: 11px;
-    padding: 4px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-}
-
-.demo-open-btn {
-    color: #0c0c0c;
-    background-color: transparent;
-    border: 1.5px solid #0c0c0c;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: mcfont;
-    transition: background-color 0.15s ease;
-}
-
-.demo-open-btn:hover {
-    background-color: rgba(0,0,0,0.12);
-    color: #0c0c0c;
-}
-
-/* highlight colors matching the real editor */
-.hl-cmd   { color: #ffff55; }
-.hl-sel   { color: #ff5555; }
-.hl-block { color: #55ff55; }
-.hl-coord { color: #55ffff; }
-.hl-key   { color: #ffaa00; }
-.hl-comment { color: #555; }
+  @media (max-width: 650px) {
+      .demo-section { flex-direction: column; }
+      .demo-desc { flex: unset; text-align: center; }
+  }
   </style>
 </head>
 <body>
-    <div class="navi">
-        <div style="text-align: left; padding-left: 20px;"><h2>mcb<g>Code</g></h2></div>
-    <div class="quick-links">
-        <a href="https://mcbcode.com/editor">Editor</a>
-        <div style="padding-left: 60%"></div>
-        <a href="https://github.com/xyztoast/mcfunction">Source</a>
-        <div style="padding-left: 60%"></div>
-        </div>
-    </div>
-<h1>mcb<g>Code</g></h1>
-<p style="color: #fff;">The <g>first</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
-<div style="user-select: none;">
-<div class="top-navi">
-    <a href="https://mcbcode.com/editor"><button id="tryitout">Try it out</button></a>
-</div>
-</div>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
-<!-- mini demo editor -->
-<div class="divider"></div>
-<h2>Try it <g>Right Here</g></h2>
-<p>Type some commands below — syntax highlighting works live, just like the real editor.</p>
-<br>
+  <div class="navi">
+      <div class="navi-brand"><h2>mcb<g>Code</g></h2></div>
+      <div class="quick-links">
+          <a href="https://mcbcode.com/editor">Editor</a>
+          <a href="https://github.com/xyztoast/mcfunction">Source</a>
+      </div>
+  </div>
 
-<div class="demo-editor-section">
-    <div class="demo-editor-shell">
+  <h1>mcb<g>Code</g></h1>
+  <p style="color: #fff;">The <g>first</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
+  <div style="user-select: none;">
+      <div class="top-navi">
+          <a href="https://mcbcode.com/editor"><button id="tryitout">Try it out</button></a>
+      </div>
+  </div>
 
-        <div class="demo-editor-topbar">
-            <div class="demo-editor-topbar-left">
-                <img src="https://mcbcode.com/theme/favicon.png" alt="mcbCode">
-                <span>mcb<span style="color:#05ee93">Code</span></span>
-                <span class="demo-filename">demo.mcfunction</span>
-            </div>
-            <div class="demo-editor-topbar-right">
-                <button class="demo-copy-btn" id="demoCopyBtn">Copy</button>
-            </div>
-        </div>
+  <div class="divider"></div>
+  <h2>Try it <g>Right Here</g></h2>
+  <p>Type some commands below — syntax highlighting works live, just like the real editor.</p>
 
-        <div class="demo-editor-body">
-            <div class="demo-line-numbers" id="demoLineNums">1</div>
-            <div class="demo-code-wrap">
-                <div class="demo-highlight" id="demoHighlight"></div>
-                <textarea
-                    class="demo-textarea"
-                    id="demoArea"
-                    spellcheck="false"
-                    placeholder="# type your commands here..."
-                ># welcome to mcbCode!
+  <div class="demo-section">
+
+      <div class="demo-desc">
+          <h2>Live <g>Syntax Highlighting</g></h2>
+          <p>mcbCode colors your commands as you type — commands, selectors, block names, and coordinates each get their own color so bad syntax stands out at a glance.</p>
+          <a class="demo-open-link" href="https://mcbcode.com/editor">Open Full Editor</a>
+      </div>
+
+      <div class="demo-editor-shell">
+          <div class="demo-editor-topbar">
+              <img src="https://mcbcode.com/theme/favicon.png" alt="mcbCode">
+              <span style="color:#bebebe;">mcb<span style="color:#05ee93">Code</span></span>
+              <span>— demo.mcfunction</span>
+          </div>
+          <div class="demo-editor-body">
+              <div class="demo-line-numbers" id="demoLineNums">1</div>
+              <div class="demo-code-wrap">
+                  <div class="demo-highlight" id="demoHighlight"></div>
+                  <textarea
+                      class="demo-textarea"
+                      id="demoArea"
+                      spellcheck="false"
+                      placeholder="# type your commands here..."
+                  ># welcome to mcbCode!
 give @a diamond_sword 1
 tp @e[type=zombie] ~ ~10 ~
 fill ~-5 ~-1 ~-5 ~5 ~-1 ~5 grass
-say §aHello from mcbCode!</textarea>
-            </div>
-        </div>
+say Hello from mcbCode!</textarea>
+              </div>
+          </div>
+      </div>
 
-        <div class="demo-statusbar">
-            <span id="demoLineCol">Ln 1, Col 1</span>
-            <a href="https://mcbcode.com/editor"><button class="demo-open-btn">Open Full Editor</button></a>
-            <span id="demoLineCount">5 lines</span>
-        </div>
+  </div>
 
-    </div>
-</div>
+  <script>
+  (function() {
+      const area      = document.getElementById('demoArea');
+      const highlight = document.getElementById('demoHighlight');
+      const lineNums  = document.getElementById('demoLineNums');
 
-<br><br>
+      function highlightMCF(text) {
+          return text.split('\n').map(line => {
+              let s = line
+                  .replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;');
 
-<script>
-(function() {
-    const area = document.getElementById('demoArea');
-    const highlight = document.getElementById('demoHighlight');
-    const lineNums = document.getElementById('demoLineNums');
-    const lineColDisp = document.getElementById('demoLineCol');
-    const lineCountDisp = document.getElementById('demoLineCount');
-    const copyBtn = document.getElementById('demoCopyBtn');
+              if (/^\s*#/.test(s)) {
+                  return '<span class="hl-comment">' + s + '</span>';
+              }
 
-    // basic mcfunction highlighter
-    function highlightMCF(text) {
-        const lines = text.split('\n');
-        return lines.map(line => {
-            // escape html first
-            let safe = line
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
+              // selectors with optional brackets
+              s = s.replace(/(@[asepAr])(\[([^\]]*)\])?/g, function(match, sel, bracket, inner) {
+                  if (!bracket) return '<span class="hl-sel">' + sel + '</span>';
+                  let inside = inner.replace(/(\w+)(=)([^,\]]+)/g,
+                      '<span class="hl-key">$1</span>$2<span class="hl-block">$3</span>');
+                  return '<span class="hl-sel">' + sel + '</span>[' + inside + ']';
+              });
 
-            // comment lines
-            if (/^\s*#/.test(safe)) {
-                return '<span class="hl-comment">' + safe + '</span>';
-            }
+              // relative coords and plain numbers
+              s = s.replace(/(~-?\d*\.?\d*|(?<!\w)-?\d+\.?\d*(?!\w))/g,
+                  '<span class="hl-coord">$1</span>');
 
-            // selector targets like @a @s @e @p @r and selector args
-            safe = safe.replace(/(@[asepAr])(\[([^\]]*)\])?/g, function(match, sel, bracket, inner) {
-                if (!bracket) return '<span class="hl-sel">' + sel + '</span>';
-                // inside selector brackets: keys orange, values green
-                let inside = inner.replace(/(\w+)(=)([^,\]]+)/g,
-                    '<span class="hl-key">$1</span>$2<span class="hl-block">$3</span>');
-                return '<span class="hl-sel">' + sel + '</span>[' + inside + ']';
-            });
+              // snake_case block/item names
+              s = s.replace(/\b([a-z][a-z0-9]*(?:_[a-z0-9]+)+)\b/g,
+                  '<span class="hl-block">$1</span>');
 
-            // relative/absolute coords ~ ^ numbers
-            safe = safe.replace(/(~-?\d*\.?\d*|[-]?\d+\.?\d*(?=\s|$))/g,
-                '<span class="hl-coord">$1</span>');
+              // known commands at start of line
+              const cmds = ['give','tp','teleport','fill','say','tellraw','title',
+                  'effect','summon','kill','clear','gamemode','gamerule','weather',
+                  'time','scoreboard','tag','execute','function','setblock',
+                  'replaceitem','playsound','stopsound','particle','structure',
+                  'loot','locate','playanimation','ride','camerashake',
+                  'inputpermission','damage','dialogue'];
+              s = s.replace(
+                  new RegExp('^(\\s*)(' + cmds.join('|') + ')\\b'),
+                  '$1<span class="hl-cmd">$2</span>'
+              );
 
-            // block/item names (word after known commands or standalone snake_case identifiers)
-            safe = safe.replace(/\b([a-z][a-z0-9]*(?:_[a-z0-9]+)+)\b/g,
-                '<span class="hl-block">$1</span>');
+              return s;
+          }).join('\n');
+      }
 
-            // known commands (first token)
-            const cmds = ['give','tp','teleport','fill','say','tellraw','title',
-                'effect','summon','kill','clear','gamemode','gamerule','weather',
-                'time','scoreboard','tag','execute','function','setblock',
-                'replaceitem','playsound','stopsound','particle','structure',
-                'loot','locate','playanimation','ride','camerashake','inputpermission',
-                'damage','dialogue'];
-            const cmdReg = new RegExp('^(\\s*)(' + cmds.join('|') + ')\\b');
-            safe = safe.replace(cmdReg, '$1<span class="hl-cmd">$2</span>');
+      function updateLineNums(text) {
+          const count = text.split('\n').length;
+          let out = '';
+          for (let i = 1; i <= count; i++) out += i + '\n';
+          lineNums.textContent = out;
+      }
 
-            // section sign color codes
-            safe = safe.replace(/(§[0-9a-fk-or])/g, '<span style="opacity:0.5;color:#aaa">$1</span>');
+      function syncScroll() {
+          highlight.scrollTop  = area.scrollTop;
+          highlight.scrollLeft = area.scrollLeft;
+          lineNums.scrollTop   = area.scrollTop;
+      }
 
-            return safe;
-        }).join('\n');
-    }
+      function updateAll() {
+          highlight.innerHTML = highlightMCF(area.value);
+          updateLineNums(area.value);
+          syncScroll();
+      }
 
-    function updateLineNums(text) {
-        const count = text.split('\n').length;
-        let out = '';
-        for (let i = 1; i <= count; i++) out += i + '\n';
-        lineNums.textContent = out;
-    }
+      area.addEventListener('input', updateAll);
+      area.addEventListener('scroll', syncScroll);
 
-    function updateAll() {
-        const val = area.value;
-        highlight.innerHTML = highlightMCF(val);
-        updateLineNums(val);
-        const lines = val.split('\n').length;
-        lineCountDisp.textContent = lines + (lines === 1 ? ' line' : ' lines');
-        syncScroll();
-    }
+      area.addEventListener('keydown', function(e) {
+          if (e.key === 'Tab') {
+              e.preventDefault();
+              const s = area.selectionStart;
+              const end = area.selectionEnd;
+              area.value = area.value.substring(0, s) + '    ' + area.value.substring(end);
+              area.selectionStart = area.selectionEnd = s + 4;
+              updateAll();
+          }
+      });
 
-    function syncScroll() {
-        highlight.scrollTop = area.scrollTop;
-        highlight.scrollLeft = area.scrollLeft;
-        lineNums.scrollTop = area.scrollTop;
-    }
+      updateAll();
+  })();
+  </script>
 
-    function updateCursor() {
-        const val = area.value;
-        const pos = area.selectionStart;
-        const before = val.substring(0, pos);
-        const ln = before.split('\n').length;
-        const col = before.split('\n').pop().length + 1;
-        lineColDisp.textContent = 'Ln ' + ln + ', Col ' + col;
-    }
+  <br><br><br><br><br>
 
-    area.addEventListener('input', updateAll);
-    area.addEventListener('scroll', syncScroll);
-    area.addEventListener('keyup', updateCursor);
-    area.addEventListener('click', updateCursor);
-    area.addEventListener('select', updateCursor);
+  <footer>Not affiliated with Microsoft or Mojang AB.<br><br>
+  © Copyright 2026 mcb<g>Code</g></footer>
+  <br><br>
 
-    // tab key support
-    area.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            const s = area.selectionStart;
-            const end = area.selectionEnd;
-            area.value = area.value.substring(0, s) + '    ' + area.value.substring(end);
-            area.selectionStart = area.selectionEnd = s + 4;
-            updateAll();
-        }
-    });
-
-    copyBtn.addEventListener('click', function() {
-        const dummy = document.createElement('textarea');
-        document.body.appendChild(dummy);
-        dummy.value = area.value;
-        dummy.select();
-        document.execCommand('copy');
-        document.body.removeChild(dummy);
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
-    });
-
-    // initial render
-    updateAll();
-    updateCursor();
-})();
-</script>
-<!-- end mini demo editor -->
-
-<br>
-<br>
-<br>
-<br>
-<footer>Not affiliated  with Microsoft or Mojang AB.<br><br>
-© Copyright 2026 mcb<g>Code</g></footer>
-<br><br>
-
-
-
-
-<script data-goatcounter="https://mcbcode.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://mcbcode.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
