@@ -1,6 +1,115 @@
 // Cache to store command JSONs
 const commandCache = {};
 
+// Cache for color codes (loaded from colorcodes.json)
+const colorCodeCache = {};
+
+/**
+ * Load color codes from backend/colorcodes.json
+ */
+(async function loadColorCodes() {
+    try {
+        const response = await fetch("./backend/colorcodes.json");
+        if (response.ok) {
+            const data = await response.json();
+            Object.assign(colorCodeCache, data);
+        }
+    } catch (e) { /* silent fail */ }
+})();
+
+/**
+ * Apply §x color codes within a segment string.
+ * Splits the text on §x sequences and wraps each chunk with the correct inline color.
+ * Only hex color values are applied — l, o, k etc are ignored.
+ * Returns { html, activeColor } where activeColor is the last active color after this segment
+ * (so it can carry into the next segment), or null if reset by a "
+ */
+function applyColorCodes(text, cssClass, incomingColor) {
+    const pattern = /§([0-9a-fA-FrR])/g;
+
+    let result = "";
+    let lastIndex = 0;
+    let currentColor = incomingColor || null;
+
+    // Helper: wrap a chunk of text in the right span
+    function wrapChunk(chunk) {
+        if (!chunk) return "";
+        const escaped = escapeHtml(chunk);
+        if (currentColor) {
+            return `<span class="${cssClass}" style="color:${currentColor}">${escaped}</span>`;
+        }
+        return `<span class="${cssClass}">${escaped}</span>`;
+    }
+
+    // Helper: render a chunk and handle " reset within it
+    function renderChunk(chunk) {
+        if (!chunk) return "";
+        const quoteIdx = chunk.indexOf('"');
+        if (quoteIdx !== -1) {
+            const beforeQuote = chunk.slice(0, quoteIdx + 1);
+            const afterQuote = chunk.slice(quoteIdx + 1);
+            const out = wrapChunk(beforeQuote);
+            currentColor = null;
+            return out + wrapChunk(afterQuote);
+        }
+        return wrapChunk(chunk);
+    }
+
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+        const before = text.slice(lastIndex, match.index);
+        result += renderChunk(before);
+
+        const code = match[1].toLowerCase();
+        const value = colorCodeCache[code];
+
+        if (code === "r") {
+            currentColor = null;
+        } else if (value && value.startsWith("#")) {
+            currentColor = value;
+        }
+        // non-color codes (l, o, k) silently ignored
+
+        // Render the §x itself dimmed so it's visible but unobtrusive
+        result += `<span class="hl-colorcode">${escapeHtml(match[0])}</span>`;
+
+        lastIndex = pattern.lastIndex;
+    }
+
+    // Render whatever is left after the last §x
+    result += renderChunk(text.slice(lastIndex));
+
+    return { html: result, activeColor: currentColor };
+}
+
+/**
+ * Check if a segment contains any § color codes worth processing
+ */
+function hasColorCodes(text) {
+    return text.includes("§");
+}
+
+/**
+ * Render a single segment with color code support applied on top of a css class.
+ * If the segment has no § codes, falls back to normal rendering.
+ * activeColor is the carried-in color from a previous segment.
+ * Returns { html, activeColor }
+ */
+function renderSegment(segment, cssClass, activeColor) {
+    if (hasColorCodes(segment)) {
+        return applyColorCodes(segment, cssClass, activeColor);
+    }
+    let nextColor = activeColor;
+    let html;
+    if (activeColor) {
+        html = `<span class="${cssClass}" style="color:${activeColor}">${escapeHtml(segment)}</span>`;
+        if (segment.includes('"')) nextColor = null;
+    } else {
+        html = `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
+    }
+    return { html, activeColor: nextColor };
+}
+
 /**
  * The "Brain" - Processes segments with the "Elimination Race" logic
  */
@@ -11,6 +120,7 @@ function processSegmentsSync(segments) {
     let argCounter = 0;
     let restOfLineMode = false;
     let restOfLineClass = "";
+    let activeColor = null; // Tracks carried §x color across segments
 
     for (let i = 0; i < segments.length; i++) {
         let segment = segments[i];
@@ -57,7 +167,9 @@ function processSegmentsSync(segments) {
 
             // If we hit a restOfLine trigger previously, keep using that class
             if (restOfLineMode) {
-                processed += `<span class="${restOfLineClass}">${escapeHtml(segment)}</span>`;
+                const r = renderSegment(segment, restOfLineClass, activeColor);
+                processed += r.html;
+                activeColor = r.activeColor;
                 continue;
             }
 
@@ -84,47 +196,21 @@ function processSegmentsSync(segments) {
                 // Grab the expected object from the first survivor to determine the CSS/RestOfLine
                 matchedExpected = activePatterns[0][argCounter];
                 bestClass = getHighlightClass(segment, matchedExpected);
-
-                // --- NESTED PATTERN SUPPORT ---
-                // If the matched arg has nested overloads or a nested pattern, expand them.
-                // We collect all nested patterns from ALL surviving patterns that matched
-                // this word, merge them into a new activePatterns list, and reset argCounter.
-                // This is 100% backwards compatible - if no nested patterns exist, nothing changes.
-                let nestedPatterns = [];
-                for (let sp of survivingPatterns) {
-                    let exp = sp[argCounter];
-                    if (!exp) continue;
-                    // Only expand nested patterns if this word actually matched
-                    if (getHighlightClass(segment, exp) === "hl-error") continue;
-                    if (exp.overloads && Array.isArray(exp.overloads)) {
-                        // e.g. { type: "word", options: ["objectives"], overloads: [{pattern:[...]}, ...] }
-                        for (let ov of exp.overloads) {
-                            if (ov.pattern) nestedPatterns.push(ov.pattern);
-                        }
-                    } else if (exp.pattern && Array.isArray(exp.pattern)) {
-                        // e.g. { type: "word", options: ["add"], pattern: [...] }
-                        nestedPatterns.push(exp.pattern);
-                    }
-                }
-
-                if (nestedPatterns.length > 0) {
-                    // Switch into the nested pattern context
-                    activePatterns = nestedPatterns;
-                    argCounter = -1; // will be incremented to 0 at end of loop
-                }
             } else {
                 // No patterns matched. The user typed an error.
                 bestClass = "hl-error";
             }
 
             // Check for the new restOfLine state using the winning pattern
-            // json type always triggers restOfLine since json blobs span the whole rest of the line
-            if (matchedExpected && (matchedExpected.restOfLine === "true" || matchedExpected.type === "json")) {
+            if (matchedExpected && matchedExpected.restOfLine === "true") {
                 restOfLineMode = true;
                 restOfLineClass = bestClass;
             }
 
-            processed += `<span class="${bestClass}">${escapeHtml(segment)}</span>`;
+            const r = renderSegment(segment, bestClass, activeColor);
+            processed += r.html;
+            activeColor = r.activeColor;
+
             argCounter++;
 
             // --- THE 3 LINES FOR CHAINING ---
@@ -170,7 +256,7 @@ function getHighlightClass(word, expected) {
             return "hl-error";
         case "item_id": 
             return /^([a-z0-9_]+:)?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
-        case "int": {
+        case "int": 
             // 1. Check if it's a valid coordinate (~, ^) or decimal number
             const isNumeric = /^([~^]-?\d*\.?\d*|-?\d+\.?\d*)$/.test(word);
             if (!isNumeric) return "hl-error";
@@ -182,20 +268,6 @@ function getHighlightClass(word, expected) {
                 if (expected.max !== undefined && val > expected.max) return "hl-error";
             }
             return "hl-number";
-        }
-        case "float": {
-            // Same as int but explicitly allows decimals, no ~ ^ support
-            const isFloat = /^-?\d+(\.\d+)?$/.test(word);
-            if (!isFloat) return "hl-error";
-            const val = parseFloat(word);
-            if (expected.min !== undefined && val < expected.min) return "hl-error";
-            if (expected.max !== undefined && val > expected.max) return "hl-error";
-            return "hl-number";
-        }
-        case "json":
-            // Marks the rest of the line as a json blob (tellraw, summon events, etc)
-            // Accepts anything that starts with { or [ as valid json-like content
-            return /^[\[{]/.test(word.trim()) ? "hl-item" : "hl-error";
         default: return "";
     }
 }
