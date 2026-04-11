@@ -132,7 +132,11 @@ function processSegmentsSync(segments) {
         }
 
         const segmentLower = segment.toLowerCase();
-
+        
+if (!commandData && segment.startsWith("/")) {
+    processed += `<span class="hl-error">${escapeHtml(segment)}</span>`;
+    break;
+}
         if (!commandData) {
             // Check cache for the base command (e.g., "give", "tickingarea")
             commandData = commandCache[segmentLower];
