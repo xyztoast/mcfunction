@@ -62,11 +62,13 @@
     font-family: mcfont;
   }
 
-  .line-numbers {
+.line-numbers {
     background-color: transparent;
     padding: 0 7px;
     font-family: mcfont;
     user-select: none;
+    overflow-y: scroll;
+    scrollbar-width: none;
     text-align: right;
     line-height: 1.2em;
     font-size: 14px;
@@ -75,7 +77,14 @@
     flex-direction: column;
     color: #858585;
     z-index: 10;
-  }
+    height: 100%;
+    box-sizing: border-box;
+    align-self: stretch;
+}
+
+.line-numbers::-webkit-scrollbar {
+    display: none;
+}
 
   /* WRAPPER FOR SYNCED LAYERS */
   .code-container {
