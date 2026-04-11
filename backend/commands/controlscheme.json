@@ -1,0 +1,18 @@
+{
+    "command": "controlscheme",
+    "overloads": [
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["clear"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "target" },
+                { "type": "word", "options": ["set"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        }
+    ]
+}
