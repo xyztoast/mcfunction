@@ -191,6 +191,177 @@ footer {
 footer g {
     color: #008e4c;
 }
+
+/* mini demo editor */
+.demo-editor-section {
+    max-width: 800px;
+    margin: 60px auto 0 auto;
+    padding: 0 20px;
+}
+
+.demo-editor-shell {
+    background-color: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(5, 238, 147, 0.06);
+}
+
+.demo-editor-topbar {
+    background-color: #212121;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid #2e2e2e;
+    user-select: none;
+}
+
+.demo-editor-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #bebebe;
+    font-size: 13px;
+}
+
+.demo-editor-topbar-left img {
+    width: 18px;
+    height: 18px;
+}
+
+.demo-filename {
+    color: #7a7a7a;
+    font-size: 12px;
+}
+
+.demo-editor-topbar-right {
+    display: flex;
+    gap: 8px;
+}
+
+.demo-copy-btn {
+    background-color: #2c2c2c;
+    border: 1px solid #3a3a3a;
+    color: #bebebe;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: mcfont;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.demo-copy-btn:hover {
+    color: #05ee93;
+    background-color: #1f1f1f;
+}
+
+.demo-editor-body {
+    display: flex;
+    height: 220px;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    overflow: hidden;
+}
+
+.demo-line-numbers {
+    background-color: #161616;
+    padding: 10px 10px 10px 12px;
+    text-align: right;
+    color: #444;
+    font-size: 13px;
+    line-height: 1.5;
+    user-select: none;
+    border-right: 1px solid #2a2a2a;
+    min-width: 32px;
+    overflow: hidden;
+    white-space: pre;
+}
+
+.demo-code-wrap {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+}
+
+.demo-highlight {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    white-space: pre;
+    overflow: auto;
+    pointer-events: none;
+    color: #ffffff;
+    background-color: #161616;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: normal;
+}
+
+.demo-textarea {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    background: transparent;
+    color: transparent;
+    caret-color: #05ee93;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre;
+    word-wrap: normal;
+    tab-size: 4;
+    overflow: auto;
+    z-index: 2;
+    spellcheck: false;
+}
+
+.demo-statusbar {
+    background-color: #05ee93;
+    color: #0c0c0c;
+    font-size: 11px;
+    padding: 4px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.demo-open-btn {
+    color: #0c0c0c;
+    background-color: transparent;
+    border: 1.5px solid #0c0c0c;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: mcfont;
+    transition: background-color 0.15s ease;
+}
+
+.demo-open-btn:hover {
+    background-color: rgba(0,0,0,0.12);
+    color: #0c0c0c;
+}
+
+/* highlight colors matching the real editor */
+.hl-cmd   { color: #ffff55; }
+.hl-sel   { color: #ff5555; }
+.hl-block { color: #55ff55; }
+.hl-coord { color: #55ffff; }
+.hl-key   { color: #ffaa00; }
+.hl-comment { color: #555; }
   </style>
 </head>
 <body>
@@ -269,6 +440,180 @@ footer g {
 <br>
 <br>
 <br>
+
+<!-- mini demo editor -->
+<div class="divider"></div>
+<h2>Try it <g>Right Here</g></h2>
+<p>Type some commands below — syntax highlighting works live, just like the real editor.</p>
+<br>
+
+<div class="demo-editor-section">
+    <div class="demo-editor-shell">
+
+        <div class="demo-editor-topbar">
+            <div class="demo-editor-topbar-left">
+                <img src="https://mcbcode.com/theme/favicon.png" alt="mcbCode">
+                <span>mcb<span style="color:#05ee93">Code</span></span>
+                <span class="demo-filename">demo.mcfunction</span>
+            </div>
+            <div class="demo-editor-topbar-right">
+                <button class="demo-copy-btn" id="demoCopyBtn">Copy</button>
+            </div>
+        </div>
+
+        <div class="demo-editor-body">
+            <div class="demo-line-numbers" id="demoLineNums">1</div>
+            <div class="demo-code-wrap">
+                <div class="demo-highlight" id="demoHighlight"></div>
+                <textarea
+                    class="demo-textarea"
+                    id="demoArea"
+                    spellcheck="false"
+                    placeholder="# type your commands here..."
+                ># welcome to mcbCode!
+give @a diamond_sword 1
+tp @e[type=zombie] ~ ~10 ~
+fill ~-5 ~-1 ~-5 ~5 ~-1 ~5 grass
+say §aHello from mcbCode!</textarea>
+            </div>
+        </div>
+
+        <div class="demo-statusbar">
+            <span id="demoLineCol">Ln 1, Col 1</span>
+            <a href="https://mcbcode.com/editor"><button class="demo-open-btn">Open Full Editor</button></a>
+            <span id="demoLineCount">5 lines</span>
+        </div>
+
+    </div>
+</div>
+
+<br><br>
+
+<script>
+(function() {
+    const area = document.getElementById('demoArea');
+    const highlight = document.getElementById('demoHighlight');
+    const lineNums = document.getElementById('demoLineNums');
+    const lineColDisp = document.getElementById('demoLineCol');
+    const lineCountDisp = document.getElementById('demoLineCount');
+    const copyBtn = document.getElementById('demoCopyBtn');
+
+    // basic mcfunction highlighter
+    function highlightMCF(text) {
+        const lines = text.split('\n');
+        return lines.map(line => {
+            // escape html first
+            let safe = line
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // comment lines
+            if (/^\s*#/.test(safe)) {
+                return '<span class="hl-comment">' + safe + '</span>';
+            }
+
+            // selector targets like @a @s @e @p @r and selector args
+            safe = safe.replace(/(@[asepAr])(\[([^\]]*)\])?/g, function(match, sel, bracket, inner) {
+                if (!bracket) return '<span class="hl-sel">' + sel + '</span>';
+                // inside selector brackets: keys orange, values green
+                let inside = inner.replace(/(\w+)(=)([^,\]]+)/g,
+                    '<span class="hl-key">$1</span>$2<span class="hl-block">$3</span>');
+                return '<span class="hl-sel">' + sel + '</span>[' + inside + ']';
+            });
+
+            // relative/absolute coords ~ ^ numbers
+            safe = safe.replace(/(~-?\d*\.?\d*|[-]?\d+\.?\d*(?=\s|$))/g,
+                '<span class="hl-coord">$1</span>');
+
+            // block/item names (word after known commands or standalone snake_case identifiers)
+            safe = safe.replace(/\b([a-z][a-z0-9]*(?:_[a-z0-9]+)+)\b/g,
+                '<span class="hl-block">$1</span>');
+
+            // known commands (first token)
+            const cmds = ['give','tp','teleport','fill','say','tellraw','title',
+                'effect','summon','kill','clear','gamemode','gamerule','weather',
+                'time','scoreboard','tag','execute','function','setblock',
+                'replaceitem','playsound','stopsound','particle','structure',
+                'loot','locate','playanimation','ride','camerashake','inputpermission',
+                'damage','dialogue'];
+            const cmdReg = new RegExp('^(\\s*)(' + cmds.join('|') + ')\\b');
+            safe = safe.replace(cmdReg, '$1<span class="hl-cmd">$2</span>');
+
+            // section sign color codes
+            safe = safe.replace(/(§[0-9a-fk-or])/g, '<span style="opacity:0.5;color:#aaa">$1</span>');
+
+            return safe;
+        }).join('\n');
+    }
+
+    function updateLineNums(text) {
+        const count = text.split('\n').length;
+        let out = '';
+        for (let i = 1; i <= count; i++) out += i + '\n';
+        lineNums.textContent = out;
+    }
+
+    function updateAll() {
+        const val = area.value;
+        highlight.innerHTML = highlightMCF(val);
+        updateLineNums(val);
+        const lines = val.split('\n').length;
+        lineCountDisp.textContent = lines + (lines === 1 ? ' line' : ' lines');
+        syncScroll();
+    }
+
+    function syncScroll() {
+        highlight.scrollTop = area.scrollTop;
+        highlight.scrollLeft = area.scrollLeft;
+        lineNums.scrollTop = area.scrollTop;
+    }
+
+    function updateCursor() {
+        const val = area.value;
+        const pos = area.selectionStart;
+        const before = val.substring(0, pos);
+        const ln = before.split('\n').length;
+        const col = before.split('\n').pop().length + 1;
+        lineColDisp.textContent = 'Ln ' + ln + ', Col ' + col;
+    }
+
+    area.addEventListener('input', updateAll);
+    area.addEventListener('scroll', syncScroll);
+    area.addEventListener('keyup', updateCursor);
+    area.addEventListener('click', updateCursor);
+    area.addEventListener('select', updateCursor);
+
+    // tab key support
+    area.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const s = area.selectionStart;
+            const end = area.selectionEnd;
+            area.value = area.value.substring(0, s) + '    ' + area.value.substring(end);
+            area.selectionStart = area.selectionEnd = s + 4;
+            updateAll();
+        }
+    });
+
+    copyBtn.addEventListener('click', function() {
+        const dummy = document.createElement('textarea');
+        document.body.appendChild(dummy);
+        dummy.value = area.value;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+    });
+
+    // initial render
+    updateAll();
+    updateCursor();
+})();
+</script>
+<!-- end mini demo editor -->
+
 <br>
 <br>
 <br>
@@ -276,10 +621,6 @@ footer g {
 <footer>Not affiliated  with Microsoft or Mojang AB.<br><br>
 © Copyright 2026 mcb<g>Code</g></footer>
 <br><br>
-
-
-
-
 
 
 
