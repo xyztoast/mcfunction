@@ -1,113 +1,41 @@
 // Cache to store command JSONs
 const commandCache = {};
 
-// Cache for color codes (loaded from colorcodes.json)
-const colorCodeCache = {};
+// Cache for selector args (loaded from backend/commands/other/selector_args.json)
+let selectorArgKeys = null;
 
 /**
- * Load color codes from backend/colorcodes.json
+ * Load selector arg keys from backend/commands/other/selector_args.json
  */
-(async function loadColorCodes() {
+(async function loadSelectorArgs() {
     try {
-        const response = await fetch("./backend/colorcodes.json");
+        const response = await fetch("./backend/commands/other/selector_args.json");
         if (response.ok) {
             const data = await response.json();
-            Object.assign(colorCodeCache, data);
+            selectorArgKeys = data.keys || [];
         }
     } catch (e) { /* silent fail */ }
 })();
 
 /**
- * Apply §x color codes within a segment string.
- * Splits the text on §x sequences and wraps each chunk with the correct inline color.
- * Only hex color values are applied — l, o, k etc are ignored.
- * Returns { html, activeColor } where activeColor is the last active color after this segment
- * (so it can carry into the next segment), or null if reset by a "
+ * Validate the contents of a @x[...] selector bracket against known bedrock keys.
+ * Returns true if all key=value pairs use known keys, false otherwise.
  */
-function applyColorCodes(text, cssClass, incomingColor) {
-    const pattern = /§([0-9a-fA-FrR])/g;
-
-    let result = "";
-    let lastIndex = 0;
-    let currentColor = incomingColor || null;
-
-    // Helper: wrap a chunk of text in the right span
-    function wrapChunk(chunk) {
-        if (!chunk) return "";
-        const escaped = escapeHtml(chunk);
-        if (currentColor) {
-            return `<span class="${cssClass}" style="color:${currentColor}">${escaped}</span>`;
-        }
-        return `<span class="${cssClass}">${escaped}</span>`;
+function validateSelectorArgs(bracketContent) {
+    if (!selectorArgKeys) return true; // not loaded yet, let it pass
+    // bracketContent is the string inside the [...] brackets
+    // split on commas, then check each key=value pair
+    const pairs = bracketContent.split(",");
+    for (let pair of pairs) {
+        pair = pair.trim();
+        if (!pair) continue;
+        // key=value or key=!value or key={...} (for scores/hasitem)
+        const eqIdx = pair.indexOf("=");
+        if (eqIdx === -1) return false;
+        const key = pair.slice(0, eqIdx).trim().toLowerCase();
+        if (!selectorArgKeys.includes(key)) return false;
     }
-
-    // Helper: render a chunk and handle " reset within it
-    function renderChunk(chunk) {
-        if (!chunk) return "";
-        const quoteIdx = chunk.indexOf('"');
-        if (quoteIdx !== -1) {
-            const beforeQuote = chunk.slice(0, quoteIdx + 1);
-            const afterQuote = chunk.slice(quoteIdx + 1);
-            const out = wrapChunk(beforeQuote);
-            currentColor = null;
-            return out + wrapChunk(afterQuote);
-        }
-        return wrapChunk(chunk);
-    }
-
-    let match;
-    while ((match = pattern.exec(text)) !== null) {
-        const before = text.slice(lastIndex, match.index);
-        result += renderChunk(before);
-
-        const code = match[1].toLowerCase();
-        const value = colorCodeCache[code];
-
-        if (code === "r") {
-            currentColor = null;
-        } else if (value && value.startsWith("#")) {
-            currentColor = value;
-        }
-        // non-color codes (l, o, k) silently ignored
-
-        // Render the §x itself dimmed so it's visible but unobtrusive
-        result += `<span class="hl-colorcode">${escapeHtml(match[0])}</span>`;
-
-        lastIndex = pattern.lastIndex;
-    }
-
-    // Render whatever is left after the last §x
-    result += renderChunk(text.slice(lastIndex));
-
-    return { html: result, activeColor: currentColor };
-}
-
-/**
- * Check if a segment contains any § color codes worth processing
- */
-function hasColorCodes(text) {
-    return text.includes("§");
-}
-
-/**
- * Render a single segment with color code support applied on top of a css class.
- * If the segment has no § codes, falls back to normal rendering.
- * activeColor is the carried-in color from a previous segment.
- * Returns { html, activeColor }
- */
-function renderSegment(segment, cssClass, activeColor) {
-    if (hasColorCodes(segment)) {
-        return applyColorCodes(segment, cssClass, activeColor);
-    }
-    let nextColor = activeColor;
-    let html;
-    if (activeColor) {
-        html = `<span class="${cssClass}" style="color:${activeColor}">${escapeHtml(segment)}</span>`;
-        if (segment.includes('"')) nextColor = null;
-    } else {
-        html = `<span class="${cssClass}">${escapeHtml(segment)}</span>`;
-    }
-    return { html, activeColor: nextColor };
+    return true;
 }
 
 /**
@@ -120,7 +48,8 @@ function processSegmentsSync(segments) {
     let argCounter = 0;
     let restOfLineMode = false;
     let restOfLineClass = "";
-    let activeColor = null; // Tracks carried §x color across segments
+    let inString = false;       // true when inside an open quoted string
+    let executeChainMode = false; // true when inside execute subclauses (before run)
 
     for (let i = 0; i < segments.length; i++) {
         let segment = segments[i];
@@ -132,12 +61,26 @@ function processSegmentsSync(segments) {
         }
 
         const segmentLower = segment.toLowerCase();
-        
-if (!commandData && segment.startsWith("/")) {
-    processed += `<span class="hl-error">${escapeHtml(segment)}</span>`;
-    break;
-}
+
+        // --- STRING CARRY MODE ---
+        // If we're inside an open quoted string, keep consuming segments as hl-item
+        // until we find one that ends with an unescaped "
+        if (inString) {
+            processed += `<span class="hl-item">${escapeHtml(segment)}</span>`;
+            // Check if this segment closes the string (ends with " not preceded by \)
+            if (segment.endsWith('"') && !segment.endsWith('\\"')) {
+                inString = false;
+            }
+            continue;
+        }
+
         if (!commandData) {
+            // --- SLASH CHECK ---
+            if (!commandData && segment.startsWith("/")) {
+                processed += `<span class="hl-error">${escapeHtml(segment)}</span>`;
+                break;
+            }
+
             // Check cache for the base command (e.g., "give", "tickingarea")
             commandData = commandCache[segmentLower];
 
@@ -155,14 +98,19 @@ if (!commandData && segment.startsWith("/")) {
                     activePatterns = [];
                 }
 
+                // If this is execute, enter chain mode
+                if (commandData.command === "execute") {
+                    executeChainMode = true;
+                }
+
             } else {
                 // Not in cache? Fetch for next time and mark as error for now
                 fetchCommandGrammar(segmentLower); 
                 processed += `<span class="hl-error">${escapeHtml(segment)}</span>`;
             }
         } else {
-            // Handle Execute Recursion
-            if (segmentLower === "run" && commandData.command === "execute") {
+            // Handle Execute run keyword — exits chain mode and recurses
+            if (segmentLower === "run" && executeChainMode) {
                 processed += `<span class="hl-command">run</span>`;
                 // Process the rest of the line as a new command
                 processed += processSegmentsSync(segments.slice(i + 1));
@@ -171,9 +119,7 @@ if (!commandData && segment.startsWith("/")) {
 
             // If we hit a restOfLine trigger previously, keep using that class
             if (restOfLineMode) {
-                const r = renderSegment(segment, restOfLineClass, activeColor);
-                processed += r.html;
-                activeColor = r.activeColor;
+                processed += `<span class="${restOfLineClass}">${escapeHtml(segment)}</span>`;
                 continue;
             }
 
@@ -203,6 +149,30 @@ if (!commandData && segment.startsWith("/")) {
             } else {
                 // No patterns matched. The user typed an error.
                 bestClass = "hl-error";
+
+                // --- EXECUTE CHAIN RESET ---
+                // If we're in execute chain mode and the current word didn't match,
+                // try resetting argCounter to 0 and re-matching against the execute overloads.
+                // This allows chaining: "at @a positioned ~ ~ ~ as @s ..."
+                if (executeChainMode && commandData) {
+                    let resetPatterns = commandData.overloads
+                        ? commandData.overloads.map(o => o.pattern)
+                        : (commandData.pattern ? [commandData.pattern] : []);
+
+                    let resetSurvivors = resetPatterns.filter(pattern => {
+                        let expected = pattern[0];
+                        if (!expected) return false;
+                        return getHighlightClass(segment, expected) !== "hl-error";
+                    });
+
+                    if (resetSurvivors.length > 0) {
+                        // Valid new subclause keyword — reset the race
+                        activePatterns = resetSurvivors;
+                        argCounter = 0;
+                        matchedExpected = activePatterns[0][0];
+                        bestClass = getHighlightClass(segment, matchedExpected);
+                    }
+                }
             }
 
             // Check for the new restOfLine state using the winning pattern
@@ -211,10 +181,16 @@ if (!commandData && segment.startsWith("/")) {
                 restOfLineClass = bestClass;
             }
 
-            const r = renderSegment(segment, bestClass, activeColor);
-            processed += r.html;
-            activeColor = r.activeColor;
+            // --- STRING OPEN CHECK ---
+            // If this segment starts with " but doesn't end with a closing " it opens a string
+            if (bestClass === "hl-item" || bestClass === "hl-error") {
+                if (segment.startsWith('"') && !(segment.length > 1 && segment.endsWith('"') && !segment.endsWith('\\"'))) {
+                    inString = true;
+                    bestClass = "hl-item";
+                }
+            }
 
+            processed += `<span class="${bestClass}">${escapeHtml(segment)}</span>`;
             argCounter++;
 
             // --- THE 3 LINES FOR CHAINING ---
@@ -251,6 +227,20 @@ function getHighlightClass(word, expected) {
     switch (expected.type) {
         case "target": 
             return /^(@[a-p|e|s|r|v]|@[a-p|e|s|r|v]\[.*\]|[A-Za-z0-9_]{3,16})$/i.test(word) ? "hl-selector" : "hl-error";
+        case "selector_arg": {
+            // Must match @x[...] format, and keys inside brackets must be valid bedrock selector args
+            const match = word.match(/^@[aeprsv]\[(.*)\]$/i);
+            if (!match) return "hl-error";
+            return validateSelectorArgs(match[1]) ? "hl-selector" : "hl-error";
+        }
+        case "string": {
+            // A quoted string — starts and ends with "
+            // Single word: "hello" — valid
+            // If it only starts with " it will be caught by the inString carry logic above
+            if (word.startsWith('"') && word.endsWith('"') && word.length >= 2) return "hl-item";
+            if (word.startsWith('"')) return "hl-item"; // opening — carry handles the rest
+            return "hl-error";
+        }
         case "word":
             if (expected.options) {
                 if (expected.options.includes("*")) return "hl-item"; 
