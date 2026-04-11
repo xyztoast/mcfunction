@@ -1,0 +1,6 @@
+User-agent: *
+# Add pages you want to hide below (e.g., Disallow: /secret-page)
+Disallow: /private/
+
+# Reference your sitemap to help search engines index your pages
+Sitemap: https://mcbcode.com/backend/sitemap.xml
