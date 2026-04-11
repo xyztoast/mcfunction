@@ -1,0 +1,6 @@
+{
+  "command": "gametips",
+  "pattern": [
+    { "type": "word", "required": true, "options": ["enable", "disable"] }
+  ]
+}
