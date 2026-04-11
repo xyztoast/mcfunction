@@ -1,0 +1,19 @@
+{
+    "keys": [
+        "x", "y", "z",
+        "r", "rm",
+        "dx", "dy", "dz",
+        "rx", "rxm",
+        "ry", "rym",
+        "l", "lm",
+        "c",
+        "m",
+        "tag",
+        "name",
+        "type",
+        "family",
+        "scores",
+        "hasitem",
+        "haspermission"
+    ]
+}
