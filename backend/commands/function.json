@@ -1,0 +1,6 @@
+{
+  "command": "function",
+  "pattern": [
+    { "type": "word", "required": true, "options": ["*"] }
+  ]
+}
