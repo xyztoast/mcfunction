@@ -514,15 +514,14 @@ const highlightLayer = document.getElementById('highlightLayer');
 const lineNumbers = document.getElementById('lineNumbers');
 let highlightTimeout;
 
-function updateLineNumbers() {
-    const lines = codeArea.value.split('\n').length;
-    let lineContent = '';
-    for (let i = 1; i <= lines; i++) {
-        lineContent += i + '\n';
-    }
-    lineNumbers.textContent = lineContent;
-    lineNumbers.scrollTop = codeArea.scrollTop;
+function syncScroll() {
+    const offset = codeArea.scrollTop;
+    lineNumbers.style.transform = 'translateY(-' + offset + 'px)';
+    lineNumbers.style.transform = 'translateY(-' + codeArea.scrollTop + 'px)';
+    highlightLayer.scrollLeft = codeArea.scrollLeft;
 }
+
+codeArea.addEventListener('scroll', syncScroll);
 
 let isHighlighting = false;
 
