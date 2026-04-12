@@ -77,6 +77,9 @@
     color: #858585;
     z-index: 10;
     pointer-events: none;
+    align-self: stretch;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .line-numbers::-webkit-scrollbar {
@@ -490,7 +493,9 @@ findTextArea.addEventListener('input', function() {
   <div class="sidebar-kbd" id="ctrl">Ctrl</div>
   <div style="border-top: 1px solid #bebebe"></div><br>
 </div>
-      <pre id="lineNumbers" class="line-numbers">1</pre>
+<div style="overflow:hidden; height:100%; align-self:stretch; flex-shrink:0;">
+  <pre id="lineNumbers" class="line-numbers">1</pre>
+</div>
       <div class="code-container">
         <div class="highlight-layer" id="highlightLayer"></div>
         <textarea class="code-area" id="codeArea" spellcheck="false" placeholder="# welcome to mcbCode"># welcome to mcbCode. 
