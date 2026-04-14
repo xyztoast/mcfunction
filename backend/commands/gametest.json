@@ -1,0 +1,37 @@
+{
+  "command": "gametest",
+  "overloads": [
+    {
+  "pattern": [
+    { "type": "word", "required": true, "options": ["runthis"] },
+    },
+  "pattern": [
+    { "type": "word", "required": true, "options": ["run"] },
+    { "type": "word", "required": true, "options": ["*"] },
+    { "type": "int", "required": true }
+    },
+  "pattern": [
+    { "type": "word", "required": true, "options": ["runall"] },
+    { "type": "word", "required": true, "options": ["*"] },
+    },
+  "pattern": [
+    { "type": "word", "required": true, "options": ["pos"] },
+    },
+  "pattern": [
+    { "type": "word", "required": true, "options": ["create"] },
+    { "type": "word", "required": true, "options": ["*"] },
+    { "type": "int", "required": true },
+    { "type": "int", "required": true },
+    { "type": "int", "required": true }
+    },
+  "pattern": [
+    { "type": "word", "required": true, "options": ["clearall"] },
+    { "type": "int", "required": true, "min": 0 }
+    },
+  "pattern": [
+    { "type": "word", "required": true, "options": ["runset"] },
+    { "type": "word", "required": true, "options": ["*"] },
+    { "type": "int", "required": true }
+    }
+  ]
+}
