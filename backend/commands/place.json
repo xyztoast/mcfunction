@@ -1,0 +1,14 @@
+{
+  "command": "locate",
+  "overloads": [
+    {
+      "pattern": [
+        { "type": "word", "options": ["structure", "feature"] },
+        { "type": "word", "options": ["*"] },
+        { "type": "int" },
+        { "type": "int" },
+        { "type": "int" },
+      ]
+    }
+  ]
+}
