@@ -1,0 +1,7 @@
+{
+  "command": "clear",
+  "pattern": [
+    { "type": "word", "options": ["*"]] },
+    { "type": "word", "options": ["true", "false"] },
+  ]
+}
