@@ -1,0 +1,9 @@
+{
+  "command": "immutableworld",
+    {
+      "pattern": [
+        { "type": "word", "options": ["true", "false"] },
+      ]
+    }
+  ]
+}
