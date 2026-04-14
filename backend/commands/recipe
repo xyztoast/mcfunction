@@ -1,0 +1,13 @@
+{
+  "command": "recipe",
+  "overloads": [
+    {
+      "pattern": [
+        { "type": "word", "options": ["give", "take"] },
+        { "type": "word", "options": ["*"] },
+        { "type": "target" },
+        { "type": "word", "options": ["*"] }
+      ]
+    }
+  ]
+}
