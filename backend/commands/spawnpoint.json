@@ -1,0 +1,9 @@
+{
+  "command": "give",
+  "pattern": [
+    { "target" },
+    { "int" },
+    { "int" },
+    { "int" }
+  ]
+}
