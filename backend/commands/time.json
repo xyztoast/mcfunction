@@ -1,16 +1,5 @@
 {
   "command": "time",
-  "overloads" {
-    "pattern": [
-      { "type": "word", "options": ["set", "add", "query"] }
-      { "type": "int", "required": false },
-    }
-  }
-}
-
-
-{
-  "command": "enchant",
   "overloads": [
      {
     "pattern": [
