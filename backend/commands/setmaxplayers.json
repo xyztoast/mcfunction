@@ -1,0 +1,6 @@
+{
+  "command": "setmaxplayers",
+    "pattern": [
+        { "type": "int", "min": 1 }
+  ]
+}
