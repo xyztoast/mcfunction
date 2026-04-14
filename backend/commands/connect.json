@@ -1,0 +1,9 @@
+{
+  "command": "connect",
+    {
+      "pattern": [
+        { "type": "word", "options": ["*"] },
+      ]
+    }
+  ]
+}
