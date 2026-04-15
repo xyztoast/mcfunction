@@ -1,0 +1,9 @@
+{
+  "command": "wsserver",
+    {
+      "pattern": [
+        { "type": "word", "options": ["*"] },
+      ]
+    }
+  ]
+}
