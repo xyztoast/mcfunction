@@ -112,6 +112,9 @@
       z-index: 100;
   }
 
+  .navi-brand {
+    display: flex;
+  }
   .navi-brand h2 {
       margin: 0;
   }
@@ -119,7 +122,7 @@
   .quick-links {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 30px;
   }
 
   .divider {
@@ -185,6 +188,7 @@
       overflow: hidden;
       box-shadow: 0 0 40px rgba(5, 238, 147, 0.05);
       min-width: 0;
+      font-family: monospace !important;
   }
 
   .demo-editor-topbar {
@@ -208,6 +212,7 @@
       display: flex;
       height: 200px;
       overflow: hidden;
+      font-family: monospace !important;
   }
 
   .demo-line-numbers {
@@ -291,16 +296,16 @@
 <body>
 
   <div class="navi">
-      <div class="navi-brand"><h2><ee style="color: #fff; font-family: mcfontb;">mcb</aa><g>Code</g></h2></div>
+      <div class="navi-brand"><a href="https://mcbcode.com"><h2><ee style="color: #fff; font-family: mcfontb;">mcb</aa><g>Code</g></h2></a></div>
       <div class="quick-links">
-          <a href="https://mcbcode.com/terms-of-use">Terms of Use</a> |
-          <a href="https://mcbcode.com/editor">Editor</a> |
+          <a href="https://mcbcode.com/terms-of-use">Terms</a>
+          <a href="https://mcbcode.com/editor">Editor</a>
           <a href="https://github.com/xyztoast/mcfunction">Source</a>
       </div>
   </div>
 
   <h1>mcb<span class="h1thing">Code</span></h1>
-  <p style="color: #fff;">The <g>best</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
+  <p style="color: #fff;">The <g>first</g> exclusively Minecraft Bedrock <c>.mcfunction</c> code editor</p>
   <div style="user-select: none;">
       <div class="top-navi">
           <a href="https://mcbcode.com/editor"><button id="tryitout">Try it out</button></a>
@@ -326,7 +331,6 @@
               <span>— demo.mcfunction</span>
           </div>
           <div class="demo-editor-body">
-              <div class="demo-line-numbers" id="demoLineNums">1</div>
               <div class="demo-code-wrap">
                   <div class="demo-highlight" id="demoHighlight"></div>
                   <textarea
@@ -334,6 +338,7 @@
                       id="demoArea"
                       spellcheck="false"
                       placeholder="# type your commands here..."
+                      style="font-family: monospace !important;"
                   ># welcome to mcbCode!
 give @a diamond_sword 1
 tp @e[type=zombie] ~ ~10 ~
@@ -349,7 +354,6 @@ say Hello from mcbCode!</textarea>
   (function() {
       const area      = document.getElementById('demoArea');
       const highlight = document.getElementById('demoHighlight');
-      const lineNums  = document.getElementById('demoLineNums');
 
       function highlightMCF(text) {
           return text.split('\n').map(line => {
@@ -380,11 +384,8 @@ say Hello from mcbCode!</textarea>
 
               // known commands at start of line
               const cmds = ['give','tp','teleport','fill','say','tellraw','title',
-                  'effect','summon','kill','clear','gamemode','gamerule','weather',
-                  'time','scoreboard','tag','execute','function','setblock',
-                  'replaceitem','playsound','stopsound','particle','structure',
-                  'loot','locate','playanimation','ride','camerashake',
-                  'inputpermission','damage','dialogue'];
+                  'effect','summon','kill','clear','gamemode','gamerule','function','setblock',
+                  ];
               s = s.replace(
                   new RegExp('^(\\s*)(' + cmds.join('|') + ')\\b'),
                   '$1<span class="hl-cmd">$2</span>'
