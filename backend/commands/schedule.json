@@ -1,0 +1,33 @@
+{
+  "command": "schedule",
+  "overloads": [
+    {
+      "pattern": [
+        { "type": "word", "options": ["on_area_loaded"] },
+        { "type": "word", "options": ["add"] },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "word", "options": ["*"] }
+      ]
+    },
+    {
+      "pattern": [
+        { "type": "word", "options": ["on_area_loaded"] },
+        { "type": "word", "options": ["add"] },
+        { "type": "word", "options": ["circle"] },
+        { "type": "int" }, { "type": "int" }, { "type": "int" },
+        { "type": "int" },
+        { "type": "word", "options": ["*"] }
+      ]
+    },
+    {
+      "pattern": [
+        { "type": "word", "options": ["on_area_loaded"] },
+        { "type": "word", "options": ["add"] },
+        { "type": "word", "options": ["tickingarea"] },
+        { "type": "word", "options": ["*"] },
+        { "type": "word", "options": ["*"] }
+      ]
+    }
+  ]
+}
