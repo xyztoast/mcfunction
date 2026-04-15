@@ -1,0 +1,520 @@
+{
+    "command": "loot",
+    "overloads": [
+        {
+            "pattern": [
+                {
+                    "type": "word",
+                    "options": ["give"],
+                    "overloads": [
+                        {
+                            "pattern": [
+                                { "type": "target" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "target" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "target" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "target" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "target" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "target" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "pattern": [
+                {
+                    "type": "word",
+                    "options": ["spawn"],
+                    "overloads": [
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "pattern": [
+                {
+                    "type": "word",
+                    "options": ["insert"],
+                    "overloads": [
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "pattern": [
+                {
+                    "type": "word",
+                    "options": ["replace"],
+                    "overloads": [
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["block"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["slot.container"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["loot"] },
+                                { "type": "word", "options": ["*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["kill"] },
+                                { "type": "target" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mainhand", "offhand", "*"] }
+                            ]
+                        },
+                        {
+                            "pattern": [
+                                { "type": "word", "options": ["entity"] },
+                                { "type": "target" },
+                                { "type": "word", "options": ["slot.weapon.mainhand", "slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet", "slot.hotbar", "slot.inventory", "slot.enderchest", "slot.saddle", "slot.armor", "slot.chest", "*"] },
+                                { "type": "int" },
+                                { "type": "word", "options": ["mine"] },
+                                { "type": "int" },
+                                { "type": "int" },
+                                { "type": "int" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
