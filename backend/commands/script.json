@@ -1,0 +1,34 @@
+{
+  "command": "script",
+  "overloads": [
+    {
+      "description": "script debugger listen",
+      "pattern": [
+        { "type": "word", "options": ["debugger"] },
+        { "type": "word", "options": ["listen"] },
+        { "type": "int" }
+      ]
+    },
+    {
+      "description": "script debugger close",
+      "pattern": [
+        { "type": "word", "options": ["debugger"] },
+        { "type": "word", "options": ["close"] }
+      ]
+    },
+    {
+      "description": "script profiler start/stop",
+      "pattern": [
+        { "type": "word", "options": ["profiler"] },
+        { "type": "word", "options": ["start", "stop"] }
+      ]
+    },
+    {
+      "description": "script watchdog exportstats",
+      "pattern": [
+        { "type": "word", "options": ["watchdog"] },
+        { "type": "word", "options": ["exportstats"] }
+      ]
+    }
+  ]
+}
