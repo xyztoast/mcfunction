@@ -1,0 +1,48 @@
+{
+  "command": "ride",
+  "overloads": [
+    {
+      "description": "Start Riding",
+      "pattern": [
+        { "type": "target" },
+        { "type": "word", "options": ["start_riding"] },
+        { "type": "target" },
+        { "type": "word", "options": ["teleport_ride", "teleport_rider"] },
+        { "type": "word", "options": ["if_group_fits", "until_full"] }
+      ]
+    },
+    {
+      "description": "Stop Riding",
+      "pattern": [
+        { "type": "target" },
+        { "type": "word", "options": ["stop_riding"] }
+      ]
+    },
+    {
+      "description": "Evict Riders",
+      "pattern": [
+        { "type": "target" },
+        { "type": "word", "options": ["evict_riders"] }
+      ]
+    },
+    {
+      "description": "Summon Ride",
+      "pattern": [
+        { "type": "target" },
+        { "type": "word", "options": ["summon_ride"] },
+        { "type": "word", "options": ["*"] },
+        { "type": "word", "options": ["no_ride_change", "reassign_rides", "skip_riders"] }
+      ]
+    },
+    {
+      "description": "Summon Rider",
+      "pattern": [
+        { "type": "target" },
+        { "type": "word", "options": ["summon_rider"] },
+        { "type": "word", "options": ["*"] },
+        { "type": "string" },
+        { "type": "string" }
+      ]
+    }
+  ]
+}
