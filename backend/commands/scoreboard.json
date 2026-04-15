@@ -3,178 +3,167 @@
     "overloads": [
         {
             "pattern": [
-                {
-                    "type": "word",
-                    "options": ["objectives"],
-                    "overloads": [
-                        {
-                            "pattern": [
-                                {
-                                    "type": "word",
-                                    "options": ["add"],
-                                    "pattern": [
-                                        { "type": "word", "options": ["*"] },
-                                        { "type": "word", "options": ["dummy"] },
-                                        { "type": "word", "options": ["*"], "restOfLine": "true" }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                {
-                                    "type": "word",
-                                    "options": ["remove"],
-                                    "pattern": [
-                                        { "type": "word", "options": ["*"] }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                {
-                                    "type": "word",
-                                    "options": ["list"]
-                                }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                {
-                                    "type": "word",
-                                    "options": ["setdisplay"],
-                                    "overloads": [
-                                        {
-                                            "pattern": [
-                                                { "type": "word", "options": ["list", "sidebar"] },
-                                                { "type": "word", "options": ["*"] },
-                                                { "type": "word", "options": ["ascending", "descending"] }
-                                            ]
-                                        },
-                                        {
-                                            "pattern": [
-                                                { "type": "word", "options": ["list", "sidebar"] },
-                                                { "type": "word", "options": ["*"] }
-                                            ]
-                                        },
-                                        {
-                                            "pattern": [
-                                                { "type": "word", "options": ["list", "sidebar"] }
-                                            ]
-                                        },
-                                        {
-                                            "pattern": [
-                                                { "type": "word", "options": ["belowname"] },
-                                                { "type": "word", "options": ["*"] }
-                                            ]
-                                        },
-                                        {
-                                            "pattern": [
-                                                { "type": "word", "options": ["belowname"] }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["add"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["dummy"] },
+                { "type": "word", "options": ["*"], "restOfLine": "true" }
             ]
         },
         {
             "pattern": [
-                {
-                    "type": "word",
-                    "options": ["players"],
-                    "overloads": [
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["list"] },
-                                { "type": "target" }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["list"] }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["set"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "int" }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["add"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "int" }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["remove"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "int" }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["reset"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["reset"] },
-                                { "type": "target" }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["test"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "word", "options": ["*"] }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["test"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "word", "options": ["*"] }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["random"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "int" },
-                                { "type": "int" }
-                            ]
-                        },
-                        {
-                            "pattern": [
-                                { "type": "word", "options": ["operation"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] },
-                                { "type": "word", "options": ["=", "+=", "-=", "*=", "/=", "%=", "><", "<", ">"] },
-                                { "type": "target" },
-                                { "type": "word", "options": ["*"] }
-                            ]
-                        }
-                    ]
-                }
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["add"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["dummy"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["remove"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["list"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["setdisplay"] },
+                { "type": "word", "options": ["list", "sidebar"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["ascending", "descending"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["setdisplay"] },
+                { "type": "word", "options": ["list", "sidebar"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["setdisplay"] },
+                { "type": "word", "options": ["list", "sidebar"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["setdisplay"] },
+                { "type": "word", "options": ["belowname"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["objectives"] },
+                { "type": "word", "options": ["setdisplay"] },
+                { "type": "word", "options": ["belowname"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["list"] },
+                { "type": "target" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["list"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["set"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["add"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["remove"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["reset"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["reset"] },
+                { "type": "target" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["test"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["test"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["random"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["players"] },
+                { "type": "word", "options": ["operation"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] },
+                { "type": "word", "options": ["=", "+=", "-=", "*=", "/=", "%=", "><", "<", ">"] },
+                { "type": "target" },
+                { "type": "word", "options": ["*"] }
             ]
         }
     ]
-                        }
+}
