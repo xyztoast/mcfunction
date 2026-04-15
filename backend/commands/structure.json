@@ -1,0 +1,170 @@
+{
+    "command": "structure",
+    "overloads": [
+        {
+            "pattern": [
+                { "type": "word", "options": ["save"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["save"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["disk", "memory"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["save"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "word", "options": ["disk", "memory"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["save"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "word", "options": ["disk", "memory"] },
+                { "type": "word", "options": ["true", "false"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] },
+                { "type": "word", "options": ["none", "x", "z", "xz"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] },
+                { "type": "word", "options": ["none", "x", "z", "xz"] },
+                { "type": "word", "options": ["block_by_block", "layer_by_layer"] },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] },
+                { "type": "word", "options": ["none", "x", "z", "xz"] },
+                { "type": "word", "options": ["block_by_block", "layer_by_layer"] },
+                { "type": "int" },
+                { "type": "word", "options": ["true", "false"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] },
+                { "type": "word", "options": ["none", "x", "z", "xz"] },
+                { "type": "word", "options": ["block_by_block", "layer_by_layer"] },
+                { "type": "int" },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "word", "options": ["true", "false"] }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] },
+                { "type": "word", "options": ["none", "x", "z", "xz"] },
+                { "type": "word", "options": ["block_by_block", "layer_by_layer"] },
+                { "type": "int" },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["load"] },
+                { "type": "word", "options": ["*"] },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "int" },
+                { "type": "word", "options": ["0_degrees", "90_degrees", "180_degrees", "270_degrees"] },
+                { "type": "word", "options": ["none", "x", "z", "xz"] },
+                { "type": "word", "options": ["block_by_block", "layer_by_layer"] },
+                { "type": "int" },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "word", "options": ["true", "false"] },
+                { "type": "int" },
+                { "type": "int" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "word", "options": ["delete"] },
+                { "type": "word", "options": ["*"] }
+            ]
+        }
+    ]
+              }
