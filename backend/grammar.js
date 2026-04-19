@@ -401,6 +401,9 @@ function getHighlightClass(word, expected) {
             return "hl-error";
         case "item_id": 
             return /^([a-z0-9_]+:)?[a-z0-9_]+$/.test(word) ? "hl-item" : "hl-error";
+            
+        case "xp_amount":
+            return /^-?\d+[Ll]?$/.test(word) ? "hl-number" : "hl-error";
         case "int": 
             // 1. Check if it's a valid coordinate (~, ^) or decimal number
             const isNumeric = /^([~^]-?\d*\.?\d*|-?\d+\.?\d*)$/.test(word);
