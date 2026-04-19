@@ -1,0 +1,16 @@
+{
+    "command": "xp",
+    "overloads": [
+        {
+            "pattern": [
+                { "type": "xp_amount" },
+                { "type": "target", "restOfLine": "true" }
+            ]
+        },
+        {
+            "pattern": [
+                { "type": "xp_amount", "restOfLine": "true" }
+            ]
+        }
+    ]
+}
