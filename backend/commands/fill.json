@@ -9,7 +9,7 @@
                 { "type": "int" },
                 { "type": "int" },
                 { "type": "int" },
-                { "type": "item_id" }
+                { "type": "item_id", "restOfLine": "true" }
             ]
         },
         {
@@ -21,7 +21,7 @@
                 { "type": "int" },
                 { "type": "int" },
                 { "type": "item_id" },
-                { "type": "word", "options": ["destroy", "hollow", "keep", "outline"] }
+                { "type": "word", "options": ["destroy", "hollow", "keep", "outline"], "restOfLine": "true" }
             ]
         },
         {
@@ -33,7 +33,7 @@
                 { "type": "int" },
                 { "type": "int" },
                 { "type": "item_id" },
-                { "type": "word", "options": ["replace"] }
+                { "type": "word", "options": ["replace"], "restOfLine": "true" }
             ]
         },
         {
@@ -46,7 +46,7 @@
                 { "type": "int" },
                 { "type": "item_id" },
                 { "type": "word", "options": ["replace"] },
-                { "type": "item_id" }
+                { "type": "item_id", "restOfLine": "true" }
             ]
         }
     ]
