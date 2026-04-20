@@ -317,8 +317,18 @@
       background: #111;
       border: 1px dashed #2a2a2a;
       text-align: center;
-      color: #444;
+      color: #bebebe;
       font-size: 14px;
+      gap: 8px;
+      display: flex;
+    }
+
+    select {
+      padding: 4px;
+      width: 100px;
+      background-color: #111;
+      border: 1px dashed #2a2a2a;
+      color: #bebebe;
     }
   </style>
 </head>
@@ -418,12 +428,29 @@
       <div class="dash-section" id="section-settings">
         <h2>Settings</h2>
         <p>Account settings and preferences.</p>
-        <div class="empty">Settings coming soon.</div>
+        <br><br>
+          <div style="display: flex; gap: 8px;">
+          <input name="Font" type="checkbox" checked><div for="Font" type="text">Use Mojangles Font</div>
+          </div>
+          <br>
+          <div style="display: flex; gap: 8px;">
+          <input name="darkMode" type="checkbox" checked><div for="darkMode" type="text">Use Dark Mode</div>
+          </div>
+          <br>
+          <div style="display: flex; gap: 8px;">
+          <p>Preferred Theme: </p>
+          <select name="editorTheme" type="search" checked>
+            <option value="default">Default</option> 
+            <option value="neon">Neon</option> 
+            <option value="blue">Blue</option> 
+            <option value="grayscale">Grayscale</option> 
+            <option value="Solid">Solid</option> 
+          </div>
       </div>
-
     </div>
   </div>
-
+  yo
+<br><br><br><br><br><br><br><br>mcbCode Dashboard
   <script>
     const AUTH = "https://auth.mcbcode.com";
 
