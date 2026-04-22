@@ -1,0 +1,8 @@
+.hl-command { color: #bebebe; }
+.hl-selector { color: #ffff00; }
+.hl-item { color: #ff00aa; }
+.hl-number { color: #00b2ff; }
+.hl-comment { color: #565656; font-style: italic; }
+.hl-error { color: #ffa500 !important; text-decoration: underline wavy #ffaa50; cursor: help; }
+.hl-word { color: #05ee93 }
+.hl-colorcode { opacity: 0.4; }
