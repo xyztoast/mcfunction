@@ -318,6 +318,18 @@
     © Copyright 2026 mcb<g>Code</g>
   </footer>
 
+
+  <script>
+const urlParams = new URLSearchParams(window.location.search);
+const token = urlParams.get('token');
+
+if (token) {
+    // 1. Save it immediately
+    localStorage.setItem('mcbcode_token', token);
+    // 2. Clear the URL so the token is hidden
+    window.history.replaceState({}, document.title, "/account");
+}
+  </script>
   <script>
     const AUTH = "https://auth.mcbcode.com";
 
