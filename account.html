@@ -431,22 +431,19 @@
   </script>
 
   <script>
-// 1. Check if there is a token in the URL
+// This runs as soon as the page loads
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('token');
 
 if (token) {
-    // 2. Save it to LocalStorage (This is like a cookie for static sites)
+    // 1. SAVE IT IMMEDIATELY
     localStorage.setItem('mcbcode_token', token);
-
-    // 3. Clean up the URL so the token isn't just sitting there
+    
+    // 2. Clear the URL so it looks clean
     window.history.replaceState({}, document.title, "/account");
-
-    // 4. Send them to the dashboard now that they are "saved"
-    showMsg("login-msg", "GitHub Auth Successful! Redirecting...", "success");
-    setTimeout(() => {
-        window.location.href = "/dashboard";
-    }, 1000);
+    
+    // 3. Force the redirect to dashboard
+    window.location.href = "/dashboard";
 }
   </script>
   <script data-goatcounter="https://mcbcode.goatcounter.com/count"
