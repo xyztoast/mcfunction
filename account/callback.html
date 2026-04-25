@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authenticating...</title>
+    <style>
+        body { background: #0c0c0c; color: #05ee93; font-family: mcfont; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    </style>
+</head>
+<body>
+    <div id="status">Connecting to mcbCode...</div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        if (code) {
+            // Replace with your ACTUAL Vercel URL
+            const VERCEL_URL = "https://mcbcode-auth.vercel.app/api/callback";
+            window.location.href = `${VERCEL_URL}?code=${code}`;
+        } else {
+            document.getElementById('status').innerText = "Auth failed: No code received.";
+            document.getElementById('status').style.color = "#ff5555";
+        }
+    </script>
+</body>
+</html>
