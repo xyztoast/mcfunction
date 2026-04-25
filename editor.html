@@ -270,6 +270,12 @@
     color: #05ee93;
     background-color: #454545;
   }
+
+  /* save button state */
+  #saveBtn { cursor: pointer; }
+  #saveBtn.saving { color: #888; cursor: not-allowed; }
+  #saveBtn.saved  { color: #05ee93; }
+  #saveBtn.error  { color: #ff5555; }
 </style>
 </head>
 <body>
@@ -286,7 +292,8 @@
       <textarea id="autoWidth" class="file-name" maxlength="72"></textarea>
       <div class="filename-mcf">.mcfunction</div>
       <a href="https://mcbcode.com/account" style="color: #ffffff; text-decoration: none;"><div class="copyshortcut">Account</div></a>
-      <a href="https://mcbcode.com/account" style="color: #ffffff; text-decoration: none;"><div class="copyshortcut" id="saveBtn">Save</div></a>
+      <!-- Save button: hidden until we confirm user is signed in and is the owner -->
+      <div class="copyshortcut" id="saveBtn" style="display:none;" onclick="doSave()">Save</div>
   </header>
 
   <div class="navi">
@@ -476,7 +483,6 @@ const copyToClipboard = () => {
   console.log('Copied to clipboard');
 };
 
-document.getElementById('copyCodeTop').addEventListener('click', copyToClipboard);
 document.getElementById('copyCodeMenu').addEventListener('click', copyToClipboard);
 
 document.getElementById('deleteCode').addEventListener('click', () => {
@@ -570,6 +576,130 @@ if ('serviceWorker' in navigator) {
 // Initial Run
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(updateHighlighting, 100);
+});
+</script>
+
+<!-- =====================
+     SAVE / SHARE SYSTEM
+     - on load: checks ?save= param, loads code from backend if present
+     - checks /me to see if signed in, and if user is the owner of the save
+     - save button only shown to the owner
+     - doSave() posts to /save, updates ?save= in url without reloading
+===================== -->
+<script>
+const AUTH = "https://auth.mcbcode.com";
+const saveBtn = document.getElementById('saveBtn');
+
+let currentSaveId = null;   // the save_id currently loaded
+let currentUserId = null;   // the logged-in user's id, null if not signed in
+
+// set save button visual state
+function setSaveBtnState(state, label) {
+    saveBtn.textContent = label || 'Save';
+    saveBtn.className = 'copyshortcut' + (state ? ' ' + state : '');
+}
+
+// update the ?save= url param without reloading the page
+function setSaveParam(id) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('save', id);
+    window.history.replaceState({}, '', url.toString());
+}
+
+// show/hide the save button based on whether the user is the owner
+function updateSaveBtnVisibility(ownerId) {
+    if (currentUserId !== null && currentUserId === ownerId) {
+        saveBtn.style.display = '';
+    } else if (currentUserId !== null && ownerId === null) {
+        // no save loaded yet — show save btn so they can save a new one
+        saveBtn.style.display = '';
+    } else {
+        saveBtn.style.display = 'none';
+    }
+}
+
+async function doSave() {
+    if (saveBtn.classList.contains('saving')) return;
+    setSaveBtnState('saving', 'Saving...');
+
+    try {
+        const res = await fetch(`${AUTH}/save`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                save_id: currentSaveId,
+                content: codeArea.value,
+                filename: document.getElementById('autoWidth').value || 'untitled',
+            })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.save_id) {
+            currentSaveId = data.save_id;
+            setSaveParam(currentSaveId);
+            setSaveBtnState('saved', 'Saved!');
+            setTimeout(() => setSaveBtnState('', 'Save'), 2000);
+        } else {
+            setSaveBtnState('error', 'Error');
+            setTimeout(() => setSaveBtnState('', 'Save'), 2000);
+        }
+    } catch {
+        setSaveBtnState('error', 'Error');
+        setTimeout(() => setSaveBtnState('', 'Save'), 2000);
+    }
+}
+
+// on page load: check ?save= and auth state
+window.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const saveParam = params.get('save');
+
+    // check auth (non-blocking — we don't redirect, editor is public)
+    try {
+        const meRes = await fetch(`${AUTH}/me`, { credentials: 'include' });
+        if (meRes.ok) {
+            const me = await meRes.json();
+            currentUserId = me.id;
+        }
+    } catch {}
+
+    if (saveParam) {
+        // load the save from backend
+        try {
+            const res = await fetch(`${AUTH}/save?id=${encodeURIComponent(saveParam)}`, {
+                credentials: 'include'
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                currentSaveId = data.save_id;
+
+                // load content and filename
+                codeArea.value = data.content;
+                if (data.filename) {
+                    document.getElementById('autoWidth').value = data.filename;
+                    adjustFilenameWidth();
+                }
+
+                updateHighlighting();
+                updateSaveBtnVisibility(data.owner_id);
+            } else {
+                // save not found or bad id
+                codeArea.value = '# this share code does not exist';
+                updateHighlighting();
+                saveBtn.style.display = 'none';
+            }
+        } catch {
+            codeArea.value = '# this share code does not exist';
+            updateHighlighting();
+            saveBtn.style.display = 'none';
+        }
+    } else {
+        // no ?save= param — show save button only if signed in
+        updateSaveBtnVisibility(null);
+    }
 });
 </script>
 
