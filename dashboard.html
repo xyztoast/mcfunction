@@ -9,15 +9,7 @@
   <title>mcbCode | Dashboard</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      background: #0c0c0c;
-      color: #bebebe;
-      font-family: 'mcfont', sans-serif;
-      overflow-x: hidden;
-    }
-
+    html, body { height: 100%; background: #0c0c0c; color: #bebebe; font-family: 'mcfont', sans-serif; overflow-x: hidden; }
     a { text-decoration: none; color: #ffffff; transition: color 0.2s; }
     a:hover { color: #05ee93; }
     g { color: #05ee93; }
@@ -32,14 +24,12 @@
     .topnav-title { font-size: 20px; color: #ffffff; font-family: 'mcfontb', sans-serif; }
     .topnav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 14px; }
     #user-email { color: #888; font-size: 13px; }
-
     .logout-btn {
       background: #1e1e1e; border: 1px solid #2e2e2e; color: #bebebe;
       font-family: 'mcfont', sans-serif; font-size: 13px; padding: 6px 12px;
       cursor: pointer; transition: color 0.2s, border-color 0.2s;
     }
     .logout-btn:hover { color: #ff5555; border-color: #ff5555; }
-
     .sidebar-toggle {
       background: none; border: none; cursor: pointer; padding: 6px;
       color: #888; font-size: 20px; line-height: 1; transition: color 0.2s; flex-shrink: 0;
@@ -56,7 +46,6 @@
     }
     .sidebar.collapsed { width: 52px; min-width: 52px; }
     .sidebar-nav { display: flex; flex-direction: column; padding: 12px 0; gap: 2px; flex: 1; }
-
     .sidebar-item {
       display: flex; align-items: center; gap: 12px; padding: 10px 14px;
       cursor: pointer; color: #888; font-size: 14px; white-space: nowrap;
@@ -69,7 +58,6 @@
     .sidebar-item span { transition: opacity 0.2s; overflow: hidden; }
     .sidebar.collapsed .sidebar-item span { opacity: 0; pointer-events: none; }
     .sidebar.collapsed .sidebar-item { padding: 10px 14px; justify-content: center; }
-
     .sidebar-label {
       font-size: 12px; color: #444; line-height: 0.4em; font-family: mcfontb;
       padding: 16px 14px 4px; white-space: nowrap; overflow: hidden; transition: opacity 0.2s;
@@ -94,59 +82,33 @@
     .stat-value { font-size: 28px; color: #05ee93; font-family: 'mcfontb', sans-serif; }
     .stat-label { font-size: 12px; color: #555; margin-top: 4px; }
 
-    .empty {
-      margin-top: 20px; padding: 40px; background: #111;
-      border: 1px dashed #2a2a2a; text-align: center; color: #bebebe; font-size: 14px;
-    }
+    .empty { margin-top: 20px; padding: 40px; background: #111; border: 1px dashed #2a2a2a; text-align: center; color: #bebebe; font-size: 14px; }
 
     /* settings */
-    select {
-      padding: 4px; width: 100px; background-color: #111; border: 1px dashed #2a2a2a;
-      color: #bebebe; font-family: 'mcfont', sans-serif; transition: all 0.2s ease-in-out;
-    }
+    select { padding: 4px; width: 100px; background-color: #111; border: 1px dashed #2a2a2a; color: #bebebe; font-family: 'mcfont', sans-serif; transition: all 0.2s ease-in-out; }
     select:hover { border: 1px dashed #05ee93; color: #05ee93; }
-
-    input[type="checkbox"] {
-      appearance: none; -webkit-appearance: none; background-color: #323232;
-      width: 1.5em; height: 1.5em; cursor: pointer; display: inline-block;
-      vertical-align: middle; transition: all 0.2s ease-in-out; flex-shrink: 0;
-    }
+    input[type="checkbox"] { appearance: none; -webkit-appearance: none; background-color: #323232; width: 1.5em; height: 1.5em; cursor: pointer; display: inline-block; vertical-align: middle; transition: all 0.2s ease-in-out; flex-shrink: 0; }
     input[type="checkbox"]:checked { background-color: #05ee93; }
-
-    #customTheme {
-      background-color: #323232; border: none; outline: none;
-      padding: 4px; color: #bebebe; font-family: 'mcfont', sans-serif;
-    }
-
-    .save-btn {
-      padding: 6px 8px; background-color: #05ee93; border: none; outline: none;
-      font-size: 18px; font-family: 'mcfont', sans-serif; cursor: pointer; transition: all 0.2s ease-in-out;
-    }
+    #customTheme { background-color: #323232; border: none; outline: none; padding: 4px; color: #bebebe; font-family: 'mcfont', sans-serif; }
+    .save-btn { padding: 6px 8px; background-color: #05ee93; border: none; outline: none; font-size: 18px; font-family: 'mcfont', sans-serif; cursor: pointer; transition: all 0.2s ease-in-out; }
     .save-btn:hover { background-color: #78e3a6; }
     .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
     .settings-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 14px; }
-
     .save-msg { font-size: 13px; margin-left: 10px; display: none; }
     .save-msg.ok  { color: #05ee93; display: inline; }
     .save-msg.err { color: #ff5555; display: inline; }
 
     /* projects */
     .project-list { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+    .project-list-header { font-size: 12px; color: #444; margin-top: 12px; }
 
     .project-row {
       display: flex; align-items: center; background: #141414;
       border: 1px solid #1f1f1f; padding: 12px 16px; gap: 16px;
     }
-
-    .project-name {
-      flex: 1; color: #ffffff; font-size: 14px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
+    .project-name { flex: 1; color: #ffffff; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .project-name span { color: #05ee93; }
-
     .project-date { font-size: 12px; color: #444; white-space: nowrap; flex-shrink: 0; }
-
     .project-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
     .proj-btn {
@@ -156,9 +118,49 @@
     }
     .proj-btn:hover { color: #05ee93; border-color: #05ee93; }
     .proj-btn.ok { color: #05ee93; border-color: #05ee93; }
+    .proj-btn.danger:hover { color: #ff5555; border-color: #ff5555; }
+
+    /* confirm overlay */
+    .confirm-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 500;
+      align-items: center; justify-content: center;
+    }
+    .confirm-overlay.visible { display: flex; }
+    .confirm-box {
+      background: #1a1a1a; border: 1px solid #2e2e2e;
+      padding: 28px 32px; min-width: 300px; text-align: center;
+    }
+    .confirm-box p { font-size: 15px; color: #ffffff; margin-bottom: 8px; }
+    .confirm-box small { font-size: 12px; color: #555; }
+    .confirm-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+    .confirm-yes {
+      background: #ff5555; border: none; color: #ffffff;
+      font-family: 'mcfont', sans-serif; font-size: 14px;
+      padding: 6px 18px; cursor: pointer; transition: background 0.2s;
+    }
+    .confirm-yes:hover { background: #cc0000; }
+    .confirm-no {
+      background: #1e1e1e; border: 1px solid #2e2e2e; color: #bebebe;
+      font-family: 'mcfont', sans-serif; font-size: 14px;
+      padding: 6px 18px; cursor: pointer; transition: color 0.2s;
+    }
+    .confirm-no:hover { color: #ffffff; }
   </style>
 </head>
 <body>
+
+  <!-- delete confirmation overlay -->
+  <div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+      <p>Delete this project?</p>
+      <small id="confirm-filename"></small>
+      <div class="confirm-actions">
+        <button class="confirm-yes" onclick="confirmDelete()">Delete</button>
+        <button class="confirm-no" onclick="closeConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <div class="topnav">
     <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">&#9776;</button>
@@ -170,34 +172,26 @@
   </div>
 
   <div class="layout">
-
     <div class="sidebar" id="sidebar">
       <nav class="sidebar-nav">
-
         <div class="sidebar-label">Main</div>
-
         <div class="sidebar-item active" data-target="section-home" onclick="navTo(this)">
           <img src="https://mcbcode.com/theme/favicon.png" alt="">
           <span>Home</span>
         </div>
-
         <div class="sidebar-item" data-target="section-projects" onclick="navTo(this)">
           <img src="https://ccvaults.com/assets/15.$%20Mobs/3.%20Hostile/Shulker_Closed.webp" alt="">
           <span>Projects</span>
         </div>
-
         <div class="sidebar-label">Tools</div>
-
         <div class="sidebar-item" data-target="section-editor" onclick="navTo(this)">
           <img src="https://ccvaults.com/textures/command_block_conditional.png" alt="">
           <span>Editor</span>
         </div>
-
         <div class="sidebar-item" data-target="section-settings" onclick="navTo(this)">
           <img src="https://ccvaults.com/assets/10.%20Items/18.%20Consumables/Writable_Book.png" alt="">
           <span>Settings</span>
         </div>
-
       </nav>
     </div>
 
@@ -213,7 +207,7 @@
           </div>
           <div class="stat">
             <div class="stat-value">0</div>
-            <div class="stat-label">Files Saved</div>
+            <div class="stat-label">Points</div>
           </div>
         </div>
       </div>
@@ -221,6 +215,7 @@
       <div class="dash-section" id="section-projects">
         <h2>Projects</h2>
         <p>Your saved mcfunction projects.</p>
+        <p class="project-list-header" id="projects-limit-label"></p>
         <div class="project-list" id="project-list">
           <div class="empty" id="projects-empty" style="display:none;">No projects yet. Open the editor to get started.</div>
         </div>
@@ -241,19 +236,15 @@
         <h2>Settings</h2>
         <p>Configure settings. Saved to your account.</p>
         <br>
-
         <h3 style="color:#fff; margin-bottom:16px;">Personalization</h3>
-
         <div class="settings-row">
           <input type="checkbox" id="s-font">
           <label for="s-font">Use Mojangles Font</label>
         </div>
-
         <div class="settings-row">
           <input type="checkbox" id="s-light">
           <label for="s-light">Use Light Mode</label>
         </div>
-
         <div class="settings-row">
           <label for="s-theme">Preferred Theme:</label>
           <select id="s-theme">
@@ -264,12 +255,10 @@
             <option value="solid">Solid</option>
           </select>
         </div>
-
         <div class="settings-row">
           <label for="customTheme">Custom Theme Upload</label>
           <input id="customTheme">
         </div>
-
         <br>
         <button class="save-btn" id="save-btn" onclick="saveSettings()">Save</button>
         <span class="save-msg" id="save-msg"></span>
@@ -280,19 +269,17 @@
 
   <script>
     const AUTH = "https://auth.mcbcode.com";
+    let pendingDeleteId = null;
+    let pendingDeleteRow = null;
 
-    // auth check + load settings + load projects
     (async () => {
       try {
         const res = await fetch(`${AUTH}/me`, { credentials: "include" });
         if (!res.ok) return window.location.href = "/account";
         const data = await res.json();
         document.getElementById("user-email").textContent = data.email;
-      } catch {
-        return window.location.href = "/account";
-      }
+      } catch { return window.location.href = "/account"; }
 
-      // load settings
       try {
         const res = await fetch(`${AUTH}/settings`, { credentials: "include" });
         if (res.ok) {
@@ -304,50 +291,54 @@
         }
       } catch {}
 
-      // load projects
       await loadProjects();
     })();
 
     function escHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+      return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
     }
 
     function formatDate(str) {
       if (!str) return "";
-      // D1 stores UTC without Z so we add it
       const d = new Date(str.endsWith("Z") ? str : str + "Z");
-      return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
-           + " " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+      return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" })
+           + " " + d.toLocaleTimeString(undefined, { hour:"2-digit", minute:"2-digit" });
     }
 
     async function loadProjects() {
-      const list   = document.getElementById("project-list");
-      const empty  = document.getElementById("projects-empty");
+      const list  = document.getElementById("project-list");
+      const empty = document.getElementById("projects-empty");
+      const label = document.getElementById("projects-limit-label");
+
+      // clear existing rows (but keep the empty placeholder)
+      Array.from(list.querySelectorAll(".project-row")).forEach(r => r.remove());
 
       try {
         const res = await fetch(`${AUTH}/saves`, { credentials: "include" });
         if (!res.ok) throw new Error();
-        const { saves } = await res.json();
+        const { saves, max_saves } = await res.json();
 
         document.getElementById("stat-projects").textContent = saves.length;
+        label.textContent = `${saves.length} / ${max_saves} projects used`;
 
         if (saves.length === 0) {
           empty.style.display = "";
           return;
         }
+        empty.style.display = "none";
 
         saves.forEach(save => {
           const filename = save.filename || "untitled";
           const row = document.createElement("div");
           row.className = "project-row";
+          row.id = `row-${escHtml(save.save_id)}`;
           row.innerHTML = `
             <div class="project-name">${escHtml(filename)}<span>.mcfunction</span></div>
             <div class="project-date">${escHtml(formatDate(save.last_updated))}</div>
             <div class="project-actions">
               <button class="proj-btn" onclick="openProject('${escHtml(save.save_id)}')">Open</button>
               <button class="proj-btn" onclick="copyCode('${escHtml(save.save_id)}', this)">Copy Code</button>
+              <button class="proj-btn danger" onclick="askDelete('${escHtml(save.save_id)}', '${escHtml(filename)}', this)">Delete</button>
             </div>
           `;
           list.appendChild(row);
@@ -379,18 +370,51 @@
       }
     }
 
+    function askDelete(saveId, filename, btn) {
+      pendingDeleteId  = saveId;
+      pendingDeleteRow = document.getElementById(`row-${saveId}`);
+      document.getElementById("confirm-filename").textContent = `${filename}.mcfunction`;
+      document.getElementById("confirm-overlay").classList.add("visible");
+    }
+
+    function closeConfirm() {
+      pendingDeleteId  = null;
+      pendingDeleteRow = null;
+      document.getElementById("confirm-overlay").classList.remove("visible");
+    }
+
+    async function confirmDelete() {
+      if (!pendingDeleteId) return closeConfirm();
+      const id  = pendingDeleteId;
+      const row = pendingDeleteRow;
+      closeConfirm();
+
+      try {
+        const res = await fetch(`${AUTH}/save?id=${encodeURIComponent(id)}`, {
+          method: "DELETE",
+          credentials: "include"
+        });
+        if (res.ok) {
+          row && row.remove();
+          // reload to update count + label
+          await loadProjects();
+        }
+      } catch {}
+    }
+
+    // close confirm if clicking outside the box
+    document.getElementById("confirm-overlay").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeConfirm();
+    });
+
     async function saveSettings() {
       const btn = document.getElementById("save-btn");
       const msg = document.getElementById("save-msg");
-      btn.disabled = true;
-      btn.textContent = "Saving...";
-      msg.className = "save-msg";
-      msg.textContent = "";
-
+      btn.disabled = true; btn.textContent = "Saving...";
+      msg.className = "save-msg"; msg.textContent = "";
       try {
         const res = await fetch(`${AUTH}/settings`, {
-          method: "POST",
-          credentials: "include",
+          method: "POST", credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             use_mojangles_font: document.getElementById("s-font").checked,
@@ -399,26 +423,14 @@
             custom_theme:       document.getElementById("customTheme").value,
           })
         });
-
-        if (res.ok) {
-          msg.textContent = "Saved!";
-          msg.className = "save-msg ok";
-        } else {
-          msg.textContent = "Failed to save.";
-          msg.className = "save-msg err";
-        }
-      } catch {
-        msg.textContent = "Could not reach server.";
-        msg.className = "save-msg err";
-      }
-
-      btn.disabled = false;
-      btn.textContent = "Save";
+        if (res.ok) { msg.textContent = "Saved!"; msg.className = "save-msg ok"; }
+        else        { msg.textContent = "Failed to save."; msg.className = "save-msg err"; }
+      } catch { msg.textContent = "Could not reach server."; msg.className = "save-msg err"; }
+      btn.disabled = false; btn.textContent = "Save";
       setTimeout(() => { msg.className = "save-msg"; msg.textContent = ""; }, 3000);
     }
 
     let collapsed = false;
-
     function toggleSidebar() {
       collapsed = !collapsed;
       document.getElementById("sidebar").classList.toggle("collapsed", collapsed);
