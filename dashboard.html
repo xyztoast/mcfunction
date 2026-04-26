@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,11 +8,7 @@
   <link rel="stylesheet" href="https://mcbcode.com/theme/site.css">
   <title>mcbCode | Dashboard</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
@@ -23,360 +18,144 @@
       overflow-x: hidden;
     }
 
-    a {
-      text-decoration: none;
-      color: #ffffff;
-      transition: color 0.2s;
-    }
-
+    a { text-decoration: none; color: #ffffff; transition: color 0.2s; }
     a:hover { color: #05ee93; }
-
     g { color: #05ee93; }
     c { color: #e7007b; }
 
     .topnav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 56px;
-      background: rgba(20, 20, 20, 0.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid #1f1f1f;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      z-index: 200;
-      gap: 16px;
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(8px);
+      border-bottom: 1px solid #1f1f1f; display: flex; align-items: center;
+      padding: 0 16px; z-index: 200; gap: 16px;
     }
-
-    .topnav-title {
-      font-size: 20px;
-      color: #ffffff;
-      font-family: 'mcfontb', sans-serif;
-    }
-
-    .topnav-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 14px;
-    }
-
-    #user-email {
-      color: #888;
-      font-size: 13px;
-    }
+    .topnav-title { font-size: 20px; color: #ffffff; font-family: 'mcfontb', sans-serif; }
+    .topnav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 14px; }
+    #user-email { color: #888; font-size: 13px; }
 
     .logout-btn {
-      background: #1e1e1e;
-      border: 1px solid #2e2e2e;
-      color: #bebebe;
-      font-family: 'mcfont', sans-serif;
-      font-size: 13px;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
+      background: #1e1e1e; border: 1px solid #2e2e2e; color: #bebebe;
+      font-family: 'mcfont', sans-serif; font-size: 13px; padding: 6px 12px;
+      cursor: pointer; transition: color 0.2s, border-color 0.2s;
     }
-
-    .logout-btn:hover {
-      color: #ff5555;
-      border-color: #ff5555;
-    }
+    .logout-btn:hover { color: #ff5555; border-color: #ff5555; }
 
     .sidebar-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      color: #888;
-      font-size: 20px;
-      line-height: 1;
-      transition: color 0.2s;
-      flex-shrink: 0;
+      background: none; border: none; cursor: pointer; padding: 6px;
+      color: #888; font-size: 20px; line-height: 1; transition: color 0.2s; flex-shrink: 0;
     }
-
     .sidebar-toggle:hover { color: #05ee93; }
 
-    .layout {
-      display: flex;
-      margin-top: 56px;
-      min-height: calc(100vh - 56px);
-    }
+    .layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
 
     .sidebar {
-      width: 220px;
-      min-width: 220px;
-      background: #111111;
-      border-right: 1px solid #1f1f1f;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 56px;
-      bottom: 0;
-      left: 0;
-      transition: width 0.2s ease, min-width 0.2s ease;
-      overflow: hidden;
-      z-index: 100;
+      width: 220px; min-width: 220px; background: #111111;
+      border-right: 1px solid #1f1f1f; display: flex; flex-direction: column;
+      position: fixed; top: 56px; bottom: 0; left: 0;
+      transition: width 0.2s ease, min-width 0.2s ease; overflow: hidden; z-index: 100;
     }
-
-    .sidebar.collapsed {
-      width: 52px;
-      min-width: 52px;
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      padding: 12px 0;
-      gap: 2px;
-      flex: 1;
-    }
+    .sidebar.collapsed { width: 52px; min-width: 52px; }
+    .sidebar-nav { display: flex; flex-direction: column; padding: 12px 0; gap: 2px; flex: 1; }
 
     .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      cursor: pointer;
-      color: #888;
-      font-size: 14px;
-      white-space: nowrap;
-      transition: background 0.2s, color 0.2s;
-      border-left: 3px solid transparent;
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+      cursor: pointer; color: #888; font-size: 14px; white-space: nowrap;
+      transition: background 0.2s, color 0.2s; border-left: 3px solid transparent;
     }
-
-    .sidebar-item:hover {
-      background: #1a1a1a;
-      color: #ffffff;
-    }
-
-    .sidebar-item.active {
-      background: #1a1a1a;
-      color: #05ee93;
-      border-left-color: #05ee93;
-    }
-
-    .sidebar-item img {
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-      image-rendering: pixelated;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-    }
-
-    .sidebar-item:hover img,
-    .sidebar-item.active img {
-      opacity: 1;
-    }
-
-    .sidebar-item span {
-      transition: opacity 0.2s;
-      overflow: hidden;
-    }
-
-    .sidebar.collapsed .sidebar-item span {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .sidebar.collapsed .sidebar-item {
-      padding: 10px 14px;
-      justify-content: center;
-    }
+    .sidebar-item:hover { background: #1a1a1a; color: #ffffff; }
+    .sidebar-item.active { background: #1a1a1a; color: #05ee93; border-left-color: #05ee93; }
+    .sidebar-item img { width: 24px; height: 24px; flex-shrink: 0; image-rendering: pixelated; opacity: 0.7; transition: opacity 0.2s; }
+    .sidebar-item:hover img, .sidebar-item.active img { opacity: 1; }
+    .sidebar-item span { transition: opacity 0.2s; overflow: hidden; }
+    .sidebar.collapsed .sidebar-item span { opacity: 0; pointer-events: none; }
+    .sidebar.collapsed .sidebar-item { padding: 10px 14px; justify-content: center; }
 
     .sidebar-label {
-      font-size: 12px;
-      color: #444;
-      line-height: 0.4em;
-      font-family: mcfontb;
-      padding: 16px 14px 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      transition: opacity 0.2s;
+      font-size: 12px; color: #444; line-height: 0.4em; font-family: mcfontb;
+      padding: 16px 14px 4px; white-space: nowrap; overflow: hidden; transition: opacity 0.2s;
     }
+    .sidebar.collapsed .sidebar-label { opacity: 0; }
 
-    .sidebar.collapsed .sidebar-label {
-      opacity: 0;
-    }
+    .main { margin-left: 220px; flex: 1; transition: margin-left 0.2s ease; padding: 40px 48px; max-width: 100%; }
+    .main.shifted { margin-left: 52px; }
 
-    .main {
-      margin-left: 220px;
-      flex: 1;
-      transition: margin-left 0.2s ease;
-      padding: 40px 48px;
-      max-width: 100%;
-    }
+    .dash-section { margin-bottom: 64px; scroll-margin-top: 80px; }
+    .dash-section h2 { font-size: 22px; color: #ffffff; margin-bottom: 6px; border-bottom: 1px solid #1f1f1f; padding-bottom: 10px; }
+    .dash-section p { font-size: 14px; color: #666; margin-top: 8px; }
 
-    .main.shifted {
-      margin-left: 52px;
-    }
-
-    .dash-section {
-      margin-bottom: 64px;
-      scroll-margin-top: 80px;
-    }
-
-    .dash-section h2 {
-      font-size: 22px;
-      color: #ffffff;
-      margin-bottom: 6px;
-      border-bottom: 1px solid #1f1f1f;
-      padding-bottom: 10px;
-    }
-
-    .dash-section p {
-      font-size: 14px;
-      color: #666;
-      margin-top: 8px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: #141414;
-      border: 1px solid #1f1f1f;
-      padding: 20px;
-      transition: border-color 0.2s;
-    }
-
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
+    .card { background: #141414; border: 1px solid #1f1f1f; padding: 20px; transition: border-color 0.2s; }
     .card:hover { border-color: #05ee93; }
+    .card h3 { color: #ffffff; font-size: 15px; margin-bottom: 8px; }
+    .card p { font-size: 13px; color: #555; margin: 0; }
 
-    .card h3 {
-      color: #ffffff;
-      font-size: 15px;
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: #555;
-      margin: 0;
-    }
-
-    .stat-row {
-      display: flex;
-      gap: 16px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .stat {
-      background: #141414;
-      border: 1px solid #1f1f1f;
-      padding: 20px 28px;
-      flex: 1;
-      min-width: 120px;
-    }
-
-    .stat-value {
-      font-size: 28px;
-      color: #05ee93;
-      font-family: 'mcfontb', sans-serif;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: #555;
-      margin-top: 4px;
-    }
+    .stat-row { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .stat { background: #141414; border: 1px solid #1f1f1f; padding: 20px 28px; flex: 1; min-width: 120px; }
+    .stat-value { font-size: 28px; color: #05ee93; font-family: 'mcfontb', sans-serif; }
+    .stat-label { font-size: 12px; color: #555; margin-top: 4px; }
 
     .empty {
-      margin-top: 20px;
-      padding: 40px;
-      background: #111;
-      border: 1px dashed #2a2a2a;
-      text-align: center;
-      color: #bebebe;
-      font-size: 14px;
-      gap: 8px;
-      display: flex;
+      margin-top: 20px; padding: 40px; background: #111;
+      border: 1px dashed #2a2a2a; text-align: center; color: #bebebe; font-size: 14px;
     }
 
     /* settings */
     select {
-      padding: 4px;
-      width: 100px;
-      background-color: #111;
-      border: 1px dashed #2a2a2a;
-      color: #bebebe;
-      font-family: 'mcfont', sans-serif;
-      transition: all 0.2s ease-in-out;
+      padding: 4px; width: 100px; background-color: #111; border: 1px dashed #2a2a2a;
+      color: #bebebe; font-family: 'mcfont', sans-serif; transition: all 0.2s ease-in-out;
     }
-
-    select:hover {
-      border: 1px dashed #05ee93;
-      color: #05ee93;
-    }
+    select:hover { border: 1px dashed #05ee93; color: #05ee93; }
 
     input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      background-color: #323232;
-      width: 1.5em;
-      height: 1.5em;
-      cursor: pointer;
-      display: inline-block;
-      vertical-align: middle;
-      transition: all 0.2s ease-in-out;
-      flex-shrink: 0;
+      appearance: none; -webkit-appearance: none; background-color: #323232;
+      width: 1.5em; height: 1.5em; cursor: pointer; display: inline-block;
+      vertical-align: middle; transition: all 0.2s ease-in-out; flex-shrink: 0;
     }
-
-    input[type="checkbox"]:checked {
-      background-color: #05ee93;
-    }
+    input[type="checkbox"]:checked { background-color: #05ee93; }
 
     #customTheme {
-      background-color: #323232;
-      border: none;
-      outline: none;
-      padding: 4px;
-      color: #bebebe;
-      font-family: 'mcfont', sans-serif;
+      background-color: #323232; border: none; outline: none;
+      padding: 4px; color: #bebebe; font-family: 'mcfont', sans-serif;
     }
 
     .save-btn {
-      padding: 6px 8px;
-      background-color: #05ee93;
-      border: none;
-      outline: none;
-      font-size: 18px;
-      font-family: 'mcfont', sans-serif;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      padding: 6px 8px; background-color: #05ee93; border: none; outline: none;
+      font-size: 18px; font-family: 'mcfont', sans-serif; cursor: pointer; transition: all 0.2s ease-in-out;
     }
-
     .save-btn:hover { background-color: #78e3a6; }
+    .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .save-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .settings-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 14px; }
 
-    .settings-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-      font-size: 14px;
-    }
-
-    /* settings save feedback */
-    .save-msg {
-      font-size: 13px;
-      margin-left: 10px;
-      display: none;
-    }
-
+    .save-msg { font-size: 13px; margin-left: 10px; display: none; }
     .save-msg.ok  { color: #05ee93; display: inline; }
     .save-msg.err { color: #ff5555; display: inline; }
+
+    /* projects */
+    .project-list { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+
+    .project-row {
+      display: flex; align-items: center; background: #141414;
+      border: 1px solid #1f1f1f; padding: 12px 16px; gap: 16px;
+    }
+
+    .project-name {
+      flex: 1; color: #ffffff; font-size: 14px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .project-name span { color: #05ee93; }
+
+    .project-date { font-size: 12px; color: #444; white-space: nowrap; flex-shrink: 0; }
+
+    .project-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .proj-btn {
+      background: #1e1e1e; border: 1px solid #2e2e2e; color: #bebebe;
+      font-family: 'mcfont', sans-serif; font-size: 12px; padding: 4px 10px;
+      cursor: pointer; transition: color 0.2s, border-color 0.2s;
+    }
+    .proj-btn:hover { color: #05ee93; border-color: #05ee93; }
+    .proj-btn.ok { color: #05ee93; border-color: #05ee93; }
   </style>
 </head>
 <body>
@@ -429,7 +208,7 @@
         <p>Welcome back to mcb<g>Code</g>.</p>
         <div class="stat-row">
           <div class="stat">
-            <div class="stat-value">0</div>
+            <div class="stat-value" id="stat-projects">—</div>
             <div class="stat-label">Projects</div>
           </div>
           <div class="stat">
@@ -441,8 +220,10 @@
 
       <div class="dash-section" id="section-projects">
         <h2>Projects</h2>
-        <p>Your saved mcfunction projects will appear here.</p>
-        <div class="empty">No projects yet. Open the editor to get started.</div>
+        <p>Your saved mcfunction projects.</p>
+        <div class="project-list" id="project-list">
+          <div class="empty" id="projects-empty" style="display:none;">No projects yet. Open the editor to get started.</div>
+        </div>
       </div>
 
       <div class="dash-section" id="section-editor">
@@ -497,38 +278,18 @@
     </div>
   </div>
 
-<script>
+  <script>
     const AUTH = "https://auth.mcbcode.com";
 
-    // auth check + load settings on page load
+    // auth check + load settings + load projects
     (async () => {
-      const localToken = localStorage.getItem('mcbcode_token');
-
       try {
         const res = await fetch(`${AUTH}/me`, { credentials: "include" });
-        
-        if (!res.ok) {
-          // If server auth fails, check if we have a GitHub token
-          if (localToken) {
-            console.log("Using GitHub Session");
-            // Fetch GitHub info to fill the email field since the auth server failed
-            const ghRes = await fetch('https://api.github.com/user', {
-                headers: { 'Authorization': `token ${localToken}` }
-            });
-            const ghData = await ghRes.json();
-            document.getElementById("user-email").textContent = ghData.login + " (GitHub)";
-          } else {
-            // No cookie AND no GitHub token? Go back to login.
-            return window.location.href = "/account";
-          }
-        } else {
-          // Normal server auth worked
-          const data = await res.json();
-          document.getElementById("user-email").textContent = data.email;
-        }
+        if (!res.ok) return window.location.href = "/account";
+        const data = await res.json();
+        document.getElementById("user-email").textContent = data.email;
       } catch {
-        // If server is down, only redirect if we don't have a GitHub token
-        if (!localToken) return window.location.href = "/account";
+        return window.location.href = "/account";
       }
 
       // load settings
@@ -536,13 +297,87 @@
         const res = await fetch(`${AUTH}/settings`, { credentials: "include" });
         if (res.ok) {
           const { settings } = await res.json();
-          document.getElementById("s-font").checked  = settings.use_mojangles_font;
-          document.getElementById("s-light").checked = settings.use_light_mode;
-          document.getElementById("s-theme").value   = settings.editor_theme;
+          document.getElementById("s-font").checked    = settings.use_mojangles_font;
+          document.getElementById("s-light").checked   = settings.use_light_mode;
+          document.getElementById("s-theme").value     = settings.editor_theme;
           document.getElementById("customTheme").value = settings.custom_theme;
         }
       } catch {}
+
+      // load projects
+      await loadProjects();
     })();
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function formatDate(str) {
+      if (!str) return "";
+      // D1 stores UTC without Z so we add it
+      const d = new Date(str.endsWith("Z") ? str : str + "Z");
+      return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
+           + " " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+    }
+
+    async function loadProjects() {
+      const list   = document.getElementById("project-list");
+      const empty  = document.getElementById("projects-empty");
+
+      try {
+        const res = await fetch(`${AUTH}/saves`, { credentials: "include" });
+        if (!res.ok) throw new Error();
+        const { saves } = await res.json();
+
+        document.getElementById("stat-projects").textContent = saves.length;
+
+        if (saves.length === 0) {
+          empty.style.display = "";
+          return;
+        }
+
+        saves.forEach(save => {
+          const filename = save.filename || "untitled";
+          const row = document.createElement("div");
+          row.className = "project-row";
+          row.innerHTML = `
+            <div class="project-name">${escHtml(filename)}<span>.mcfunction</span></div>
+            <div class="project-date">${escHtml(formatDate(save.last_updated))}</div>
+            <div class="project-actions">
+              <button class="proj-btn" onclick="openProject('${escHtml(save.save_id)}')">Open</button>
+              <button class="proj-btn" onclick="copyCode('${escHtml(save.save_id)}', this)">Copy Code</button>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+
+      } catch {
+        empty.textContent = "Could not load projects.";
+        empty.style.display = "";
+      }
+    }
+
+    function openProject(saveId) {
+      window.location.href = `/editor?save=${saveId}`;
+    }
+
+    async function copyCode(saveId, btn) {
+      const orig = btn.textContent;
+      try {
+        const res = await fetch(`${AUTH}/save?id=${encodeURIComponent(saveId)}`, { credentials: "include" });
+        if (!res.ok) throw new Error();
+        const { content } = await res.json();
+        await navigator.clipboard.writeText(content);
+        btn.textContent = "Copied!";
+        btn.classList.add("ok");
+        setTimeout(() => { btn.textContent = orig; btn.classList.remove("ok"); }, 2000);
+      } catch {
+        btn.textContent = "Error";
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      }
+    }
 
     async function saveSettings() {
       const btn = document.getElementById("save-btn");
@@ -559,7 +394,7 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             use_mojangles_font: document.getElementById("s-font").checked,
-            use_light_mode:      document.getElementById("s-light").checked,
+            use_light_mode:     document.getElementById("s-light").checked,
             editor_theme:       document.getElementById("s-theme").value,
             custom_theme:       document.getElementById("customTheme").value,
           })
@@ -598,15 +433,11 @@
     }
 
     async function doLogout() {
-      // Clear GitHub token
-      localStorage.removeItem('mcbcode_token');
-      // Clear Server session
-      try {
-          await fetch(`${AUTH}/logout`, { method: "POST", credentials: "include" });
-      } catch {}
+      await fetch(`${AUTH}/logout`, { method: "POST", credentials: "include" });
       window.location.href = "/account";
     }
   </script>
+
   <script data-goatcounter="https://mcbcode.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </body>
